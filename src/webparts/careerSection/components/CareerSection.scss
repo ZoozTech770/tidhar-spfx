@@ -1,0 +1,59 @@
+.career-section{
+  display: flex;
+  justify-content: center;
+  background: url('../../../assets/texture2.svg'),
+              url('../../../assets/texture3.svg'),;
+                   
+  background-repeat: no-repeat;
+  background-position: right bottom,left top 86px;
+  padding: 86px 0px 110px 0px;
+  .career-section-wrapper{
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+  .career-title{
+    text-align: right;
+    font-family: KoteretOT;
+    font-size: 30px;
+    font-weight: 400;
+    color: #004438;
+    margin-bottom: 20px;
+  }
+  .wrapper{
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+   
+   .middle-column{
+      display: flex;
+      flex-direction: column;
+      gap:22px;
+  }
+}
+}
+}
+
+@media screen and (max-width:430px) {
+  .career-section{
+     padding: 40px 16px 16px 16px;
+     background:url('../../../assets/image/careerSectionMobile.svg');
+     background-repeat: no-repeat;
+     background-position: left top 40px;
+     .career-section-wrapper{
+        margin-top: 40px;
+
+      .career-title{
+        padding-right: 16px;
+      }
+      .wrapper{
+         gap:40px;
+         flex-direction: column;
+       .middle-column{
+          display: flex;
+          flex-direction: column;
+          gap:40px;
+      }
+     }
+    }
+  }
+}

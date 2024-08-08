@@ -1,0 +1,57 @@
+ [class^=ms-]:not(i) {
+    font-family: almoni!important;
+}
+[role=heading] {
+    font-family: koteretOT!important;
+}
+h1,h2,h3,h4{
+   font-family: koteretOT!important;
+}
+.ms-HorizontalNavItem-linkText, .ms-ContextualMenu-itemText,.od-Pivot-itemText{
+   font-size: 20px;
+}
+.od-FieldRenderer-text,[data-automationid^="FieldRenderer-"],.ms-DetailsHeader-cellName,.ReactFieldEditor-fieldTitle{
+   font-size: 15px!important; 
+}
+.ReactFieldEditor-fieldTitle{
+ font-size:15px;
+}
+
+html, body {
+   scroll-behavior: smooth;
+   scroll-padding-top: 165px;
+}
+
+html {
+   zoom: 1;
+}
+
+@media screen and (max-width: 846px) {
+.o365cs-base [class^=ms-Icon--]{
+   line-height: 3.5!important;
+}
+}
+
+@media screen and (min-width: 430px) {
+   .mainContent {
+       zoom: 0.6;
+   }
+}
+
+@media screen and (min-width: 1280px) {
+  .mainContent {
+      zoom: 0.7;
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  .mainContent {
+      zoom: 0.8;
+  }
+}
+
+@media screen and (min-width: 1750px) {
+   .mainContent {
+       zoom: 1;
+   }
+ }

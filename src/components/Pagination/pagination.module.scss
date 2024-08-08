@@ -1,0 +1,27 @@
+.pagination {
+    .results {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 20px;
+        .itemsNumber {
+            font-size: 18px;
+            font-weight: 600;
+            color: #023423;
+        }
+        .topPagingBtn {
+            margin-right: 14px;
+            &:disabled{
+                opacity: 0.5;
+            }
+        }
+    }
+    
+    @media screen and (max-width: 992px) {
+        .results {
+            margin-bottom: 8px;
+            .topPagingBtn {
+                display: none;
+            }
+        }
+    }
+}

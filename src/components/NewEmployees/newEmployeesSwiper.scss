@@ -1,0 +1,21 @@
+.sliderNavigationButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    background-color: transparent;
+    cursor: pointer;
+
+    &.sliderButtonDisabled {
+        display: none;
+    }
+}
+
+.newEmployeesContainer {
+    .swiper {
+        width: 100%
+    }
+}

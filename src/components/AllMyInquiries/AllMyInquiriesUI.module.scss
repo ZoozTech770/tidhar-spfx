@@ -1,0 +1,223 @@
+.allMyInquiriesContainer {
+    background-color: #fafafa;
+    padding: 20px;
+
+    .allMyInquiriesTitle {
+        color: #004438;
+        font-family: KoteretOT;
+        font-size: 30px;
+        font-weight: 400;
+        margin-bottom: 20px;
+        margin-top: 6px;
+        text-align: right;
+    }
+
+    .inquiriesCards {
+        display: none;
+    }
+
+    .inquiriesTable {
+        width: 100%;
+        border-collapse: collapse;
+        max-width: 920px;
+
+        .inquiriesTbody {
+            tr {
+                
+                &.mainTr {
+                    background-color: #ffffff;
+                    cursor: pointer;
+
+                    td {
+                        font-size: 16px;
+
+                        .subTitle {
+                            font-size: 14px;
+                        }
+                    }
+
+
+                }
+    
+                td {
+                    padding: 6px 12px;
+                    border-top: 1px solid #ECEDF0;
+                    border-bottom: 1px solid #ECEDF0;
+                    text-align: center;
+                    &:first-child {
+                        text-align: start;
+                    }
+
+                    &:not(.subTextTd):first-child {
+                        border-right: 1px solid #ECEDF0;
+
+                    }
+
+                    &:not(.subTextTd):last-child {
+                        border-left: 1px solid #ECEDF0;
+
+                    }
+
+                    &.tdWithoutBorderBottom {
+                        border-bottom: none;
+                    }
+                }
+
+                .subTextTd {
+                    border: none;
+                    padding: 0;
+                    padding-bottom: 6px;
+                }
+
+            }
+        }
+    
+        .inquiriesThead{
+            th {
+
+                &:first-of-type {
+                    text-align: start;
+                }
+
+                padding: 0 12px 6px;
+                font-size: 16px;
+    
+                &:first-of-type {
+                    width: 40%;
+                }
+            }
+        }
+    }
+
+    .message {
+        background-color: #ffffff;
+        border: 1px solid #ECEDF0;
+        border-top: none;
+        padding: 6px 12px;
+        color: #449BFC;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: calc(100% + 1px);
+        box-sizing: border-box;
+
+        &.inProgressMessage {
+            color: #084437;
+        }
+    }
+
+    .status {
+        border-radius: 37px;
+        border: 1px solid;
+        padding: 4px 8px;
+        padding-inline-start: 24px;
+        position: relative;
+        width: max-content;
+        margin: 0 auto;
+
+        &::after {
+            content: "";
+            width: 10px;
+            height: 10px;
+            border-radius: 100%;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            inset-inline-start: 8px;
+        }
+
+        &.inProgress {
+            border-color: #FFB548;
+
+            &::after {
+                background-color: #FFB548;
+            }
+        }
+
+        &.approved {
+            border-color: #4A9462;
+
+            &::after {
+                background-color: #4A9462;
+            }
+        }
+
+        &.declined {
+            border-color: #E53D51;
+
+            &::after {
+                background-color: #E53D51;
+            }
+        }
+
+        &.canceled {
+            border-color: #ADADAD;
+            color: #757575;
+
+            &::after {
+                background-color: #ADADAD;
+            }
+        }
+
+        &.draft {
+            border-color: #8AB7E9;
+
+            &::after {
+                background-color: #8AB7E9;
+            }
+        }
+    }
+
+}
+
+@media screen and (max-width: 430px){
+    .allMyInquiriesContainer {
+        padding: 20px;
+
+        .inquiriesTable {
+            display: none;
+        }
+
+        .inquiriesCards {
+            display: block;
+
+            .inquiryCardContainer {
+                background-color: #ffffff;
+                border: 1px solid #ECEDF0;
+                padding: 10px;
+                color: rgb(8, 68, 55);
+                text-decoration: none;
+                display: block;
+
+                & + .inquiryCardContainer{
+                    margin-top: 12px;
+                }
+
+                .inquiryTitle {
+                    padding-bottom: 6px;
+                    margin-bottom: 6px;
+                    border-bottom: 1px solid #ECEDF0;
+                    font-size: 16px;
+                }
+
+                .mobileInquiryTable {
+                    border-spacing: 0 6px;
+                    width: 100%;
+                    text-align: center;
+                }
+
+                .mobileInquiryNote {
+                    padding-top: 6px;
+                    margin-top: 6px;
+                    border-top: 1px solid #ECEDF0;
+                }
+            }
+        }
+
+        .message {
+            border: none;
+            align-items: start;
+            padding: 0;
+        }
+    }
+}

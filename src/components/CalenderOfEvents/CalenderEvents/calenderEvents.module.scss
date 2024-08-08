@@ -1,0 +1,36 @@
+.calenderContainer {
+    height: 680px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+    .events {
+        width: 100%;
+        overflow: auto;
+        margin-top: 12px;
+        flex: 1;
+        &::-webkit-scrollbar {
+            width: 5px;
+            background-color: #E8E8E8;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: #ADADAD;
+            border-radius: 2.5px;
+        }
+        p {
+            font-weight: 400;
+            font-size: 18px;
+            margin: 0;
+        }
+    }
+}
+@media screen and (max-width:430px) {
+    .calenderContainer {
+        height: auto;
+    }
+}

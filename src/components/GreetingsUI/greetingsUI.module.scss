@@ -1,0 +1,123 @@
+.greetings {
+    width: 100%;
+    padding: 140px 0 36px 0;
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-image:
+        linear-gradient(180deg, rgba(138, 183, 233, 0.00) 1.97%, rgba(138, 183, 233, 0.25) 100%),
+        url("../../assets/image/greetingBackgroundImage.svg");
+
+    .greetingsContiner {
+        max-width: 1396px;
+        margin: auto;
+        background-position-y: 22px;
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 44px;
+            margin-bottom: 16px;
+
+            h2 {
+                color: #004438;
+                font-family: 'KoteretOT';
+                font-size: 26px;
+                font-weight: 400;
+                margin: 0;
+            }
+
+            a {
+                color: #004438;
+                text-decoration: none;
+                font-family: 'almoni';
+                font-size: 18px;
+                font-weight: 700;
+                background-image: url('../../assets/icons/vectorLeftIcon.svg');
+                background-position-y: center;
+                background-repeat: no-repeat;
+                padding-left: 26px;
+                background-size: 18px;
+            }
+        }
+
+        .sliderContainer {
+            flex: 1;
+            position: relative;
+            direction: rtl;
+        }
+
+    }
+
+    .flexContainer {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .allGreetings {
+        display: none;
+    }
+}
+
+.desktopSwiper {
+    display: block;
+  }
+  
+  .mobileSwiper {
+    display: none;
+  }
+
+@media screen and (max-width:430px) {
+    .desktopSwiper {
+        display: none;
+      }
+      
+      .mobileSwiper {
+        display: block;
+      }
+
+    .greetings {
+        width: 100%;
+        height: auto;
+        padding: 0;
+        padding-bottom: 24px;
+        background-image: linear-gradient(180deg, rgba(138, 183, 233, 0.00) 1.97%, rgba(138, 183, 233, 0.25) 100%);
+        margin-top: 40px;
+
+        .greetingsContiner {
+            text-align: center;
+            background-image: url('../../assets/image/greetingBackgroundMobile.svg');
+            background-position: 4px 0;
+            background-repeat: no-repeat;
+
+            .header {
+                margin: 0 16px;
+                height: 121px;
+                border-bottom: 0.5px solid #ADADAD;
+
+                a {
+                    display: none;
+                }
+            }
+
+            .allGreetings {
+                color: #004438;
+                text-decoration: none;
+                font-family: 'almoni';
+                font-size: 18px;
+                font-weight: 700;
+                background-image: url('../../assets/icons/vectorLeftIcon.svg');
+                background-position-y: center;
+                background-repeat: no-repeat;
+                padding-left: 26px;
+                background-size: 18px;
+                margin-top: 24px;
+                display: inline-block;
+            }
+        }
+
+    }
+}

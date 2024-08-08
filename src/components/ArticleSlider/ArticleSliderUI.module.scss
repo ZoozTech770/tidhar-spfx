@@ -1,0 +1,85 @@
+@import '~office-ui-fabric-react/dist/sass/References.scss';
+
+.articleContainer {
+  background-color: #ffffff;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 32px;
+  display: block;
+}
+
+.articleImg {
+  width: 100%;
+  object-fit: cover;
+  aspect-ratio: 886/526;
+}
+
+.articleDetails {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(2, 52, 35, 0.90);
+  padding: 8px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #ffffff;
+  font-family: 'almoni';
+}
+
+.articleCategory {
+  font-size: 14px;
+}
+
+.articleTitle {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 120%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sliderContainer {
+  flex: 1;
+  position: relative;
+
+}
+
+.articleTitleContainer {
+  overflow: hidden;
+  margin-inline-end: 20px;
+}
+
+.articleSubDetails {
+  flex-basis: max-content;
+  flex-shrink: 0;
+  display: flex;
+  flex: 1;
+  justify-content: end;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.articleSubDetail {
+  white-space: nowrap;
+}
+
+.articleSubDetail+.articleSubDetail {
+  border-inline-start: 2px solid #fff;
+  padding-inline-start: 6px;
+  line-height: 1;
+}
+
+@media screen and (min-width: 430px) {
+  .articleContainer {
+    height: 526px;
+    border-radius: 12px;
+  }
+
+  .articleSubDetails {
+    flex-wrap: nowrap;
+  }
+}

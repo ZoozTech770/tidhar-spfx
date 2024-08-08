@@ -1,0 +1,232 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "artical-slider-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/articleSlider/ArticlesWebPart.js",
+          "manifest": "./src/webparts/articleSlider/ArticlesWebPart.manifest.json"
+        }
+      ]
+    },
+    "my-inquiries-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/myInquiries/MyInquiriesWebPart.js",
+          "manifest": "./src/webparts/myInquiries/MyInquiriesWebPart.manifest.json"
+        }
+      ]
+    },
+    "gallery-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/gallery/GalleryWebPart.js",
+          "manifest": "./src/webparts/gallery/GalleryWebPart.manifest.json"
+        }
+      ]
+    },
+    "pending-approval-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/pendingApproval/PendingApprovalWebPart.js",
+          "manifest": "./src/webparts/pendingApproval/PendingApprovalWebPart.manifest.json"
+        }
+      ]
+    },
+    "thanks-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/thanks/ThanksWebPart.js",
+          "manifest": "./src/webparts/thanks/ThanksWebPart.manifest.json"
+        }
+      ]
+    },
+    "jobs-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/jobs/JobsWebPart.js",
+          "manifest": "./src/webparts/jobs/JobsWebPart.manifest.json"
+        }
+      ]
+    },
+    "bring-friends-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/bringFriends/BringFriendsWebPart.js",
+          "manifest": "./src/webparts/bringFriends/BringFriendsWebPart.manifest.json"
+        }
+      ]
+    },
+    "greetings-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/greetings/GreetingsWebPart.js",
+          "manifest": "./src/webparts/greetings/GreetingsWebPart.manifest.json"
+        }
+      ]
+    },
+    "new-employees-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/newEmployees/NewEmployeesWebPart.js",
+          "manifest": "./src/webparts/newEmployees/NewEmployeesWebPart.manifest.json"
+        }
+      ]
+    },
+    "projects-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/projects/ProjectsWebPart.js",
+          "manifest": "./src/webparts/projects/ProjectsWebPart.manifest.json"
+        }
+      ]
+    },
+    "events-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/events/EventsWebPart.js",
+          "manifest": "./src/webparts/events/EventsWebPart.manifest.json"
+        }
+      ]
+    },
+    "user-name-ext-application-customizer": {
+      "components": [
+        {
+          "entrypoint": "./lib/extensions/userNameExt/UserNameExtApplicationCustomizer.js",
+          "manifest": "./src/extensions/userNameExt/UserNameExtApplicationCustomizer.manifest.json"
+        }
+      ]
+    },
+    "footer-ext-application-customizer": {
+      "components": [
+        {
+          "entrypoint": "./lib/extensions/footerExt/FooterExtApplicationCustomizer.js",
+          "manifest": "./src/extensions/footerExt/FooterExtApplicationCustomizer.manifest.json"
+        }
+      ]
+    },
+    "header-ext-application-customizer": {
+      "components": [
+        {
+          "entrypoint": "./lib/extensions/headerExt/HeaderExtApplicationCustomizer.js",
+          "manifest": "./src/extensions/headerExt/HeaderExtApplicationCustomizer.manifest.json"
+        }
+      ]
+    },
+    "search-contacts-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/searchContacts/SearchContactsWebPart.js",
+          "manifest": "./src/webparts/searchContacts/SearchContactsWebPart.manifest.json"
+        }
+      ]
+    },
+    "first-section-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/firstSection/FirstSectionWebPart.js",
+          "manifest": "./src/webparts/firstSection/FirstSectionWebPart.manifest.json"
+        }
+      ]
+    },
+    "career-section-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/careerSection/CareerSectionWebPart.js",
+          "manifest": "./src/webparts/careerSection/CareerSectionWebPart.manifest.json"
+        }
+      ]
+    },
+    "anchors-nav-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/anchorsNav/AnchorsNavWebPart.js",
+          "manifest": "./src/webparts/anchorsNav/AnchorsNavWebPart.manifest.json"
+        }
+      ]
+    },
+    "all-my-inquiries-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/allMyInquiries/AllMyInquiriesWebPart.js",
+          "manifest": "./src/webparts/allMyInquiries/AllMyInquiriesWebPart.manifest.json"
+        }
+      ]
+    },
+    "my-archive-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/myArchive/MyArchiveWebPart.js",
+          "manifest": "./src/webparts/myArchive/MyArchiveWebPart.manifest.json"
+        }
+      ]
+    },
+    "all-pending-approval-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/allPendingApproval/AllPendingApprovalWebPart.js",
+          "manifest": "./src/webparts/allPendingApproval/AllPendingApprovalWebPart.manifest.json"
+        }
+      ]
+    },
+    "send-user-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/sendUser/SendUserWebPart.js",
+          "manifest": "./src/webparts/sendUser/SendUserWebPart.manifest.json"
+        }
+      ]
+    },
+    "congratulations-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/congratulations/CongratulationsWebPart.js",
+          "manifest": "./src/webparts/congratulations/CongratulationsWebPart.manifest.json"
+        }
+      ]
+    },
+    "systems-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/systems/SystemsWebPart.js",
+          "manifest": "./src/webparts/systems/SystemsWebPart.manifest.json"
+        }
+      ]
+    },
+    "all-congratulations-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/allCongratulations/AllCongratulationsWebPart.js",
+          "manifest": "./src/webparts/allCongratulations/AllCongratulationsWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "ArticlesWebPartStrings": "lib/webparts/articleSlider/loc/{locale}.js",
+    "MyInquiriesWebPartStrings": "lib/webparts/myInquiries/loc/{locale}.js",
+    "GalleryWebPartStrings": "lib/webparts/gallery/loc/{locale}.js",
+    "PendingApprovalWebPartStrings": "lib/webparts/pendingApproval/loc/{locale}.js",
+    "ThanksWebPartStrings": "lib/webparts/thanks/loc/{locale}.js",
+    "JobsWebPartStrings": "lib/webparts/jobs/loc/{locale}.js",
+    "BringFriendsWebPartStrings": "lib/webparts/bringFriends/loc/{locale}.js",
+    "GreetingsWebPartStrings": "lib/webparts/greetings/loc/{locale}.js",
+    "NewEmployeesWebPartStrings": "lib/webparts/newEmployees/loc/{locale}.js",
+    "ProjectsWebPartStrings": "lib/webparts/projects/loc/{locale}.js",
+    "EventsWebPartStrings": "lib/webparts/events/loc/{locale}.js",
+    "SearchContactsWebPartStrings": "lib/webparts/searchContacts/loc/{locale}.js",
+    "FirstSectionWebPartStrings": "lib/webparts/firstSection/loc/{locale}.js",
+    "CareerSectionWebPartStrings": "lib/webparts/careerSection/loc/{locale}.js",
+    "PropertyControlStrings": "node_modules/@pnp/spfx-property-controls/lib/loc/{locale}.js",
+    "AnchorsNavWebPartStrings": "lib/webparts/anchorsNav/loc/{locale}.js",
+    "AllMyInquiriesWebPartStrings": "lib/webparts/allMyInquiries/loc/{locale}.js",
+    "MyArchiveWebPartStrings": "lib/webparts/myArchive/loc/{locale}.js",
+    "AllPendingApprovalWebPartStrings": "lib/webparts/allPendingApproval/loc/{locale}.js",
+    "SendUserWebPartStrings": "lib/webparts/sendUser/loc/{locale}.js",
+    "CongratulationsWebPartStrings": "lib/webparts/congratulations/loc/{locale}.js",
+    "SystemsWebPartStrings": "lib/webparts/systems/loc/{locale}.js",
+    "AllCongratulationsWebPartStrings": "lib/webparts/allCongratulations/loc/{locale}.js"
+  }
+}

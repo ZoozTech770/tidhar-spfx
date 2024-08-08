@@ -1,0 +1,56 @@
+.pagesNumberLayout {
+    display: flex;
+    margin-top: 24px;
+    justify-content: center;
+    direction: ltr;
+    .prev,
+    .next {
+        height: 30px;
+        width: 30px;
+        border-radius: 15px;
+        background-color: #FFF;
+        border: 1px solid #4a9462;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-image: url('../../../assets/icons/vectorRigthIcon.svg');
+        &:disabled{
+            opacity: 0.5;
+        }
+    }
+
+    .prev {
+        transform: rotateY(180deg);
+    }
+
+    .pageNumbers {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        list-style-type: none;
+        padding: 0;
+        margin: 0 15px;
+        
+
+        .pageNumber {
+            button {
+                width: 30px;
+                height: 30px;
+                color: #023423;
+                font-size: 16px;
+                font-weight: 400;
+                border: none;
+                font-family: 'almoni';
+                background-color: transparent;
+            }
+
+            &.current {
+                button {
+                    border-radius: 32px;
+                    background: #4A9462;
+                    color: white;
+                }
+
+            }
+        }
+    }
+}

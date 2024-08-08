@@ -1,0 +1,119 @@
+.inquirieLine {
+    display: flex;
+    border-bottom: 1px solid #ADADAD;
+    color: #023423;
+    box-sizing: border-box;
+    width: 100%;
+    text-decoration: none;
+    font-family: "almoni";
+    justify-content: space-between;
+    gap: 9px;
+    background-image: url('../../../assets/icons/vectorLeftIcon.svg');
+    background-repeat: no-repeat;
+    background-position-y: 8px;
+    background-position-x: left;
+    padding-left: 24px;
+
+    &.limited {
+        min-height: 65px;
+        padding-top: 8px;
+        background-position-y: 16px;
+    }
+
+    &.spacious {
+        min-height: 70px;
+    }
+
+    .title {
+        font-size: 18px;
+        font-weight: 400;
+        max-width: 240px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        margin: 0;
+    }
+
+    .tag {
+        font-size: 14px;
+        font-weight: 400;
+        border-radius: 37px;
+        border: 1px solid;
+        padding: 0 8px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        box-sizing: border-box;
+
+        &::before {
+            content: "";
+            width: 10px;
+            height: 10px;
+            border-radius: 50px;
+        }
+
+        &.gray {
+            border-color: #ADADAD;
+            color: #757575;
+
+            &::before {
+                background-color: #ADADAD;
+            }
+        }
+
+        &.green {
+            border-color: #4A9462;
+
+            &::before {
+                background-color: #4A9462;
+            }
+        }
+
+        &.lightBlue {
+            border-color: #8AB7E9;
+
+            &::before {
+                background-color: #8AB7E9;
+            }
+        }
+
+        &.orange {
+            border-color: #FFB548;
+
+            &::before {
+                background-color: #FFB548;
+            }
+        }
+
+        &.red {
+            border-color: #E53D51;
+
+            &::before {
+                background-color: #E53D51;
+            }
+        }
+    }
+
+
+
+}
+
+@media screen and(max-width:430px) {
+    .inquirieLine {
+        &.limited ,&.spacious {
+            min-height: 70px;
+            padding:0 0 8px;
+            background-position-y: center;
+            flex-direction: column-reverse;
+            align-items: start;
+            gap: 8px;
+            background-position-x: 10px;
+            .title{
+                font-size: 16px;
+                max-width: 267px;
+            }
+        }
+      
+    }
+}

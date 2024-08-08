@@ -1,0 +1,14 @@
+.systemsNavigationButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #4d7c71;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background-color: #ffffff;
+  img {
+    width: 11px;
+  }
+}

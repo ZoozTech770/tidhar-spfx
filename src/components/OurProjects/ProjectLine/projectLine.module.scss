@@ -1,0 +1,153 @@
+.project {
+    display: flex;
+    width: 100%;
+    gap: 16px;
+    flex-direction: column;
+    color: #004438;
+    border-bottom: 0.5px solid #ADADAD;
+    padding-bottom: 16px;
+    color: #023423;
+    margin-bottom: 16px;
+
+    .header {
+        display: flex;
+        gap: 16px;
+
+        img {
+            width: 125px;
+            height: 70px;
+            border-radius: 12px;
+        }
+
+        .projectType {
+            font-size: 16px;
+            font-weight: 500;
+            padding-right: 5px;
+
+            &.orange {
+                border-right: 5px solid #FE9015;
+            }
+
+            &.pink {
+                border-right: 5px solid #F8A3B4;
+
+            }
+
+            &.lightBlue {
+                border-right: 5px solid #8AB7E9;
+
+            }
+        }
+
+        .imgTitle {
+            display: none;
+        }
+
+        .title {
+            display: block;
+            margin-bottom: 2px;
+            color: #004438;
+            font-size: 18px;
+            font-weight: 700;
+        }
+    }
+
+    p {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 22px;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+        white-space: pre-wrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .footer {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .link {
+            color: #023423;
+            font-size: 18px;
+            font-weight: 400;
+            text-decoration: underline;
+        }
+
+        .googleAndWase {
+            display: flex;
+            gap: 8px;
+        }
+
+        .google {
+            width: 30px;
+            height: 30px;
+            background-image: url('../../../assets/icons/googleIcon.svg');
+            background-repeat: no-repeat;
+            background-size: 100%;
+        }
+
+        .wase {
+            width: 30px;
+            height: 30px;
+            background-image: url('../../../assets/icons/wazeIcon.svg');
+            background-repeat: no-repeat;
+            background-size: 100%;
+        }
+    }
+}
+
+@media screen and (max-width:430px) {
+    .project {
+        .header {
+            flex-direction: column;
+
+            .imgContiner {
+                position: relative;
+                display: flex;
+
+                img {
+                    height: auto;
+                    width: 100%;
+                    max-height: 181px;
+                    object-fit: cover;
+                }
+
+                .imgTitle {
+                    color: white;
+                    border-radius: 0px 0px 12px 12px;
+                    background: rgba(74, 148, 98, 0.90);
+                    padding: 8px 16px;
+                    font-size: 16px;
+                    font-weight: 700;
+                    display: block;
+                    position: absolute;
+                    bottom: 0;
+                    right: 0;
+                    left: 0;
+                }
+            }
+
+            .title {
+                display: none;
+            }
+        }
+
+        P {
+            font-size: 16px;
+            -webkit-line-clamp: 2;
+            line-height: 19px;
+        }
+
+        .footer {
+            .link {
+                font-size: 16px;
+            }
+        }
+    }
+
+}

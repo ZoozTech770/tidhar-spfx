@@ -1,0 +1,272 @@
+.choiceOfSystems {
+    border-radius: 8px;
+    background: #ffffff;
+    max-width: 694px;
+    position: fixed;
+    top: 48px;
+    inset-inline-end: 18px;
+    padding: 16px;
+    box-sizing: border-box;
+    box-shadow: 0px 13px 50px 0px rgba(0, 0, 0, 0.15);  
+    z-index: 2;
+
+    h3 {
+        margin: 0;
+        font-size: 20px;
+    }
+
+    .continerSlider {
+        margin: auto;
+        position: relative;
+        min-height: 110px;
+        display: flex;
+        align-items: center;
+    }
+
+    .continerSlider, .mobileSystemsContainer {
+
+        .system {
+            padding: 8px 2px;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            border-radius: 8px;
+            border: 1px solid  #004438;
+            background: #FFF;
+            color: #023423;
+            font-family: 'almoni';
+            font-size: 18px;
+            font-weight: 400;
+            display: flex;
+            height: 82px;
+            text-decoration: none;
+            box-sizing: border-box;
+            line-height: initial;
+
+            &:hover {
+                background: rgba(74, 148, 98, 0.30);
+                border-color: transparent;
+            }
+
+            img{
+                width: 36px;
+                height: 36px;
+                flex-shrink: 0;
+            }
+
+            span {
+                overflow: hidden;
+                display: block;
+                white-space: nowrap;
+                width: 100%;
+                text-align: center;
+                text-overflow: ellipsis;
+                max-width: 75px;
+            }
+        }
+    }
+
+    .footer {
+        border-top :1px solid #023423;
+        padding-top: 8px;
+        display: flex;
+        justify-content: end;
+        align-items: center;
+
+        .btnChoiceOfSystems {
+            background: #004236;
+            border-radius: 25px;
+            color: #fff;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 700;
+            padding: 10px 20px;
+            text-align: center;
+            border: 0;
+            margin: auto;
+            margin-inline-end: 0;
+        }
+
+        .btnExpand {
+            background: #004236;
+            color: #fff;
+            text-align: center;
+            padding: 10px 20px;
+            font-size: 18px;
+            font-weight: 700;
+            font-family: inherit;
+            border-radius: 25px;
+            border: 0;
+            margin: auto;
+            margin-inline-start: 0;
+            flex: 0 50%;
+        }
+    }
+
+    &.unfloat {
+        position: relative;
+        margin-bottom: 50px;
+        box-shadow: none;
+        box-shadow: 0 0 30px 0 rgba(0,0,0,.08);
+        border-radius: 12px;
+        max-width: 1396px;
+        margin: auto;
+        inset-inline: auto;
+        top: 0;
+        margin: 48px auto;
+
+        .continerSlider, .mobileSystemsContainer {
+
+            .system {
+                height: 120px;
+                width: 120px;
+    
+                img{
+                    width: 50px;
+                    height: 50px;
+                }
+            }
+        }
+
+    }
+}
+
+.mobileSystemsContainer {
+    display: none;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin: 0 auto;
+    overflow: auto;
+    max-height: calc(75vh - 80px);
+    padding: 0 20px 20px;  
+}
+
+.systemsFlexContainer {
+    display: flex;
+    gap: 18px;
+    width: 100%;
+}
+
+.mobileChoiseOfSystemHeader {
+    display: none;
+}
+
+.closeBtn {
+        padding: 0;
+        margin: 0;
+        display: flex;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        margin-inline-start: auto;
+}
+
+@media screen and (max-width:430px) {
+
+    .mobileSystemsContainer {
+        display: flex;
+    }
+
+    .mobileChoiseOfSystemHeader {
+        align-items: center;
+        background-color: #fff;
+        display: block;
+        display: -ms-flexbox;
+        display: flex;
+        padding: 8px;
+        padding-inline-start: 16px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid gray;
+        margin-bottom: 20px;
+
+        h3 {
+            color: #004438;
+            font-size: 30px;
+            margin: 0;
+        }
+    }
+
+    .choiceOfSystemsContainer {
+        max-height: calc(90vh - 48px);
+        bottom: 48px;
+        left: 0;
+        max-width: 100%;
+        position: fixed;
+        right: 0;
+        top: auto;
+        padding: 0 24px 24px;
+        background: #fff;
+        box-shadow: 0 13px 50px 0 rgba(0,0,0,.15);
+    }
+
+    .choiceOfSystems {
+        border-radius: 0;
+        position: static;
+        padding: 0;
+        box-shadow: none;
+
+        .continerSlider, .mobileSystemsContainer {
+            .system {
+                width: calc(33vh - 155px);
+                flex: 0 calc(33% - 16px);
+            }
+        }
+
+        .continerSlider {
+            display: none;
+        }
+
+        .footer {
+            gap: 10px;
+    
+            .btnChoiceOfSystems{
+                border: 1px solid #004236;
+                border-radius: 25px;
+                color: #004236;
+                -ms-flex: 0 50%;
+                flex: 0 50%;
+                font-family: inherit;
+                font-size: 18px;
+                font-weight: 700;
+                margin: auto;
+                margin-inline-start: 0;
+                padding: 10px 20px;
+                text-align: center;
+                background: #fff;
+            }
+        }
+    }
+
+    .darkWrapper {
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        position: fixed;
+        z-index:12;
+        background-color: #222222CC;
+
+        &.unfloat {
+            position: relative;
+            background: #fff;
+            z-index: 1;
+
+            & > .choiceOfSystemsContainer {
+                position: relative;
+                bottom: 0;
+                border: 0;
+                .choiceOfSystems.unfloat {
+                    margin: 0;
+                    top: 0;
+                    width: 100%;
+                    inset-inline-end: 0;
+                    box-shadow: none;
+
+                    .mobileSystemsContainer {
+                        gap: 20px;
+                    }
+                }
+            }
+        }
+    }
+}

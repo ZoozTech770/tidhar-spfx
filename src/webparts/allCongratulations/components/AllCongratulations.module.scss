@@ -1,0 +1,19 @@
+@import '~@fluentui/react/dist/sass/References.scss';
+
+.allCongratulations {
+
+  .title {
+    font-size: 28px;
+    font-weight: 400;
+    max-width: 1396px;
+    margin-inline: auto;
+  }
+
+  overflow: hidden;
+  padding: 1em;
+  color: "[theme:bodyText, default: #323130]";
+  color: var(--bodyText);
+  &.teams {
+    font-family: $ms-font-family-fallbacks;
+  }
+}

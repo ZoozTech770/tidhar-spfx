@@ -1,0 +1,123 @@
+.range-container{
+
+    max-width: 100%;
+    margin-top: 20px;
+    position: relative;
+    overflow: auto;
+    padding-bottom: 20px;
+
+    .slider-range {
+        width: 100%;
+        margin: 0;
+        appearance: none;
+        background: transparent;
+        position: relative;
+        cursor: pointer;
+        height: 1px;
+        top: 15px;
+        z-index: 2;
+        min-width: 936px;
+        padding: 0 16px;
+    }
+
+    .slider-range::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        height: 8px;
+        width: 8px;
+        border-radius: 50%;
+        background: #ffffff;
+        border: 8px solid #023423;  
+        box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.53);
+        z-index: 0;
+        box-sizing: content-box;
+        position: relative;
+    }
+
+    .dot {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        top: 50%;
+        pointer-events: none;
+        border: 2px solid white;
+        z-index: 1;
+        cursor: pointer;
+    }
+
+    .dot + .dot {
+        margin-inline-start: -6px;
+    }
+
+    .label {
+        text-align: center;
+        flex: 1;
+        color: var(--dark-green, #004438);
+        font-family: 'almoni';
+        font-size: 18px;
+        font-weight: 400;
+        cursor: pointer;
+        background-color: transparent;
+        border: none;
+        padding: 0;
+    }
+
+    .labels {
+        display: flex;
+        width: 100%;
+        font-family: 'almoni';
+        font-size: 16px;
+        font-weight: 400;
+        color: #004438;
+        margin-top: 11px;
+    }
+
+    .events {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .events-wrapper {
+        display: flex;
+        position: relative;
+    }
+
+    .events-wrapper::after {
+        content: "";
+        background-color: #8F8F8F;
+        height: 1px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+    }
+
+    .wrapper {
+        min-width: 936px;
+        padding: 0 16px;
+    }
+}
+
+@media screen and (min-width: 430px) {
+    .range-container {
+        
+        margin-top: 40px;
+
+        .wrapper {
+            padding: 0;
+        }
+
+        .slider-range {
+            padding: 0;
+        }
+
+
+
+        .labels {
+            font-size: 18px;
+            font-weight: 700;
+        }
+    }
+}

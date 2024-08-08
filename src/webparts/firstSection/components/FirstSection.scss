@@ -1,0 +1,43 @@
+.first-section {
+  display: flex;
+  justify-content: center;
+  background: url('../../../assets/Group.png'),
+    linear-gradient(200deg, rgba(74, 148, 98, 0) 35%, rgba(74, 148, 98, 0.17));
+
+  background-repeat: no-repeat;
+  background-position: right top;
+  padding: 203px 0px 74px 0px;
+
+  .wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+
+    .left-column {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      height: 805px;
+    }
+  }
+}
+
+@media screen and (max-width:431px) {
+  .first-section {
+    padding: 40px 16px;
+    background:
+      linear-gradient(200deg, rgba(74, 148, 98, 0) 35%, rgba(74, 148, 98, 0.17));
+
+    .wrapper {
+      gap: 40px;
+      flex-direction: column;
+      max-width: 100%;
+      .left-column {
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+        height: auto;
+      }
+    }
+  }
+}

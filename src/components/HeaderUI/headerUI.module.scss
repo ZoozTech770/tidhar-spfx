@@ -1,0 +1,57 @@
+.header {
+    width: 100%;
+    background-color: white;
+
+    .btnSystems {
+        background-image: url('../../assets/icons/systems.svg');
+        background-position: 90%;
+        background-repeat: no-repeat;
+        border: none;
+        cursor: pointer;
+        float: left;
+        font-family: 'almoni';
+        font-size: 20px;
+        margin-left: 14px;
+        padding: 5px 20px;
+        padding-right: 40px;
+        background-color: #fff;
+        color: #004438;
+        font-weight: bold;
+        border-radius: 20px;
+        margin-top: 5px;
+        display: block;
+    }
+
+    .btnSystemsMobile {
+        display: none;
+    }
+
+}
+
+@media screen and (max-width: 430px) {
+    .header {
+        background-color: transparent;
+
+        .btnSystems {
+            display: none;
+        }
+
+        .btnSystemsMobile {
+            background-image: url('../../assets/icons/systems.svg');
+            background-position: center;
+            background-repeat: no-repeat;
+            border: none;
+            cursor: pointer;
+            width: 48px;
+            height: 36px;
+            margin: 0;
+            margin-top: 6px;
+            padding: 0;
+            background-color: #ffffff;
+            border-radius: 37px;
+            display: block;
+        }
+    }
+
+
+}

@@ -1,0 +1,63 @@
+@import '~@fluentui/react/dist/sass/References.scss';
+
+.congratulationsContainer {
+  display: flex;
+  justify-content: center;
+  background: linear-gradient(200deg, rgba(74, 148, 98, 0) 35%, rgba(74, 148, 98, 0.17));
+
+  background-repeat: no-repeat;
+  background-position: right top;
+  padding: 74px 0px 74px 0px;
+
+  .congratulations {
+    max-width: 1396px;
+    margin: auto;
+    width: 100%;
+    
+    h2 {
+      font-size: 28px;
+      font-weight: 400;
+    }
+    
+    .header{
+      display: flex;
+      align-items: center;
+
+      a {
+        margin: auto;
+        margin-inline-end: 0;
+        color: #044338;
+        font-weight: 700;
+        font-size: 15px;
+        text-decoration: none;
+        cursor: pointer;
+
+        img {
+          margin-inline-start: 5px;
+        }
+      }
+    }
+    .container {
+      display: flex;
+      gap: 20px;
+
+      & > div {
+        flex: 1
+      }
+    }
+  }
+}
+
+@media screen and (max-width:430px) {
+  .congratulationsContainer {
+    background: linear-gradient(207.24deg, rgba(74, 148, 98, 0.06) 37.25%, rgba(74, 148, 98, 0.17) 61.45%);
+    padding: 0 0 48px 0;
+    
+    .congratulations {
+      padding: 16px;
+      .container {
+        flex-direction: column;
+      }
+    }
+  }
+}

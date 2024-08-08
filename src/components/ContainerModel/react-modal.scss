@@ -1,0 +1,69 @@
+.ReactModal__Overlay.ReactModal__Overlay--after-open {
+    z-index: 99;
+    background-color:rgb(1,1,1,0.7) !important;
+
+    .ReactModal__Content {
+        inset: 40px;
+        margin: auto;
+        position: absolute;
+        height: fit-content;
+        max-width: fit-content;
+        border-radius: 0;
+        background-color: white;
+        overflow: auto;
+    }
+
+    *::-webkit-scrollbar {
+        width: 5px;
+        background-color: #E8E8E8;
+    }
+
+    *::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    *::-webkit-scrollbar-thumb {
+        background: #ADADAD;
+        border-radius: 2.5px;
+    }
+}
+
+.ReactModal__Body--open {
+    overflow-y: hidden !important;
+}
+
+@media screen and (max-width: 430px) {
+    .ReactModal__Overlay.ReactModal__Overlay--after-open {
+        z-index: 99;
+
+        .ReactModal__Content {
+            &:not(.panel) {
+                inset: auto;
+                position: absolute;
+                right: 10px;
+                left: 10px;
+
+                &.top {
+                    // top: 70px;
+                    max-height: calc(100% - 115px);
+                    overflow-y: auto;
+                    overflow-x: hidden;
+                }
+            }
+
+            &.panel {
+                border-radius: 0;
+                box-sizing: border-box;
+                height: auto;
+                margin: 0;
+                max-width: 100%;
+                overflow-y: auto!important;
+                padding: 0;
+                right: 0;
+                width: 100%;
+                bottom: 0;
+                top: auto;
+            }
+        }
+    }
+}

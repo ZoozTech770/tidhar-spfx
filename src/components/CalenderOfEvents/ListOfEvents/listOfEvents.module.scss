@@ -1,0 +1,125 @@
+.listOfEvents {
+    .tabsTitleContiner {
+        margin-bottom: 32px;
+
+        .tabsTitle {
+            width: max-content;
+            height: 35px;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid;
+            min-width: 100%;
+
+            .title {
+                color: #023423;
+                font-size: 15.5px;
+                font-weight: 400;
+                height: 35px;
+                line-height: 35px;
+                border: none;
+                padding: 0 6px;
+                background-color: white;
+                display: flex;
+                justify-content: space-between;
+
+                &.tabActive {
+                    font-weight: 700;
+                    border-bottom: 2px solid;
+                }
+            }
+        }
+    }
+
+    .events {
+        max-height: 560px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        margin-bottom: 13px;
+        padding-left: 14px;
+        height: 560px;
+        margin-bottom: 20px;
+
+        .noResult {
+            color:  #023423;
+            font-family: 'almoni';
+            font-size: 18px;
+            font-weight: 400;
+        }
+
+        &::-webkit-scrollbar {
+            width: 5px;
+            background-color: #E8E8E8;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: #ADADAD;
+            border-radius: 2.5px;
+        }
+    }
+
+    .note {
+        font-size: 16px;
+        font-weight: 400;
+    }
+
+    .btnExportToExcel {
+        color: #023423;
+        text-align: right;
+        font-family: 'almoni';
+        font-size: 16px;
+        font-weight: 400;
+        background: transparent;
+        border: none;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+}
+
+@media screen and(max-width:430px) {
+    .listOfEvents {
+        .tabsTitleContiner {
+            width: 100%;
+            overflow: auto;
+            margin-bottom: 24px;
+
+            .tabsTitle {
+                width: max-content;
+                gap: 21px;
+            }
+        }
+
+        .events {
+            padding: 0;
+            max-height: none;
+            min-height: 320px;
+            height: auto;
+
+            .btnShowMore {
+                border: 1px solid;
+                border-radius: 33px;
+                background-color: white;
+                width: 100%;
+                height: 44px;
+                color: rgba(0, 68, 56, 1);
+                font-size: 16px;
+                font-weight: 700;
+                margin-top: 25px;
+            }
+        }
+
+        .note {
+            margin-bottom: 29px;
+        }
+
+        .btnExportToExcel {
+            display: none;
+        }
+
+    }
+
+
+}

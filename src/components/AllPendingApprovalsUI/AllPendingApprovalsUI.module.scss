@@ -1,0 +1,142 @@
+.pendingApprovalsContainer {
+    background-color: #fafafa;
+    padding: 20px;
+
+    .pendingApprovalsTitle {
+        color: #004438;
+        font-family: KoteretOT;
+        font-size: 30px;
+        font-weight: 400;
+        margin-bottom: 20px;
+        margin-top: 6px;
+        text-align: right;
+    }
+
+    .timeOver {
+        color: #da0000;
+    }
+
+    .pendingApprovalsCards {
+        display: none;
+    }
+
+    .pendingApprovalsTable {
+        width: 100%;
+        border-collapse: collapse;
+        max-width: 920px;
+
+        .pendingApprovalsTbody {
+            tr {
+                
+                &.mainTr {
+                    background-color: #ffffff;
+                    cursor: pointer;
+
+                    td {
+                        font-size: 16px;
+
+                        .subTitle {
+                            font-size: 14px;
+                        }
+                    }
+
+
+                }
+    
+                td {
+                    padding: 11px 12px;
+                    border-top: 1px solid #ECEDF0;
+                    border-bottom: 1px solid #ECEDF0;
+                    text-align: center;
+                    &:first-child {
+                        text-align: start;
+                    }
+
+                    &:not(.subTextTd):first-child {
+                        border-right: 1px solid #ECEDF0;
+
+                    }
+
+                    &:not(.subTextTd):last-child {
+                        border-left: 1px solid #ECEDF0;
+
+                    }
+
+                    &.tdWithoutBorderBottom {
+                        border-bottom: none;
+                    }
+                }
+
+                .subTextTd {
+                    border: none;
+                    padding: 0;
+                    padding-bottom: 6px;
+                }
+
+            }
+        }
+    
+        .pendingApprovalsThead{
+            th {
+
+                &:first-of-type {
+                    text-align: start;
+                }
+
+                padding: 0 12px 6px;
+                font-size: 16px;
+    
+                &:first-of-type {
+                    width: 40%;
+                }
+            }
+        }
+    }
+
+}
+
+@media screen and (max-width: 430px){
+    .pendingApprovalsContainer {
+        padding: 20px;
+
+        .pendingApprovalsTable {
+            display: none;
+        }
+
+        .pendingApprovalsCards {
+            display: block;
+
+            .pendingApprovalCardContainer {
+                background-color: #ffffff;
+                border: 1px solid #ECEDF0;
+                padding: 10px;
+                color: rgb(8, 68, 55);
+                text-decoration: none;
+                display: block;
+
+                & + .pendingApprovalCardContainer{
+                    margin-top: 12px;
+                }
+
+                .pendingApprovalTitle {
+                    padding-bottom: 6px;
+                    margin-bottom: 6px;
+                    border-bottom: 1px solid #ECEDF0;
+                    font-size: 16px;
+                }
+
+                .mobilePendingApprovalTable {
+                    border-spacing: 0 6px;
+                    width: 100%;
+                    text-align: center;
+
+                    th {
+                        padding: 0 8px;
+                    }
+                }
+
+            }
+        }
+
+    }
+}

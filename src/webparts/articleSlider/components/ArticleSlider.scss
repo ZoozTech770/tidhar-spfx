@@ -1,0 +1,42 @@
+.articles-comp-wrapper {
+    width: 100%;
+
+    .articles-comp-container {
+        display: flex;
+        flex-direction: column;
+        max-width: 1396px;
+        margin: 0 auto;
+    }
+
+    .title {
+        font-family: 'KoteretOT';
+        font-size: 26px;
+        font-weight: 400;
+        margin: 0 16px 16px;
+        color: #004438;
+        display: block;
+    }
+}
+
+@media screen and (min-width: 430px) {
+    .articles-comp-wrapper {
+        background-repeat: no-repeat;
+        background-image:
+            url("../../../assets/image/articlesBackgroundDesktop.svg");
+        margin-bottom: 0;
+        padding-top: 64px;
+        margin-bottom: 16px;
+
+
+        .articles-comp-container {
+            flex-direction: row;
+            gap: 58px;
+        }
+
+        .title {
+            display: none;
+        }
+
+    }
+    
+}

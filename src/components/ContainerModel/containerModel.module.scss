@@ -1,0 +1,39 @@
+.containerModel {
+    max-height: calc(100vh - 80px);
+}
+
+.header {
+    background: #004438;
+    display: flex;
+    padding: 8px 24px 8px 12px;
+    justify-content: space-between;
+    align-items: center;
+    align-self: stretch;
+    color: white;
+    box-sizing: border-box;
+    width: 100%;
+    font-family: 'almoni';
+    font-size: 20px;
+    font-weight: 400;
+    height: 55px;
+
+}
+
+.close {
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    background-repeat: no-repeat;
+    background-image: url("../../assets/icons/closeIcon.svg");
+    background-color: transparent;
+    border: none;
+}
+@media screen and (max-width: 430px) {
+    .containerModel {
+        max-height: 100vh;
+    }
+   .header{
+    height: 50px;
+    padding: 0 16px;
+   }
+}

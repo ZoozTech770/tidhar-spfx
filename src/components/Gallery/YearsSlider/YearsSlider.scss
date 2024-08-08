@@ -1,0 +1,44 @@
+.years-swiper-container {
+    margin: 20px auto 0;
+    width: 100px;
+    position: relative;
+
+    .sliderNavigationButton {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        border: none;
+        background-color: transparent;
+        cursor: pointer;
+
+        &.next {
+            inset-inline-start: 100%;
+        }
+
+        &.prev {
+            inset-inline-end: 100%;
+        }
+
+        &.swiper-button-disabled {
+            visibility: hidden;
+        }
+    }
+}
+
+.year-slider {
+    text-align: center;
+    font-family: 'almoni';
+    color: #004438;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+@media screen and (min-width: 430px) {
+    .year-slider {
+        font-size: 26px;
+    }
+
+    .years-swiper-container {
+        margin: 7px auto 0;
+    }
+}

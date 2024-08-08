@@ -1,0 +1,28 @@
+.anchorsNavContainer {
+    display: flex;
+    gap: 16px;
+    padding: 0 16px 12px;
+    overflow-x: auto;
+    .anchor {
+        padding: 8px 24px;
+        border-radius: 30px;
+        color: #004438;
+        border: 1px solid #004438;
+        text-decoration: none;
+        white-space: nowrap;
+        line-height: 1;
+
+        &.visible {
+            background-color: #004438;
+            color: #fff;
+        }
+    }
+
+}
+
+
+@media screen and (min-width: 430px) {
+    .anchorsNavContainer {
+        display: none;
+    }
+}

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+    <CustomAction
+        Title="UserNameExt"
+        Location="ClientSideExtension.ApplicationCustomizer"
+        ClientSideComponentId="4c86f851-8ca7-4853-8c59-2453bff10344"
+        ClientSideComponentProperties="{&quot;testMessage&quot;:&quot;Test message&quot;}">
+    </CustomAction>
+    <CustomAction
+        Title="HeaderExt"
+        Location="ClientSideExtension.ApplicationCustomizer"
+        ClientSideComponentId="02f6968f-a2a3-47d8-b2c8-d6c14bf2ce79"
+        ClientSideComponentProperties="{&quot;testMessage&quot;:&quot;Test message&quot;}">
+    </CustomAction>
+    <CustomAction
+        Title="FooterExt"
+        Location="ClientSideExtension.ApplicationCustomizer"
+        ClientSideComponentId="f6520c09-5ab3-45c6-9c79-2c6b375731f5"
+        ClientSideComponentProperties="{&quot;testMessage&quot;:&quot;Test message&quot;}">
+    </CustomAction>
+</Elements>

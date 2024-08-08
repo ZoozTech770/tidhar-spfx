@@ -1,0 +1,101 @@
+.search-wrapper {
+  position: relative;
+
+  .search-container {
+    position: absolute;
+    z-index: 11;
+    right: 0;
+    left: 0;
+    background-color: #ffffff;
+
+    .search-contacts-container {
+      display: flex;
+      justify-content: flex-end;
+      width: 100%;
+      margin: 0 auto;
+      max-width: 1406px;
+      padding: 10px;
+      box-sizing: border-box;
+
+
+      .search-contacts {
+        display: flex;
+        align-items: center;
+        background-color: #E5ECEB;
+        width: 100%;
+        max-width: 452px;
+        height: 48px;
+        padding: 0px 16px 0px 0px;
+        border-radius: 30px;
+        box-sizing: border-box;
+
+        .search {
+          box-sizing: content-box;
+          color: #004438;
+          font-family: 'almoni';
+          font-weight: 400;
+          font-size: 18px;
+          background-color: transparent;
+          border: none;
+          width: calc(100% - 166px);
+          outline: none;
+          padding-right: 30px;
+          height: 100%;
+          background-image: url('../../assets/SearchIcon.png');
+          background-position: 99% center;
+          background-repeat: no-repeat;
+        }
+
+        .button {
+          background-color: #004438;
+          color: #FFFFFF;
+          font-family: 'almoni';
+          font-weight: 700;
+          font-size: 22px;
+          width: 149px;
+          height: 48px;
+          border-radius: 30px;
+          border: none;
+          background-image: url('../../assets/ArrowIconWhite.png');
+          background-position: 17px;
+          background-repeat: no-repeat;
+          padding: 0;
+
+          .text {
+            display: flex;
+            padding-right: 25px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width:430px) {
+  .search-wrapper {
+    .search-container {
+      position: static;
+
+      .search-contacts-container {
+        .search-contacts {
+          height: 50px;
+          padding: 7px 16px 7px 5px;
+
+          .search {
+            width: calc(100% - 53px);
+          }
+
+          .button {
+            width: 36px;
+            height: 36px;
+            background-position: 1px;
+
+            .text {
+              display: none;
+            }
+          }
+        }
+      }
+    }
+  }
+}

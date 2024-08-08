@@ -1,0 +1,21 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": false,
+    "nodeVersion": "16.13.0",
+    "sdksVersions": {
+      "@microsoft/microsoft-graph-client": "3.0.2",
+      "@microsoft/teams-js": "2.9.1"
+    },
+    "version": "1.17.3",
+    "libraryName": "tidhar-portal",
+    "libraryId": "96860edb-8967-40fa-a7d2-82cd6f80328b",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "Tidhar-portal",
+    "solutionShortDescription": "Tidhar-portal description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "webpart"
+  }
+}

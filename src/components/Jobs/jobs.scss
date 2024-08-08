@@ -1,0 +1,76 @@
+.jobs-container{
+    display: flex;
+    width: 452px;
+    padding: 0px 24px 12px 24px;
+    flex-direction: column;
+    gap: 31px;
+    border-radius: 12px;
+    border: 0px solid #004438;
+    background: #FFF;
+    box-shadow: 0px 13px 50px 0px rgba(0, 0, 0, 0.15);
+    max-width: 100%;
+    height: 620px;
+    box-sizing: border-box;
+    .jobs-title{
+        color: #004438;
+        text-align: right;
+        font-family: KoteretOT;
+        font-size: 26px;
+        font-weight: 400;
+        border-bottom: 0.5px solid #ADADAD;
+        height: 80px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        align-self: stretch;
+    }
+    .jobs-wrapper{
+      display: flex;
+      flex-direction: column;      
+      justify-content: space-between;   
+      height: 100%;
+      .jobs-items{
+        gap: 31px;
+        display: flex;
+        flex-direction: column;
+        gap: 31px;
+        margin-bottom: 16px;
+      } 
+    .all-jobs-link{
+      display: flex;
+      align-items: flex-end;
+      justify-content: end;
+      height: 44px;
+      align-items: center;
+      background-image: url('../../assets/ArrowIcon.svg');
+      background-repeat: no-repeat;
+      background-size: 32px;
+      background-position: center left;
+    a{
+      color: #004438;
+      font-family: 'almoni';
+      font-size: 18px;
+      font-weight: 700;
+      text-decoration: none;
+      margin-left: 35px;
+    }
+    }
+  }
+}
+
+@media screen and (max-width:430px) {
+  .jobs-container{
+    height: auto;
+    height: 0 16px 12px 16px;
+
+    .jobs-wrapper{
+
+      .jobs-items{
+        gap: 16px;
+      } 
+
+    }
+  }
+
+}
+

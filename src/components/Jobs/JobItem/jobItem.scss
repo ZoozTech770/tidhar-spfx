@@ -1,0 +1,46 @@
+.job-item {
+    background-image: url('../../../assets/ArrowIcon.svg');
+    background-repeat: no-repeat;
+    background-position: center left;
+    border-bottom: 0.5px solid #ADADAD;
+    padding-left: 30px;
+    text-decoration: none;
+    color: #023423;
+
+   .job-title{
+     color:  #004438;
+     text-align: right;
+     font-family: almoni;
+     font-size: 18px;
+     font-weight: 700;
+     text-overflow: ellipsis;
+     white-space: nowrap;
+     overflow: hidden;
+   }
+   .job-description{
+       color:#023423;
+       text-align: right;
+       font-family: almoni;
+       font-size: 18px;
+       font-weight: 400;
+       -webkit-line-clamp: 2;
+       -webkit-box-orient: vertical;
+        overflow: hidden;
+        display: -webkit-box;
+   }
+   .job-info{
+       color: #757575;
+       text-align: right;
+       font-family: almoni;
+       font-size: 16px;
+       font-weight: 400;
+   }
+}
+
+@media screen and (max-width:430px) {
+    .job-item {
+        padding-bottom: 12px;
+    }
+  
+}
+  

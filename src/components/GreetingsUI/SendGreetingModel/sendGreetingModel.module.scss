@@ -1,0 +1,140 @@
+.sendGreetingModel {
+  width: 688px;
+  background-color: white;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 24px;
+  font-family: "almoni";
+  color: #023423;
+  font-size: 18px;
+  font-weight: 400;
+
+  .sendGreetingModelBody {
+    .sliderContainer {
+      position: relative;
+      padding-bottom: 30px;
+      width: 565px;
+      box-sizing: border-box;
+      margin-right: 42px;
+      max-width: calc(100% - 70px);
+
+      .imgCard {
+        width: 565px;
+        max-width: 100%;
+        height: 120px;
+        box-sizing: border-box;
+        border-radius: 12px;
+        border: 1px solid #adadad;
+        object-fit: contain;
+      }
+
+      .activeGreetingCardButton .imgCard {
+        border-color: #000000;
+      }
+    }
+
+    .freeTextContainer {
+      border-top: 1px solid #adadad;
+      width: 100%;
+      padding-top: 24px;
+    }
+
+    .selectGreeting {
+      display: block;
+      margin-bottom: 24px;
+
+      .required {
+        color: #ff0000;
+      }
+    }
+
+    label {
+      margin-bottom: 2px;
+      display: block;
+    }
+
+    textarea {
+      width: 100%;
+      height: 172px;
+      border-radius: 12px;
+      border: 1px solid #004438;
+      resize: none;
+      padding: 20px;
+      font-size: 18px;
+      font-family: "almoni";
+      box-sizing: border-box;
+      margin-bottom: 20px;
+    }
+  }
+
+  .btnContiner {
+    display: flex;
+    justify-content: end;
+
+    .btnSend {
+      color: #fff;
+      font-family: "almoni";
+      font-size: 16px;
+      font-weight: 700;
+      border-radius: 30px;
+      background: #004438;
+      height: 35px;
+      padding: 0 24px;
+      box-sizing: border-box;
+      border: none;
+      cursor: pointer;
+
+      &:disabled {
+        background-color: #ebebeb;
+        color: #9d9d9d;
+      }
+    }
+  }
+
+  .greetingCardButton {
+    border: none;
+    background-color: transparent;
+    padding: 0;
+  }
+}
+
+.singleCard {
+  width: calc(100% - 20px);
+}
+
+@media screen and (max-width: 430px) {
+  .sendGreetingModel {
+    padding: 40px 16px;
+    width: 100%;
+
+    .sendGreetingModelBody {
+      max-height: calc(100vh - 300px);
+      overflow-y: auto;
+      overflow-x: hidden;
+
+      .sliderContainer {
+        width: calc(100% + 16px);
+        margin: 0;
+        padding-bottom: 28px;
+        max-width: none;
+
+        .imgCard {
+          width: 263px;
+        }
+      }
+
+      .freeTextContainer {
+        padding-top: 40px;
+      }
+
+      textarea {
+        height: 215px;
+        margin-bottom: 44px;
+      }
+    }
+  }
+}
+
+.buttonDisabled {
+  display: none;
+}

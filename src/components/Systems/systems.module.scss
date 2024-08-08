@@ -1,0 +1,179 @@
+.systems {
+  border-radius: 12px;
+  background: #ffffff;
+  padding: 24px 16px 16px;
+  box-sizing: border-box;
+  box-shadow: 0px 13px 50px 0px #00000026;
+  max-width: 1396px;
+  margin: 64px auto;
+
+  .systemsTitle {
+    font-size: 26px;
+    font-weight: 400;
+    line-height: 26.6px;
+    color: #004438;
+    margin: 0;
+  }
+
+  .containerSlider {
+    margin: auto;
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-top: 24px;
+    gap: 20px;
+  }
+
+  .footer {
+    border-top: 1px solid #adadad;
+    padding-top: 16px;
+    margin-top: 24px;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+
+    .btnChoiceOfSystems {
+      background: #004236;
+      border-radius: 25px;
+      color: #fff;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 700;
+      padding: 10px 20px;
+      text-align: center;
+      border: 0;
+      margin: auto;
+      margin-inline-end: 0;
+      cursor: pointer;
+    }
+
+    .btnExpand {
+      background: #004236;
+      color: #fff;
+      text-align: center;
+      padding: 10px 5px;
+      font-size: 18px;
+      font-weight: 700;
+      font-family: inherit;
+      border-radius: 25px;
+      border: 0;
+      margin: auto;
+      margin-inline-start: 0;
+      flex: 0 50%;
+    }
+  }
+
+  :global {
+    .swiper-wrapper {
+        padding-bottom: 2px;
+    }
+  }
+}
+
+.system {
+  padding: 11px 12px;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  border-radius: 12px;
+  border: 1px solid #004438;
+  background: #fff;
+  color: #023423;
+  font-family: "almoni";
+  font-size: 18px;
+  font-weight: 400;
+  display: flex;
+  height: 120px;
+  width: 120px;
+  text-decoration: none;
+  box-sizing: border-box;
+  line-height: initial;
+
+  &:hover {
+    background: rgba(74, 148, 98, 0.3);
+    border-color: transparent;
+  }
+
+  img {
+    width: 50px;
+    height: 50px;
+    flex-shrink: 0;
+  }
+
+  span {
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    max-width: 96px;
+    text-align: center;
+    width: 100%;
+    line-height: 22px;
+    overflow: hidden;
+  }
+}
+
+.systemsFlexContainer {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+}
+
+.desktopSystemsContainer {
+  display: block;
+}
+
+.mobileSystemsContainer {
+  display: none;
+}
+@media screen and (max-width: 430px) {
+  .desktopSystemsContainer {
+    display: none;
+  }
+
+  .mobileSystemsContainer {
+    display: grid;
+    gap: 8px;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .system {
+    width: auto;
+    height: 100px;
+    padding: 3px;
+    justify-content: center;
+    gap: 0;
+
+    span {
+      font-size: 16px;
+    }
+  }
+
+  .systems {
+    margin-inline: 16px;
+
+    .systemsTitle {
+      padding-bottom: 26px;
+      border-bottom: 1px solid #adadad;
+      margin-bottom: 24px;
+    }
+    .footer {
+      padding-top: 0;
+      border-top: none;
+      gap: 8px;
+
+      .btnChoiceOfSystems {
+        background: #fff;
+        color: #004236;
+        border: 1px solid #004236;
+        font-family: inherit;
+        font-size: 20px;
+        flex: 1;
+      }
+
+      .btnExpand {
+        font-size: 20px;
+        flex: 0 50%;
+      }
+    }
+  }
+}

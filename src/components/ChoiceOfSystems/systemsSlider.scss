@@ -1,0 +1,18 @@
+
+  .navigationButtonSystems{
+    display: flex;
+    width: 34px;
+    height: 32px;
+    background-color: #ffffff;
+    border: none;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+  
+    &.next {
+      transform: scaleX(-1);
+    }
+  }
+ 
