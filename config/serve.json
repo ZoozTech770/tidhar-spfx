@@ -5,7 +5,7 @@
   "initialPage": "https://{tenantDomain}/_layouts/workbench.aspx",
   "serveConfigurations": {
     "default": {
-      "pageUrl": "https://tidharconil.sharepoint.com/sites/eladtest/SitePages/myPage.aspx",
+      "pageUrl": "https://tidharconil.sharepoint.com/sites/TidharDev/SitePages/test.aspx",
       "customActions": {
         "4c86f851-8ca7-4853-8c59-2453bff10344": {
           "location": "ClientSideExtension.ApplicationCustomizer",

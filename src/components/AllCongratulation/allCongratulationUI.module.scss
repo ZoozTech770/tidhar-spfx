@@ -4,7 +4,10 @@
   box-sizing: border-box;
   font-family: almoni;
   position: relative;
+  background: transparent;
+  transition: 'background 0.3s ease-in-out';
   max-width: 1396px;
+  min-height: 300px;
   margin: auto;
 
   &.mobile {

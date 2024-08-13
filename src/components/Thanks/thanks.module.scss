@@ -1,4 +1,4 @@
-.thankContainer{
+.thankContainer {
     display: flex;
     width: 452px;
     max-width: 100%;
@@ -13,7 +13,8 @@
     box-shadow: 0px 13px 50px 0px rgba(0, 0, 0, 0.15);
     height: 260px;
     box-sizing: border-box;
-    .title{
+
+    .title {
         display: flex;
         height: 80px;
         align-items: center;
@@ -27,35 +28,40 @@
         font-size: 26px;
         font-weight: 400;
     }
-    a{
+
+    a {
         text-decoration: none;
-        .content{
-        display: flex;
-        align-items: center;
-        gap: 16px;
-        align-self: stretch;
-        .img{
-            width: 147px;
-            height: 91px;
-            border-radius: 12px;
-        }
-        .subTitle{
-            color: var(--text, #023423);
-            text-align: right;
-            font-family: almoni;
-            font-size: 18px;
-            font-weight: 400;
-            height: 89px;
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 3;
-            white-space: pre-wrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+
+        .content {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            align-self: stretch;
+
+            .img {
+                width: 147px;
+                height: 91px;
+                border-radius: 12px;
+            }
+
+            .subTitle {
+                color: var(--text, #023423);
+                text-align: right;
+                font-family: almoni;
+                font-size: 18px;
+                font-weight: 400;
+                height: 89px;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 3;
+                white-space: pre-wrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
         }
     }
-}
-    .link{
+
+    .link {
         display: flex;
         height: 44px;
         align-items: center;
@@ -66,7 +72,8 @@
         background-repeat: no-repeat;
         background-size: 32px;
         background-position: center left;
-        a{
+
+        a {
             color: var(--dark-green, #004438);
             text-align: right;
             font-family: almoni;
@@ -80,19 +87,21 @@
 
 
 @media screen and (max-width:430px) {
-    .thankContainer{
-      height: auto;
-      padding: 0 16px 12px 16px;
+    .thankContainer {
+        height: auto;
+        padding: 0 16px 12px 16px;
+
         a {
-        .content{
-            .img {
-                height: 168px;
+            .content {
+                .img {
+                    height: 168px;
+                }
+
+                .subTitle {
+                    height: 168px;
+                    -webkit-line-clamp: 7;
+                }
             }
-            .subTitle {
-                height: 168px;
-                -webkit-line-clamp: 7;
-            }
-        }
         }
     }
 }

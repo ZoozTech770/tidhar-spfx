@@ -6,7 +6,7 @@ enum StatusTurn {
     Canceled
 }
 
-enum PeoplePicker{
+enum PeoplePicker {
 
 }
-export {StatusTurn,PeoplePicker}
+export { StatusTurn, PeoplePicker }

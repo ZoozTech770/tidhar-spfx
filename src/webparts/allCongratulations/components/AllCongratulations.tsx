@@ -23,6 +23,7 @@ const AllCongratulations: React.FC<IAllCongratulationsProps> = (props) => {
 
   const [data, setData] = useState([]);
   const [mobileData, setMobileData] = useState<any>([])
+  const [highlight, setHighlight] = useState(false);
 
 
   useEffect(() => {
@@ -35,17 +36,14 @@ const AllCongratulations: React.FC<IAllCongratulationsProps> = (props) => {
     });
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     const result = [];
     for (let i = 0; i < data.length; i += 5) {
-        const chunk = data.slice(i, i + 5);
-        result.push(chunk);
+      const chunk = data.slice(i, i + 5);
+      result.push(chunk);
     }
     setMobileData(result);
   }, [data])
-
-
-
 
   const ref = React.useRef<HTMLElement>(null);
 
@@ -53,10 +51,23 @@ const AllCongratulations: React.FC<IAllCongratulationsProps> = (props) => {
     if (ref.current) {
       const hashtag = window.location.hash.replace("#", "");
       if (hashtag === linkTag) {
-        ref.current.scrollIntoView();
+        if (data.length > 0) {
+          setTimeout(() => {
+            ref.current.scrollIntoView({
+              behavior: 'smooth'
+            });
+            // Add highlight
+            setHighlight(true);
+    
+            // Remove highlight after 1 seconds
+            setTimeout(() => {
+              setHighlight(false);
+            }, 1000);
+          }, 500);
+        }
       }
     }
-  }, [ref.current, window.location.hash]);
+  }, [ref.current, window.location.hash, data]);
 
   const getGreetingCards = async (cardTypeId: number) => {
     const res = await GreetingsService.getGreetingCards(
@@ -82,9 +93,12 @@ const AllCongratulations: React.FC<IAllCongratulationsProps> = (props) => {
     };
     const res = await GreetingsService.addGreetingItem(context, logList, item);
   };
-
+  
   return (
-    <section className={styles.allCongratulations} id={linkTag} ref={ref}>
+    <section className={styles.allCongratulations} id={linkTag} ref={ref} style={{
+      background: highlight ? '#0443393c' : 'transparent', // Apply highlight
+      transition: 'background 0.3s ease-in-out'
+    }}>
       {compTitle && <h2 className={styles.title}>{compTitle}</h2>}
       <AllCongartulationUI
         headerColor={headerColor}
