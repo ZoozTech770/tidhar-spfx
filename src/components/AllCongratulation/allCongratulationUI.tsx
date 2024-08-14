@@ -15,19 +15,23 @@ type AllCongartulationProps = {
   title: string;
   congratsType: string;
   data: any[];
+  onSlideEnd: Function;
   mobileItems: number;
   onGetGreetingCard: Function;
   onSendGreeting: Function;
   mobileData: any[];
 };
 
-const ArrowRight = require("../../assets/ArrowRight.svg");
+const ArrowRight = require("../../assets/icons/ArrowRight.svg");
+const registeredIcon = require("../../assets/icons/registeredIcon.svg");
+
 
 const AllCongartulationUI = ({
   headerColor,
   headerIcon,
   title,
   data,
+  onSlideEnd,
   congratsType,
   mobileData,
   mobileItems,
@@ -40,6 +44,7 @@ const AllCongartulationUI = ({
 
   const [openSendGreetingModel, setOpenSendGreetingModel] =
     useState<boolean>(false);
+  const [greetingSent, setGreetingSent] = useState<boolean>(false);
   const [mail, setMail] = useState<string>("");
   const [greetingType, setGreetingType] = useState<number>(1);
   const [receiverName, setReceiverName] = useState<string>("");
@@ -59,6 +64,14 @@ const AllCongartulationUI = ({
     setOpenSendGreetingModel(false);
   };
 
+  const onSendGreetingSuccess = (receiver: string, reetingCard: string, content: string) => {
+    onSendGreeting(receiver, reetingCard, content);
+    setGreetingSent(true);
+  }
+  const onCloseGreetingSentModel = () => {
+    setGreetingSent(false);
+  };
+
   const onSlide = () => {
     if (swiperRef.current && swiperRef.current.swiper) {
       const swiperEl = swiperRef.current.swiper.el;
@@ -75,6 +88,7 @@ const AllCongartulationUI = ({
         setTimeout(() => {
           swiperEl.scrollTop += 20; // Adjust this value as needed for your offset
         }, 500); // Timeout to ensure scrollIntoView is completed
+        onSlideEnd();
       }
     }
   };
@@ -113,9 +127,8 @@ const AllCongartulationUI = ({
   return (
     <>
       <div
-        className={`${classes.congratulation} ${
-          !isDesktopView && classes.mobile
-        }`}
+        className={`${classes.congratulation} ${!isDesktopView && classes.mobile
+          }`}
         id={title}
       >
         <div
@@ -128,9 +141,8 @@ const AllCongartulationUI = ({
         <div className={classes.body}>
           <button
             id={`greetingsNavPrev_${guid}`}
-            className={`${classes.navigationButtonGreeting} ${classes.prev} ${
-              data.length > 6 ? "" : "hide"
-            }`}
+            className={`${classes.navigationButtonGreeting} ${classes.prev} ${data.length > 6 ? "" : "hide"
+              }`}
           >
             <img src={ArrowRight} alt="הקודם" />
           </button>
@@ -284,9 +296,8 @@ const AllCongartulationUI = ({
           </div>
           <button
             id={`greetingsNavNext_${guid}`}
-            className={`${classes.navigationButtonGreeting} ${classes.next} ${
-              data.length > 6 ? "" : "hide"
-            }`}
+            className={`${classes.navigationButtonGreeting} ${classes.next} ${data.length > 6 ? "" : "hide"
+              }`}
           >
             <img src={ArrowRight} alt="הבא" />
           </button>
@@ -299,7 +310,7 @@ const AllCongartulationUI = ({
           onClose={onCloseModel}
           childern={
             <SendGreetingModel
-              onSendGreeting={onSendGreeting}
+              onSendGreeting={onSendGreetingSuccess}
               onGetGreetingCard={onGetGreetingCard}
               greetingType={greetingType}
               mail={mail}
@@ -307,6 +318,21 @@ const AllCongartulationUI = ({
             ></SendGreetingModel>
           }
           title={`שליחת ברכה ל${receiverName}`}
+          topViewOnMobile={false}
+        ></ContainerModel>
+      )}
+      {greetingSent && (
+        <ContainerModel
+          panelViewOnMobile={true}
+          isOpen={greetingSent}
+          hideCloseButton={true}
+          onClose={onCloseGreetingSentModel}
+          childern={
+            <div className={classes.greetingSuccess}>
+              <img src={registeredIcon} alt="" />
+            </div>
+          }
+          title={`הברכה נשלחה`}
           topViewOnMobile={false}
         ></ContainerModel>
       )}

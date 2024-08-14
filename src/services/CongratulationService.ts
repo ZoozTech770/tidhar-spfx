@@ -104,7 +104,7 @@ export default class congratulationService {
     const lastDayOfMonth = new Date(
       today.getFullYear(),
       today.getMonth() + 1,
-      0
+      1
     );
 
     // Format dates for filtering

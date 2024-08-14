@@ -6,6 +6,7 @@ import { CongratulationService } from "../../../services/CongratulationService";
 import AllCongartulationUI from "../../../components/AllCongratulation/allCongratulationUI";
 import { GreetingsService } from "../../../services/GreetingsService";
 import { greetingLogItem } from "../../../types/TGreetingLogItem";
+import isMobile from "../../../util/globalFunctions";
 
 const AllCongratulations: React.FC<IAllCongratulationsProps> = (props) => {
   const {
@@ -69,6 +70,14 @@ const AllCongratulations: React.FC<IAllCongratulationsProps> = (props) => {
     }
   }, [ref.current, window.location.hash, data]);
 
+  const scrollTOSeactionHead =() => {    
+    if (isMobile()) {
+      ref.current.scrollIntoView({
+        behavior: 'smooth'
+      });
+    }
+  }
+
   const getGreetingCards = async (cardTypeId: number) => {
     const res = await GreetingsService.getGreetingCards(
       context,
@@ -105,6 +114,7 @@ const AllCongratulations: React.FC<IAllCongratulationsProps> = (props) => {
         headerIcon={headerIcon}
         title={title}
         data={data}
+        onSlideEnd={scrollTOSeactionHead}
         congratsType={congratsType}
         mobileItems={0}
         onGetGreetingCard={getGreetingCards}
