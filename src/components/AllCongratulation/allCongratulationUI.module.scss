@@ -38,6 +38,10 @@
       padding-top: 0;
     }
   }
+  &.mobile.ios {
+    //fix carusel numbers on IOS
+    padding-bottom: 60px !important;
+  }
 
   .title {
     font-size: 20px;

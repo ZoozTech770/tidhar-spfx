@@ -4,6 +4,7 @@ import { Navigation, Autoplay, Pagination } from "swiper";
 import * as React from "react";
 import { useRef, useState, useLayoutEffect } from "react";
 import useWindowSizeListener from "../../util/useWindowSizeListener";
+import isIOS from "../../util/useWindowSizeListener";
 import classes from "./allCongratulationUI.module.scss";
 import { Guid } from "@microsoft/sp-core-library";
 import ContainerModel from "../ContainerModel";
@@ -126,10 +127,8 @@ const AllCongartulationUI = ({
   };
   return (
     <>
-      <div
-        className={`${classes.congratulation} ${!isDesktopView && classes.mobile
-          }`}
-        id={title}
+      <div className={`${classes.congratulation} ${!isDesktopView && classes.mobile} ${isIOS() && classes.ios}`}
+       id={title}
       >
         <div
           className={classes.title}

@@ -25,7 +25,6 @@ export default class congratulationService {
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-
     const filterItems = (date: Date) => {
       return itemsFetched.filter((item) => {
         const eladDate = new Date(item.eldDate);
@@ -47,13 +46,13 @@ export default class congratulationService {
     if (itemsFetched.length >= 3) {
       let otherDay = new Date(today);
       while (items.length < 3) {
-        otherDay.setDate(otherDay.getDate() - 1);
+        //as long as there is no 3 dates (to fill the dates windows) - bring dates from the next day
+        otherDay.setDate(otherDay.getDate() + 1);
         items = items.concat(filterItems(otherDay).slice(0, 3 - items.length));
       }
     } else {
       items = itemsFetched;
     }
-
     return items;
   }
 

@@ -77,9 +77,11 @@ const AllCongratulations: React.FC<IAllCongratulationsProps> = (props) => {
   
   const scrollTOSeactionHead =() => {    
     if (isMobile()) {
-      ref.current.scrollIntoView({
-        behavior: 'smooth'
-      });
+      setTimeout(()=>{
+        ref.current.scrollIntoView({
+          behavior: 'smooth'
+        });
+      }, 500)
     }
   }
 

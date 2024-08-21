@@ -34,4 +34,8 @@ const useWindowSizeListener = (): WindowDimentions => {
   return windowDimensions;
 };
 
+const isIOS = (): boolean => {
+  return /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
+};
+
 export default useWindowSizeListener;
