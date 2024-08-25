@@ -145,7 +145,9 @@ export default class systemsService {
      </OrderBy>
   </Query></View>`,
     }
-    const items: any[] = await sp.web.lists.getByTitle('lstSystemList').getItemsByCAMLQuery(query);
+    let items: any[] = await sp.web.lists.getByTitle('lstSystemList').getItemsByCAMLQuery(query);
+    items = items.filter(sstm => !this.isMobile() || this.isMobile() && sstm.showInMobile);
+    
     return items;
   }
   public async getUserSystems(context: ISPFXContext) {
