@@ -24,7 +24,9 @@ export default class AnchorsNavWebPart extends BaseClientSideWebPart<IAnchorsNav
     );
     let siteHeader = document.getElementById("spSiteHeader");
     ReactDom.render(element, this.domElement);
-    siteHeader.insertAdjacentElement('beforeend', this.domElement);
+    if (siteHeader) {
+      siteHeader.insertAdjacentElement('beforeend', this.domElement);
+    }
   }
 
   protected onDispose(): void {

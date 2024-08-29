@@ -38,7 +38,7 @@ export default class SearchContactsWebPart extends BaseClientSideWebPart<ISearch
     );
     let siteHeader = document.getElementById("spSiteHeader");
     ReactDom.render(element, this.domElement);
-    if (window.innerWidth <= 430) {
+    if (window.innerWidth <= 430 && siteHeader) {
       siteHeader.insertAdjacentElement('beforeend', this.domElement);
     }
   }

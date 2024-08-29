@@ -20,6 +20,7 @@ type CongartulationUIProps = {
 };
 
 const arrowIcon = require("../../assets/icons/vectorLeftIcon.svg");
+const registeredIcon = require("../../assets/icons/registeredIcon.svg");
 
 const CongartulationUI = ({
   title,
@@ -41,9 +42,19 @@ const CongartulationUI = ({
 
   const [openSendGreetingModel, setOpenSendGreetingModel] =
     useState<boolean>(false);
+  const [greetingSent, setGreetingSent] = useState<boolean>(false);
   const [mail, setMail] = useState<string>("");
   const [greetingType, setGreetingType] = useState<number>(1);
   const [receiverName, setReceiverName] = useState<string>("");
+
+  const onSendGreetingSuccess = (receiver: string, reetingCard: string, content: string) => {
+    onSendGreeting(receiver, reetingCard, content);
+    setGreetingSent(true);
+  }
+
+  const onCloseGreetingSentModel = () => {
+    setGreetingSent(false);
+  };
 
   const onOpenModel = (
     mail: string,
@@ -186,7 +197,7 @@ const CongartulationUI = ({
           onClose={onCloseModel}
           childern={
             <SendGreetingModel
-              onSendGreeting={onSendGreeting}
+              onSendGreeting={onSendGreetingSuccess}
               onGetGreetingCard={onGetGreetingCard}
               greetingType={greetingType}
               mail={mail}
@@ -194,6 +205,21 @@ const CongartulationUI = ({
             ></SendGreetingModel>
           }
           title={`שליחת ברכה ל${receiverName}`}
+          topViewOnMobile={false}
+        ></ContainerModel>
+      )}
+      {greetingSent && (
+        <ContainerModel
+          panelViewOnMobile={true}
+          isOpen={greetingSent}
+          hideCloseButton={true}
+          onClose={onCloseGreetingSentModel}
+          childern={
+            <div className={classes.greetingSuccess}>
+              <img src={registeredIcon} alt="" />
+            </div>
+          }
+          title={`הברכה נשלחה`}
           topViewOnMobile={false}
         ></ContainerModel>
       )}

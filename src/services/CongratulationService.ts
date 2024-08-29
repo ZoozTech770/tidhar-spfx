@@ -47,7 +47,7 @@ export default class congratulationService {
       let otherDay = new Date(today);
       while (items.length < 3) {
         //as long as there is no 3 dates (to fill the dates windows) - bring dates from the next day
-        otherDay.setDate(otherDay.getDate() + 1);
+        otherDay.setDate(otherDay.getDate() - 1);
         items = items.concat(filterItems(otherDay).slice(0, 3 - items.length));
       }
     } else {
