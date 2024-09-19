@@ -34,19 +34,19 @@ html {
 
 @media screen and (min-width: 430px) {
    .mainContent {
-       zoom: 0.6;
+       zoom: 0.9;
    }
 }
 
 @media screen and (min-width: 1280px) {
   .mainContent {
-      zoom: 0.7;
+      zoom: 0.9;
   }
 }
 
 @media screen and (min-width: 1400px) {
   .mainContent {
-      zoom: 0.8;
+      zoom: 0.9;
   }
 }
 

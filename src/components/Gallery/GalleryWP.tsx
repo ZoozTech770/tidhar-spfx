@@ -18,16 +18,6 @@ type GalleryWPProps = {
 
 const GalleryWP = ({ galleries, title }: GalleryWPProps) => {
 
-  const handleRangeChange = (value) => {
-    setSliderIndex(value);
-  }
-
-  const handleSliderChange = (value) => {
-    setRangeIndex(value);
-    setSliderIndex(value);
-  }
-
-
   const colors = ['#E53D51', '#FFB548', '#8AB7E9', '#004438', "#FE9015", "#4A9462", "#F8A3B4", '#E53D51', '#FFB548', '#8AB7E9', '#004438', "#FE9015"]
 
   const [sliderIndex, setSliderIndex] = useState(0);
@@ -36,6 +26,15 @@ const GalleryWP = ({ galleries, title }: GalleryWPProps) => {
   const [currentGallery, setCurrentGallery] = useState<IGalleriesByYears>({} as IGalleriesByYears);
   const [years, setYears] = useState<number[]>([]);
   const { getHebrewMonth } = useDateFormatter();
+
+  const handleRangeChange = (value): void => {
+    setSliderIndex(value);
+  }
+
+  const handleSliderChange = (value): void => {
+    setRangeIndex(value);
+    setSliderIndex(value);
+  }
 
   useEffect(() => {
     if (currentGallery && currentGallery.months) {
@@ -50,7 +49,7 @@ const GalleryWP = ({ galleries, title }: GalleryWPProps) => {
     setYears(galleries.map(gallery => gallery.year));
   }, [galleries])
 
-  const handleYearChange = (year: number) => {
+  const handleYearChange = (year: number): void => {
     setCurrentGallery(galleries.find(gallery => gallery.year === year))
   }
 

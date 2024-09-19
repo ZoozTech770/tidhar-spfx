@@ -127,7 +127,7 @@ const AllCongartulationUI = ({
   };
   return (
     <>
-      <div className={`${classes.congratulation} ${!isDesktopView && classes.mobile} ${isIOS() && classes.ios}`}
+      <div className={`${classes.congratulation} ${!isDesktopView && classes.mobile} ${isIOS() && classes.ios} ${data.length > 6 ? "" : "noPagination"}`}
        id={title}
       >
         <div
@@ -293,6 +293,7 @@ const AllCongartulationUI = ({
               <p>אין תוצאות</p>
             )}
           </div>
+          {/* BOBO */}
           <button
             id={`greetingsNavNext_${guid}`}
             className={`${classes.navigationButtonGreeting} ${classes.next} ${data.length > 6 ? "" : "hide"

@@ -111,6 +111,7 @@ export default class congratulationService {
     const lastDayFormatted = format(lastDayOfMonth, "yyyy-MM-dd");
     let items;
     if (type === 3) {
+      //לידות
       const thirtyDaysAgo = new Date();
       thirtyDaysAgo.setDate(today.getDate() - 30);
       const todayFormatted = format(today, "yyyy-MM-dd");
@@ -126,6 +127,7 @@ export default class congratulationService {
         )
         .orderBy("eldDate", true)();
     } else if (type === 1) {
+      //ימי הולדת
       items = await sp.web
         .getList(listUrl)
         .items.select(
@@ -137,6 +139,7 @@ export default class congratulationService {
         )
         .orderBy("eldDate", true)();
     } else {
+      //2 - תדהרולדת
       items = await sp.web
         .getList(listUrl)
         .items.select(
