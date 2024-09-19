@@ -1,7 +1,3 @@
-.hide {
-  display: none;
-}
-
 .congratulation {
   display: flex;
   flex-direction: column;
@@ -45,11 +41,6 @@
   &.mobile.ios {
     //fix carusel numbers on IOS
     padding-bottom: 58px !important;
-  }
-
-  &.mobile.ios.noPagination {
-    //fix carusel numbers on IOS
-    padding-bottom: 0 !important;
   }
 
   .title {

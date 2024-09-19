@@ -16,8 +16,8 @@ type SystemsProps = {
   unfloat?: boolean;
 };
 
-const ArrowRight = require("../../assets/ArrowRight.svg");
-const ArrowLeft = require("../../assets/ArrowLeft.svg");
+const ArrowRight = require("../../assets/icons/arrowRight.svg");
+const ArrowLeft = require("../../assets/icons/arrowLeft.svg");
 const closeIcon = require("../../assets/icons/closeIcon-green.svg");
 
 const SystemsUI = ({

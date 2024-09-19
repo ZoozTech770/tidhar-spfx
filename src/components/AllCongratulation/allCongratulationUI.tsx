@@ -140,8 +140,7 @@ const AllCongartulationUI = ({
         <div className={classes.body}>
           <button
             id={`greetingsNavPrev_${guid}`}
-            className={`${classes.navigationButtonGreeting} ${classes.prev} ${data.length > 6 ? "" : "hide"
-              }`}
+            className={`${classes.navigationButtonGreeting} ${classes.prev} ${data.length > 6 ? "" : classes.hide}`}
           >
             <img src={ArrowRight} alt="הקודם" />
           </button>
@@ -296,8 +295,7 @@ const AllCongartulationUI = ({
           {/* BOBO */}
           <button
             id={`greetingsNavNext_${guid}`}
-            className={`${classes.navigationButtonGreeting} ${classes.next} ${data.length > 6 ? "" : "hide"
-              }`}
+            className={`${classes.navigationButtonGreeting} ${classes.next} ${data.length > 6 ? "" : classes.hide}`}
           >
             <img src={ArrowRight} alt="הבא" />
           </button>

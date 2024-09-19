@@ -17,7 +17,7 @@ const SendGreetingModel: React.FC<IGreetingsProps> = (props) => {
   const { onSendGreeting, mail, greetingType, onclose, onGetGreetingCard } =
     props;
   const [greetingsCardList, SetGreetingsCardList] = useState<string[]>([]);
-  const ArrowRight = require("../../../assets/ArrowRight.svg");
+  const ArrowRight = require("../../../assets/icons/arrowRight.svg");
   const [activeIndex, setActiveIndex] = useState(0);
   const [greetingsLargerThanOne, setGreetingsLargerThanOne] = useState(false);
 

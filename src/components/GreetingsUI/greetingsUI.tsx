@@ -6,7 +6,7 @@ import GreetingItem from './GreetingItem/greetingItem';
 import classes from './greetingsUI.module.scss';
 import 'swiper/swiper-bundle.css';
 import { Navigation, Autoplay, Pagination, FreeMode } from 'swiper';
-import './greetingSliderUI.scss';
+import './greetingSliderUI.module.scss';
 import { LinkType } from '../../interfaces/Types';
 import { useRef, useState } from 'react';
 import ContainerModel from '../ContainerModel';
@@ -23,7 +23,7 @@ type IGreetingsProps = {
     onSendGreeting: Function,
     showAsSlider: boolean
 }
-const ArrowRight = require('../../assets/ArrowRight.svg');
+const ArrowRight = require('../../assets/icons/arrowRight.svg');
 const GreetingsUI: React.FC<IGreetingsProps> = (props) => {
     const { title, greetingsList,
         greetingTypeList, autoPlayDelay, linkAllGreetings, onGetGreetingCard, onSendGreeting, sendGreetingsTitle, showAsSlider } = props;

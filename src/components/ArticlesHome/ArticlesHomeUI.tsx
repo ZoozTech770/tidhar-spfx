@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './ArticlesHomeUI.module.scss';
+import './ArticlesHomeUI.scss';
 import { ArticlesListItemType } from '../../interfaces/Types';
 import useDateFormatter from '../../util/useDateFormatter';
 

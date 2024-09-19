@@ -1,6 +1,6 @@
 import * as React from 'react';
 import classes from './newEmployees.module.scss';
-import './newEmployeesSwiper.scss';
+import './newEmployeesSwiper.module.scss';
 import { INewEmployees } from "../../interfaces/INewEmployees";
 import EmployeeItem from "./NewEmployeeItem/newEmployeeItem";
 import { Swiper, SwiperSlide } from "swiper/react";

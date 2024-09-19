@@ -11,7 +11,7 @@ type ArticlesHomeMobileProps = {
     allArticlesOpenInNewTab?: boolean;
 }
 
-const ArrowLeft = require('../../assets/ArrowRight.svg');
+const ArrowLeft = require('../../assets/icons/arrowRight.svg');
 
 const ArticlesHomeMobile: React.FC<ArticlesHomeMobileProps> = ({ articlesList, allArticlesUrl, allArticlesOpenInNewTab, allArticlesTitle }: ArticlesHomeMobileProps) => {
 
