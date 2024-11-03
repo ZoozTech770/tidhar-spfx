@@ -18,6 +18,7 @@ const  PendingApproval:  React.FC<IPendingApprovalProps> =  (props) => {
 
   const [pendingApproval, setPendingApproval] = useState<pendingApproval>({exceededCount:null,pendingCount:null});
   const [hasPermissions, setHasPermissions] = useState<boolean>(false);
+  console.log('hasPermissions', hasPermissions);
 
      useEffect(() => {
        (async () => {

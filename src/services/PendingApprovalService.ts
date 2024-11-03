@@ -66,6 +66,7 @@ export default class pendingApprovalService {
     let onlyTitles: any[] = new Set(items.map((item: any) => item.eldFormName));
     let signaturesPeriods = await this.getSignaturePeriods(context, signaturePeriodsListUrl, onlyTitles);
     const today = new Date();
+    
     items.forEach(item => {
       let signaturesPeriod = signaturesPeriods.filter(sigItem => sigItem.eldFormName == item.eldFormName);
       if (signaturesPeriod.length > 0) {
@@ -74,8 +75,17 @@ export default class pendingApprovalService {
         
         let timeLeft = this.getDateDiff(today, modifiedDate);
         res.push(this.createPendingItem(item, timeLeft));
+      } else {
+        // itzhar hotfix - show hidden open cases
+        const modifiedDate = new Date(item.Modified);
+        //hardcoded eldApproverSignaturePeriod 3
+        modifiedDate.setDate(modifiedDate.getDate() + 300);
+        
+        let timeLeft = this.getDateDiff(today, modifiedDate);
+        res.push(this.createPendingItem(item, timeLeft));
       }
     });
+    
     return res;
   }
   public async getPendingApprovalHome(context: ISPFXContext, listUrl: string, signaturePeriodsListUrl: string): Promise<pendingApproval> {
@@ -83,6 +93,7 @@ export default class pendingApprovalService {
     const items: any[] = await sp.web.getList(listUrl).getItemsByCAMLQuery(query, 'FieldValuesAsText');
     let onlyTitles: any[] = new Set(items.map((item: any) => item.eldFormName));
     let signaturesPeriods = await this.getSignaturePeriods(context, signaturePeriodsListUrl, onlyTitles);
+    
     let exceededCount = 0;
     const today = new Date();
     items.forEach(item => {

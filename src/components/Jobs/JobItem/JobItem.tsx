@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { IJobsListItem } from '../../../interfaces/IJobsListItem';
-import "./jobItem.module.scss";
+import "./jobItem.scss";
 
 const Jobsitem: React.FC<IJobsListItem> = (props) => {
   const {

@@ -13,29 +13,29 @@ import { IFirstSectionProps } from './components/IFirstSectionProps';
 export interface IFirstSectionWebPartProps {
   //pending approval properties
   PAtitle: string;
-  PAlist:string;
-  PAlist2:string;
-  PAtoAllLinkTitle:string;
-  PAtoAllLinkUrl:string;
-  PAtoAllLinkNewTab:boolean;
+  PAlist: string;
+  PAlist2: string;
+  PAtoAllLinkTitle: string;
+  PAtoAllLinkUrl: string;
+  PAtoAllLinkNewTab: boolean;
   //my inqueries
   INtitle: string;
-  INlist:string;
-  INnewInqTitle:string;
-  INnewInqUrl:string;
-  INnewInqNewTab:boolean;
-  INtoAllLinkTitle:string;
-  INtoAllLinkUrl:string;
-  INtoAllLinkNewTab:boolean;
+  INlist: string;
+  INnewInqTitle: string;
+  INnewInqUrl: string;
+  INnewInqNewTab: boolean;
+  INtoAllLinkTitle: string;
+  INtoAllLinkUrl: string;
+  INtoAllLinkNewTab: boolean;
   //my projects
   PRtitle: string;
   PRlist: string;
-  PRprojectPageTitle:string;
+  PRprojectPageTitle: string;
   //events
-  Elist:string
-  EeventPage:string;
+  Elist: string
+  EeventPage: string;
   //for all
-  context:any;
+  context: any;
 }
 
 export default class FirstSectionWebPart extends BaseClientSideWebPart<IFirstSectionWebPartProps> {
@@ -44,38 +44,38 @@ export default class FirstSectionWebPart extends BaseClientSideWebPart<IFirstSec
     const element: React.ReactElement<IFirstSectionProps> = React.createElement(
       FirstSection,
       {
-        eventsProps:{
-          list:this.properties.Elist,
-          userEmail:this.context.pageContext.user.email,
-          eventPage:this.properties.EeventPage,
-          context:this.context
+        eventsProps: {
+          list: this.properties.Elist,
+          userEmail: this.context.pageContext.user.email,
+          eventPage: this.properties.EeventPage,
+          context: this.context
         },
-        projectsProps:{
-          title:this.properties.PRtitle,
+        projectsProps: {
+          title: this.properties.PRtitle,
           list: this.properties.PRlist,
-          projectPageTitle:this.properties.PRprojectPageTitle,
-          context:this.context
+          projectPageTitle: this.properties.PRprojectPageTitle,
+          context: this.context
         },
-        pendingApprovalProps:{
+        pendingApprovalProps: {
           title: this.properties.PAtitle,
-          list:this.properties.PAlist,
-          list2:this.properties.PAlist2,
-          toAllLinkTitle:this.properties.PAtoAllLinkTitle,
-          toAllLinkUrl:this.properties.PAtoAllLinkUrl,
-          toAllLinkNewTab:this.properties.PAtoAllLinkNewTab,
-          context:this.context
+          list: this.properties.PAlist,
+          list2: this.properties.PAlist2,
+          toAllLinkTitle: this.properties.PAtoAllLinkTitle,
+          toAllLinkUrl: this.properties.PAtoAllLinkUrl,
+          toAllLinkNewTab: this.properties.PAtoAllLinkNewTab,
+          context: this.context
         },
-        myInquiriesProps:{
-          title:this.properties.INtitle,
-          list:this.properties.INlist,
-          newInqTitle:this.properties.INnewInqTitle,
-          newInqLinkUrl:this.properties.INnewInqUrl,
-          newInqLinkNewTab:this.properties.INnewInqNewTab,
-          toAllLinkTitle:this.properties.INtoAllLinkTitle,
-          toAllLinkUrl:this.properties.INtoAllLinkUrl,
-          toAllLinkNewTab:this.properties.INtoAllLinkNewTab,
-          context:this.context,
-          showPendingApproval:this.context?true:false,
+        myInquiriesProps: {
+          title: this.properties.INtitle,
+          list: this.properties.INlist,
+          newInqTitle: this.properties.INnewInqTitle,
+          newInqLinkUrl: this.properties.INnewInqUrl,
+          newInqLinkNewTab: this.properties.INnewInqNewTab,
+          toAllLinkTitle: this.properties.INtoAllLinkTitle,
+          toAllLinkUrl: this.properties.INtoAllLinkUrl,
+          toAllLinkNewTab: this.properties.INtoAllLinkNewTab,
+          context: this.context,
+          showPendingApproval: this.context ? true : false,
         }
       }
     );
@@ -109,7 +109,7 @@ export default class FirstSectionWebPart extends BaseClientSideWebPart<IFirstSec
               groupFields: [
                 PropertyPaneTextField('Elist', {
                   label: "רשימה",
-                  description:"קישור יחסי לרשימת אירועים"
+                  description: "קישור יחסי לרשימת אירועים"
                 })
               ]
             },
@@ -129,7 +129,7 @@ export default class FirstSectionWebPart extends BaseClientSideWebPart<IFirstSec
                 }),
                 PropertyPaneTextField('PRlist', {
                   label: 'רשימה',
-                  description:'קישור יחסי לרשימת פרויקטים'
+                  description: 'קישור יחסי לרשימת פרויקטים'
                 }),
               ]
             },
@@ -149,12 +149,12 @@ export default class FirstSectionWebPart extends BaseClientSideWebPart<IFirstSec
                 }),
                 PropertyPaneTextField('PAlist', {
                   label: "רשימה",
-                  description:"קישור יחסי לרשימת ניהול בקשות"
+                  description: "קישור יחסי לרשימת ניהול בקשות"
                 })
                 ,
                 PropertyPaneTextField('PAlist2', {
                   label: "2 רשימה",
-                  description:"קישור יחסי לרשימת טפסים"
+                  description: "קישור יחסי לרשימת טפסים"
                 })
               ]
             },
@@ -180,7 +180,7 @@ export default class FirstSectionWebPart extends BaseClientSideWebPart<IFirstSec
                 }),
                 PropertyPaneTextField('INlist', {
                   label: "רשימה",
-                  description:"קישור יחסי לרשימת מסמכים"
+                  description: "קישור יחסי לרשימת מסמכים"
                 })
               ]
             },
