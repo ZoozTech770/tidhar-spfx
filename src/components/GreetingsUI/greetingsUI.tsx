@@ -6,7 +6,7 @@ import GreetingItem from './GreetingItem/greetingItem';
 import classes from './greetingsUI.module.scss';
 import 'swiper/swiper-bundle.css';
 import { Navigation, Autoplay, Pagination, FreeMode } from 'swiper';
- import './greetingSliderUI.scss';
+import './greetingSliderUI.scss';
 import { LinkType } from '../../interfaces/Types';
 import { useRef, useState } from 'react';
 import ContainerModel from '../ContainerModel';
