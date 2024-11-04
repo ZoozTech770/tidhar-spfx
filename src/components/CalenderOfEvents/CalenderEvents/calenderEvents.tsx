@@ -74,6 +74,7 @@ const CalenderEvents: React.FC<CalenderEventsProps> = (props) => {
                 previousMonthButtonLabel={prevMonth}
                 onMonthChange={(month) => onSelectMonth(month)}
                 showWeekNumbers={true}
+                dateFormat="dd/MM/yyyy"
             ></DatePicker>
             <div className={classes.events}>
                 {eventsInSelectDay && eventsInSelectDay.length > 0 ? eventsInSelectDay.map(event => {
