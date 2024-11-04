@@ -63,7 +63,6 @@ const CalenderEvents: React.FC<CalenderEventsProps> = (props) => {
         <div className={classes.calenderContainer}>
             <DatePicker
                 onChange={(date) => onSelectDate(date)}
-                open={true}
                 locale="he"
                 calendarClassName="react-datepicker-events"
                 highlightDates={highlightDatesAndClass}
