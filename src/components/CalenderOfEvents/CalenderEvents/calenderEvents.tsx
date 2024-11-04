@@ -63,6 +63,7 @@ const CalenderEvents: React.FC<CalenderEventsProps> = (props) => {
         <div className={classes.calenderContainer}>
             <DatePicker
                 onChange={(date) => onSelectDate(date)}
+                open={true}
                 locale="he"
                 calendarClassName="react-datepicker-events"
                 highlightDates={highlightDatesAndClass}
@@ -74,7 +75,6 @@ const CalenderEvents: React.FC<CalenderEventsProps> = (props) => {
                 previousMonthButtonLabel={prevMonth}
                 onMonthChange={(month) => onSelectMonth(month)}
                 showWeekNumbers={true}
-                dateFormat="dd/MM/yyyy"
             ></DatePicker>
             <div className={classes.events}>
                 {eventsInSelectDay && eventsInSelectDay.length > 0 ? eventsInSelectDay.map(event => {

@@ -86,9 +86,7 @@ export default class myInquiriesService {
   ) {
     let res: IInquiriesItem[] = [];
     const web = Web(item.webUrl).using(SPFx(context));
-    //<Value Type='User'><UserID/></Value>
-    console.log('aaaa');
-    
+    //<Value Type='User'><UserID/></Value>    
     const query = {
       ViewXml:
         `<View><Query><Where> 
