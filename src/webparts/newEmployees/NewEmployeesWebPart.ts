@@ -14,6 +14,7 @@ import { PropertyFieldNumber } from '@pnp/spfx-property-controls';
 
 export interface INewEmployeesWebPartProps {
   title: string;
+  list:string;
   rangeOfDays: number;
   autoPlayDelay: number;
   cardList: string;
@@ -30,6 +31,7 @@ export default class NewEmployeesWebPart extends BaseClientSideWebPart<INewEmplo
       NewEmployees,
       {
         title: this.properties.title,
+        list: this.properties.list,
         rangeOfDays: this.properties.rangeOfDays,
         cardList: this.properties.cardList,
         logList: this.properties.logList,
@@ -70,6 +72,10 @@ export default class NewEmployeesWebPart extends BaseClientSideWebPart<INewEmplo
                   label: 'טווח ימים להצגת עובדים חדשים',
                   onGetErrorMessage: ValidationsService.validateNumber.bind(this),
                   description: 'מספר ימים אחורה'
+                }),
+                PropertyPaneTextField('list', {
+                  label: 'list',
+                  description: 'רשימה'
                 }),
                 PropertyFieldNumber('autoPlayDelay', {
                   label: 'זמן מעבר בין סליידים',
