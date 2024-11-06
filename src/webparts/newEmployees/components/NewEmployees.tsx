@@ -8,7 +8,6 @@ const NewEmployees: React.FC<INewEmployeesProps> = (props) => {
   const {
     title,
     list,
-    rangeOfDays,
     autoPlayDelay,
     cardList,
     logList,
