@@ -25,10 +25,14 @@ export default class newEmployeesService {
   }
 
   private creatUseritem(item: any) {
+    const pictureUrl = `https://tidharconil.sharepoint.com/_layouts/15/userphoto.aspx?size=M&accountname=${item.eldUser.EMail}`;
     return {
       Name: item.Title,
       Role: item.JobTitle,
-      Picture: { UrlLaptop: `https://tidharconil.sharepoint.com/_layouts/15/userphoto.aspx?size=M&accountname=${item.WorkEmail}`, Alt: item.Title },
+      Picture: { 
+        UrlLaptop: pictureUrl, 
+        Alt: item.Title 
+      },
       Email: item.WorkEmail,
       EldDate: item.eldDate
     }
