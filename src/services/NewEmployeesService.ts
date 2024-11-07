@@ -29,9 +29,9 @@ export default class newEmployeesService {
     return {
       Name: item.Title,
       Role: item.JobTitle,
-      Picture: { 
-        UrlLaptop: pictureUrl, 
-        Alt: item.Title 
+      Picture: {
+        UrlLaptop: pictureUrl,
+        Alt: item.Title
       },
       Email: item.WorkEmail,
       EldDate: item.eldDate
@@ -59,6 +59,7 @@ export default class newEmployeesService {
       .orderBy("eldDate", true)();
 
     res = items.map(item => this.creatUseritem(item));
+    res.sort((a, b) => a.Name.localeCompare(b.Name));
     return res;
   }
 
