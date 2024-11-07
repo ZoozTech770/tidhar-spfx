@@ -78,6 +78,17 @@ const AllMyInquiriesUI = ({ inquiries, title }: AllMyInquiriesUIProps) => {
                     <td className={(type === 'done' || type === 'inProgress') && classes.tdWithoutBorderBottom}>{formatDate(inquiry.lastModified)}</td>
                     <td className={(type === 'done' || type === 'inProgress') && classes.tdWithoutBorderBottom}><div className={classes.status + ' ' + getStatusClass(inquiry.status)}>{inquiry.status}</div></td>
                   </tr>
+                  {inquiry.receiverName && (
+                    <tr>
+                      <td colSpan={5} className={classes.subTextInfoTd}>
+                        <div className={classes.message + ' ' + classes.receiverMessage}>
+                          <img src={InfoDarkIcon} alt="Info Icon" />
+                          <span>ה-WOW עבור :  <b>{inquiry.receiverName}</b>
+                          </span>
+                        </div>
+                      </td>
+                    </tr>
+                  )}
                   <tr aria-hidden={type !== 'done' && type !== 'inProgress'}>
                     <td colSpan={5} className={classes.subTextTd}>
                       {type === 'done' && <div className={classes.message}>

@@ -5,7 +5,8 @@ export interface IInquiry {
     link: any,
     modifiedBy: string,
     status: InquiryStatusEnum,
-    title: string
+    title: string,
+    receiverName?: string
 }
 
 export enum InquiryStatusEnum {

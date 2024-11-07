@@ -7,7 +7,8 @@ export interface IInquiriesItem {
     lastModified: Date,
     status: "בטיפול" | "טיוטה" | "אושרה" | "בוטלה" | "נדחתה",
     link: LinkType,
-    formHandlingPeriod: number
+    formHandlingPeriod: number,
+    receiverName?:null
 }
 
 export interface IArchiveInquiriesItem extends IInquiriesItem {
