@@ -7,7 +7,7 @@ import { greetingLogItem } from '../../../types/TGreetingLogItem';
 const NewEmployees: React.FC<INewEmployeesProps> = (props) => {
   const {
     title,
-    rangeOfDays,
+    list,
     autoPlayDelay,
     cardList,
     logList,
@@ -22,7 +22,7 @@ const NewEmployees: React.FC<INewEmployeesProps> = (props) => {
 
   useEffect(() => {
     (async () => {
-      const rawResponse = await NewEmployeesService.getNewEmployees(context, rangeOfDays);
+      const rawResponse = await NewEmployeesService.getNewEmployees(context, list);
       SetNewEmployeesList(rawResponse);
 
     })();

@@ -7,6 +7,7 @@ import { ISearchQuery, SearchResults, SortDirection } from "@pnp/sp/search";
 import { UserType } from "../interfaces/Types";
 import { greetingLogItem } from "../types/TGreetingLogItem";
 import { IItemAddResult } from "@pnp/sp/items";
+import { format } from "date-fns";
 
 
 
@@ -24,31 +25,41 @@ export default class newEmployeesService {
   }
 
   private creatUseritem(item: any) {
+    const pictureUrl = `https://tidharconil.sharepoint.com/_layouts/15/userphoto.aspx?size=M&accountname=${item.eldUser.EMail}`;
     return {
       Name: item.Title,
       Role: item.JobTitle,
-      Picture: { UrlLaptop: `https://tidharconil.sharepoint.com/_layouts/15/userphoto.aspx?size=M&accountname=${item.WorkEmail}`, Alt: item.Title },
-      Email: item.WorkEmail
+      Picture: {
+        UrlLaptop: pictureUrl,
+        Alt: item.Title
+      },
+      Email: item.WorkEmail,
+      EldDate: item.eldDate
     }
 
   }
-  public async getNewEmployees(context: ISPFXContext, rangeOfDays: number): Promise<any[]> {
+  public async getNewEmployees(context: ISPFXContext, listUrl: string): Promise<any[]> {
     const sp = spfi().using(SPFx(context));
     let res: UserType[] = [];
-    let today = new Date();
-    let from = new Date().setDate(today.getDate() - rangeOfDays);
-    const results: SearchResults = await sp.search(<ISearchQuery>{
-      Querytext: `eldHireDate > ${new Date(from).toISOString()} AND eldHireDate < ${today.toISOString()}`,
-      SourceId: 'B09A7990-05EA-4AF9-81EF-EDFAB16C4E31',
-      SortList: [{ Property: 'eldHireDate', Direction: SortDirection.Descending }],
-      SelectProperties: ['Title', 'eldHireDate', 'PictureURL', 'JobTitle', 'WorkEmail'],
-      RowLimit: 100
-    })
-    const items: any[] = results.PrimarySearchResults;
-    items.forEach(item =>
-      res.push(this.creatUseritem(item))
-    );
+    const today = new Date();
+    const currentYear = today.getFullYear();
+    const currentMonth = today.getMonth();
 
+    const firstDayOfCurrentMonth = new Date(currentYear, currentMonth, 1);
+    const todayFormatted = format(today, "yyyy-MM-dd");
+    const firstDayOfCurrentMonthFormatted = format(firstDayOfCurrentMonth, "yyyy-MM-dd");
+
+    const items = await sp.web
+      .getList(listUrl)
+      .items.select(
+        "*,eldGreetingType1/Title,eldGreetingType1/eldDaysBeforeEvent,eldGreetingType1/eldDaysAfterEvent,eldUser/Title,eldUser/EMail,eldUser/Department,eldUser/JobTitle,eldUser/LastName,eldUser/Department"
+      )
+      .expand("eldUser,eldGreetingType1")
+      .filter(`eldDate ge '${firstDayOfCurrentMonthFormatted}' and eldDate le '${todayFormatted}' and eldGreetingType1Id eq 2`)
+      .orderBy("eldDate", true)();
+
+    res = items.map(item => this.creatUseritem(item));
+    res.sort((a, b) => a.Name.localeCompare(b.Name));
     return res;
   }
 

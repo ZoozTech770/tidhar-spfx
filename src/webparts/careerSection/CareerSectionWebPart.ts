@@ -36,7 +36,7 @@ export interface ICareerSectionWebPartProps {
   TtoAllLinkNewTab: boolean;
   //new Employees
   NEtitle: string;
-  NErangeOfDays: number;
+  NElist:string;
   NEAutoPlayDelay: number;
   NEcardList: string;
   NElogList: string;
@@ -81,7 +81,7 @@ export default class CareerSectionWebPart extends BaseClientSideWebPart<ICareerS
         },
         newEmployeesProps: {
           title: this.properties.NEtitle,
-          rangeOfDays: this.properties.NErangeOfDays,
+          list: this.properties.NElist,
           autoPlayDelay: this.properties.NEAutoPlayDelay,
           cardList: this.properties.NEcardList,
           logList: this.properties.NElogList,
@@ -211,10 +211,9 @@ export default class CareerSectionWebPart extends BaseClientSideWebPart<ICareerS
                 PropertyPaneTextField('NEtitle', {
                   label: 'כותרת',
                 }),
-                PropertyPaneTextField('NErangeOfDays', {
-                  label: 'טווח ימים להצגת עובדים חדשים',
-                  onGetErrorMessage: ValidationsService.validateNumber.bind(this),
-                  description: 'מספר ימים אחורה'
+                PropertyPaneTextField('NElist', {
+                  label: 'list',
+                  description: 'רשימה'
                 }),
                 PropertyFieldNumber('NEAutoPlayDelay', {
                   label: 'זמן מעבר בין סליידים',

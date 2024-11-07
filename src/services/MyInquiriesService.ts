@@ -25,7 +25,7 @@ export default class myInquiriesService {
     };
   }
   private createMyInquiryItem(item: any, formHandlingPeriod: number) {
-    return {
+    const inquiryItem:IInquiriesItem = {
       title: item.eldFormName,
       date: new Date(item.Created),
       lastModified: new Date(item.Modified),
@@ -33,6 +33,7 @@ export default class myInquiriesService {
       link: { Url: item.eldFormURL?.Url },
       formHandlingPeriod: formHandlingPeriod,
     };
+    return inquiryItem;
   }
 
   public async getMyInquiriesItems(
@@ -54,7 +55,7 @@ export default class myInquiriesService {
       const sp = spfi().using(SPFx(context));
       const userProps = await sp.web.currentUser();
       userName = userProps.LoginName;
-    }
+    }    
     for (let i = 0; i < formsLists.length; i++) {
       try {
         if (isArchive == true) {
@@ -117,10 +118,19 @@ export default class myInquiriesService {
       const items = await web
         .getList(item.listUrl)
         .getItemsByCAMLQuery(query, "FieldValuesAsText");
-      items.forEach((inquiry) =>
-        res.push(this.createMyInquiryItem(inquiry, item.formHandlingPeriod))
-      );
-    } catch (error) {}
+        items.forEach((inquiry) => {
+        let inquiryItem = this.createMyInquiryItem(inquiry, item.formHandlingPeriod);
+      
+        if (item.formId ==222) {
+          inquiryItem.receiverName = inquiry.FieldValuesAsText.eldReceiverName;
+        }
+
+        res.push(inquiryItem);
+      });
+    } catch (error) {
+      console.error('Error fetching items:', error);
+    }
+
 
     return res;
   }
@@ -175,7 +185,7 @@ export default class myInquiriesService {
   private async getFormsManagementListItems(
     context: ISPFXContext,
     list: string
-  ) {
+  ) {    
     let res = new Array();
     const sp = spfi().using(SPFx(context));
     await sp.web
@@ -186,6 +196,7 @@ export default class myInquiriesService {
           if (item.eldFormList) {
             const web = item.eldFormList;
             const webUrl = web.Url.slice(0, web.Url.indexOf("/Lists"));
+            const formId = item.eldFormID;
             const listUrl = web.Url.replace(
               window.location.protocol + "//" + window.location.host,
               ""
@@ -194,6 +205,7 @@ export default class myInquiriesService {
               webUrl: webUrl,
               listUrl: listUrl,
               formHandlingPeriod: item.eldFormHandlingPeriod,
+              formId:formId
             });
           }
         });

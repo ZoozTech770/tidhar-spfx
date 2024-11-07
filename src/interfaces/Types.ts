@@ -36,7 +36,8 @@ type ArticlesListItemType ={
     Picture:PictureType,
     Name:string,
     Email:string,
-    Role:string
+    Role:string,
+    EldDate:Date  
 }
 type GreetingCardListItemType = {
     Title:string,

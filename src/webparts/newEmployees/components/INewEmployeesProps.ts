@@ -1,6 +1,6 @@
 export interface INewEmployeesProps {
     title: string;
-    rangeOfDays: number;
+    list: string;
     autoPlayDelay: number;
     cardList: string;
     logList: string;
