@@ -25,7 +25,7 @@ export default class myInquiriesService {
     };
   }
   private createMyInquiryItem(item: any, formHandlingPeriod: number) {
-    const inquiryItem:IInquiriesItem = {
+    const inquiryItem: IInquiriesItem = {
       title: item.eldFormName,
       date: new Date(item.Created),
       lastModified: new Date(item.Modified),
@@ -44,6 +44,7 @@ export default class myInquiriesService {
     let res: IInquiriesItem[] = [];
     let inquiries: IInquiriesItem[] = [];
     const formsLists = await this.getFormsManagementListItems(context, list);
+    const tempres = await this.getFormsManagementListItems(context, list);
     const today = new Date();
     const lastWeek = new Date(
       today.getFullYear(),
@@ -51,11 +52,14 @@ export default class myInquiriesService {
       today.getDate() - 7
     ).toISOString();
     let userName;
+    let userEmail;
+    const sp = spfi().using(SPFx(context));
+    const userProps = await sp.web.currentUser();
+    userEmail = userProps.Email
+
     if (isArchive == true) {
-      const sp = spfi().using(SPFx(context));
-      const userProps = await sp.web.currentUser();
       userName = userProps.LoginName;
-    }    
+    }
     for (let i = 0; i < formsLists.length; i++) {
       try {
         if (isArchive == true) {
@@ -69,10 +73,11 @@ export default class myInquiriesService {
           inquiries = await this.getCurrentUserRequestsFromList(
             formsLists[i],
             lastWeek,
-            context
+            context,
+            userEmail
           );
         res = res.concat(inquiries);
-      } catch (error) {}
+      } catch (error) { }
     }
     res.sort(function (a: any, b: any) {
       return b.date - a.date;
@@ -80,57 +85,51 @@ export default class myInquiriesService {
     return res;
   }
 
+
   private async getCurrentUserRequestsFromList(
     item: any,
     date: string,
-    context: ISPFXContext
+    context: ISPFXContext,
+    userEmail: string
   ) {
     let res: IInquiriesItem[] = [];
     const web = Web(item.webUrl).using(SPFx(context));
-    //<Value Type='User'><UserID/></Value>    
-    const query = {
-      ViewXml:
-        `<View><Query><Where> 
-           <And>
-              <Eq>
-                  <FieldRef Name='Author'></FieldRef>
-              </Eq>          
-          <Or>
-          <Or>
-          <Eq>
-          <FieldRef Name='eldStatus'/>
-              <Value Type='Text'>בטיפול</Value>
-         </Eq>
-         <Eq>
-          <FieldRef Name='eldStatus'/>
-              <Value Type='Text'>טיוטה</Value>
-         </Eq>
-          </Or>
-         <Gt><FieldRef Name='Modified'/><Value Type='DateTime'>` +
-        date +
-        `</Value></Gt>
-         </Or>
-          </And>  
-      </Where></Query></View>`,
-    };
+
+    let filterMyInquiries = `((eldStatus eq 'בטיפול' or eldStatus eq 'טיוטה') 
+                           and Modified ge datetime'${date}')`;
 
     try {
-      const items = await web
-        .getList(item.listUrl)
-        .getItemsByCAMLQuery(query, "FieldValuesAsText");
-        items.forEach((inquiry) => {
-        let inquiryItem = this.createMyInquiryItem(inquiry, item.formHandlingPeriod);
-      
-        if (item.formId ==222) {
-          inquiryItem.receiverName = inquiry.FieldValuesAsText.eldReceiverName;
-        }
+      let items = [];
+      try {
+        items = await web
+          .getList(item.listUrl)
+          .items.filter(filterMyInquiries)
+          .select(
+            "*,Author/UserName,Author/SipAddress,Author/EMail,Author/Name,Author/Title,Editor/Title"
+          )
+          .expand("Author,Editor")();
+      } catch (error) {
+        console.error(`Error fetching list at ${item.listUrl}:`, error);
+        items = [];
+      }
 
-        res.push(inquiryItem);
-      });
+      for (const inquiry of items) {
+        try {
+          if (inquiry.Author && inquiry.Author.EMail === userEmail) {
+            let inquiryItem = this.createMyInquiryItem(inquiry, item.formHandlingPeriod);
+            if (item.formId == 222) {
+              inquiryItem.receiverName = inquiry?.FieldValuesAsText?.eldReceiverName;
+            }
+
+            res.push(inquiryItem);
+          }
+        } catch (innerError) {
+          console.error('Error processing inquiry item:', innerError);
+        }
+      }
     } catch (error) {
       console.error('Error fetching items:', error);
     }
-
 
     return res;
   }
@@ -178,14 +177,14 @@ export default class myInquiriesService {
       itemsOpenedByMe.forEach((inquiry) =>
         res.push(this.createArchiveMyInquiryItem(inquiry, true))
       );
-    } catch (error) {}
+    } catch (error) { }
     return res;
   }
 
   private async getFormsManagementListItems(
     context: ISPFXContext,
     list: string
-  ) {    
+  ) {
     let res = new Array();
     const sp = spfi().using(SPFx(context));
     await sp.web
@@ -205,7 +204,7 @@ export default class myInquiriesService {
               webUrl: webUrl,
               listUrl: listUrl,
               formHandlingPeriod: item.eldFormHandlingPeriod,
-              formId:formId
+              formId: formId
             });
           }
         });
