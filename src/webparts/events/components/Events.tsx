@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { IEventsProps } from './IEventsProps';
 import { EventsService } from '../../../services/EventsService';
 import CalenderOfEvents from '../../../components/CalenderOfEvents/calenderOfEvents';
+import Projects from '../../projects/components/Projects';
 
  export  type csvItem = {
   title:string;
@@ -19,7 +20,8 @@ const Events: React.FC<IEventsProps> = (props) => {
     context,
     userEmail,
     eventPage,
-    list
+    list,
+    projectsProps
   } = props;
  
   const [eventList, setEventList] = useState<any[]>([]);
@@ -77,8 +79,11 @@ const Events: React.FC<IEventsProps> = (props) => {
     a.click();
   }
   return (
+    <div>
       <CalenderOfEvents titleList={"לוח אירועים"} titleCalender={"לוח שנה"} onMonthChange={onMonthChange} listEvent={eventList} calenderEvent={monthyEventList} onExportToExcel={onExportToExcel}></CalenderOfEvents>
-)
+      {projectsProps && <Projects {...projectsProps} />}
+    </div>
+  )
 }
 export default Events;
 

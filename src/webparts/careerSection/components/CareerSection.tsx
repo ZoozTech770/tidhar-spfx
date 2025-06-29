@@ -1,19 +1,19 @@
 import * as React from 'react';
 import { ICareerSectionProps } from './ICareerSectionProps';
-import Jobs from '../../jobs/components/Jobs';
+import Projects from '../../projects/components/Projects';
 import BringFriends from '../../bringFriends/components/BringFriends';
 import Thanks from '../../thanks/components/Thanks';
 import NewEmployees from '../../newEmployees/components/NewEmployees';
 import "./CareerSection.scss";
 
-const CareerSection = ({ title, jobsProps, bringFriendsProps, thanksProps, newEmployeesProps }: ICareerSectionProps) => {
+const CareerSection = ({ title, projectsProps, bringFriendsProps, thanksProps, newEmployeesProps }: ICareerSectionProps) => {
   return (
     <div className='career-section' >
       <div className='career-section-wrapper'>
         <div className='career-title'>{title}</div>
         <div className='wrapper' >
-          <div className='right-column' id={'jobs'}>
-            <Jobs {...jobsProps} />
+          <div className='right-column' id={'projects'}>
+            <Projects {...projectsProps} />
           </div>
           <div className='middle-column'>
             <div id={'bring_friends'}><BringFriends {...bringFriendsProps} /></div>

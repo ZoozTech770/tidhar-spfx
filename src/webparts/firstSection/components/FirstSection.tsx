@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { IFirstSectionProps } from './IFirstSectionProps';
 import Events from '../../events/components/Events';
-import Projects from "../../projects/components/Projects";
+import Jobs from "../../jobs/components/Jobs";
 import PendingApproval from "../../../webparts/pendingApproval/components/PendingApproval";
 import MyInquiries from '../../myInquiries/components/MyInquiries';
 import "./FirstSection.scss";
 const FirstSection: React.FC<IFirstSectionProps> = (props) => {
   const {
     eventsProps,
-    projectsProps,
+    jobsProps,
     pendingApprovalProps,
     myInquiriesProps
   } = props;
@@ -21,7 +21,7 @@ const FirstSection: React.FC<IFirstSectionProps> = (props) => {
           <Events {...eventsProps} />
         </div>
         <div className='middle-column'>
-          <Projects {...projectsProps} />
+          <Jobs {...jobsProps} />
         </div>
         <div className='left-column'>
           {myInquiriesProps.showPendingApproval && <PendingApproval {...pendingApprovalProps} />}

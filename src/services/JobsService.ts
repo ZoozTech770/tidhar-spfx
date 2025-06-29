@@ -32,7 +32,7 @@ export default class jobsService {
                                      .expand("eldHiringManagerUser")
                                      .filter(`(eldPublishDate le datetime'${now}' or eldPublishDate eq null) and eldJobStatus eq 'בתוקף'`)
                                      .orderBy("eldPublishDate",false)
-                                     .top(3)();
+                                     .top(4)();
                                      items.forEach(item=>
                                       result.push(this.createJobItem(item,jobPage))
                                       )                             

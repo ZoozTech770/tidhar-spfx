@@ -15,13 +15,10 @@ import { PropertyFieldNumber } from '@pnp/spfx-property-controls';
 export interface ICareerSectionWebPartProps {
   //title
   title: string;
-  //job section 
-  Jtitle: string;
-  Jlist: string;
-  JtoAllLinkTitle: string;
-  JtoAllLinkUrl: string;
-  JtoAllLinkNewTab: boolean;
-  jjobPage: string;
+  //projects section 
+  PRtitle: string;
+  PRlist: string;
+  PRprojectPageTitle: string;
   //bring friends
   BFtitle: string;
   BFdescription: string;
@@ -55,13 +52,10 @@ export default class CareerSectionWebPart extends BaseClientSideWebPart<ICareerS
       CareerSection,
       {
         title: this.properties.title,
-        jobsProps: {
-          title: this.properties.Jtitle,
-          list: this.properties.Jlist,
-          toAllLinkTitle: this.properties.JtoAllLinkTitle,
-          toAllLinkUrl: this.properties.JtoAllLinkUrl,
-          toAllLinkNewTab: this.properties.JtoAllLinkNewTab,
-          jobPage: this.properties.jjobPage,
+        projectsProps: {
+          title: this.properties.PRtitle,
+          list: this.properties.PRlist,
+          projectPageTitle: this.properties.PRprojectPageTitle,
           context: this.context
         },
         bringFriendsProps: {
@@ -125,32 +119,23 @@ export default class CareerSectionWebPart extends BaseClientSideWebPart<ICareerS
               ]
             },
             {
-              groupName: "משרות - כללי",
+              groupName: 'פרויקטים - כללי',
               groupFields: [
-                PropertyPaneTextField('Jtitle', {
-                  label: "כותרת",
+                PropertyPaneTextField('PRtitle', {
+                  label: 'כותרת',
                 }),
-                PropertyPaneTextField('Jlist', {
-                  label: "רשימה",
-                  description: "קישור יחסי לרשימת משרות"
+                PropertyPaneTextField('PRlist', {
+                  label: 'רשימה',
+                  description: 'קישור יחסי לרשימת פרויקטים'
                 }),
-                PropertyPaneTextField('jjobPage', {
-                  label: "קישור לדף משרה"
-                })
               ]
             },
             {
-              groupName: "קישור - לכל המשרות",
+              groupName: 'קישור לדף פרויקט',
               groupFields: [
-                PropertyPaneTextField('JtoAllLinkTitle', {
-                  label: "כותרת הקישור",
-                }),
-                PropertyPaneTextField('JtoAllLinkUrl', {
-                  label: "כתובת הקישור"
-                }),
-                PropertyPaneCheckbox('JtoAllLinkNewTab', {
-                  text: "פתיחה בטאב חדש"
-                }),
+                PropertyPaneTextField('PRprojectPageTitle', {
+                  label: 'כותרת הקישור',
+                })
               ]
             },
             {

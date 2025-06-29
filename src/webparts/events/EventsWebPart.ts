@@ -6,25 +6,26 @@ import {
   PropertyPaneTextField
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
-import Events from './components/Events';
-import { IEventsProps } from './components/IEventsProps';
+import Projects from '../projects/components/Projects';
+import { IProjectsProps } from '../projects/components/IProjectsProps';
 
 export interface IEventsWebPartProps {
-  list:string;
-  eventPage:string;
+  // Projects section
+  PRtitle: string;
+  PRlist: string;
 }
 
 export default class EventsWebPart extends BaseClientSideWebPart<IEventsWebPartProps> {
 
 
   public render(): void {
-    const element: React.ReactElement<IEventsProps> = React.createElement(
-      Events,
+    const element: React.ReactElement<IProjectsProps> = React.createElement(
+      Projects,
       {
-        list:this.properties.list,
-        userEmail:this.context.pageContext.user.email,
-        eventPage:this.properties.eventPage,
-        context:this.context
+        title: this.properties.PRtitle,
+        list: this.properties.PRlist,
+        projectPageTitle: 'פרטי פרויקט',
+        context: this.context
       }
     );
 
@@ -48,19 +49,14 @@ export default class EventsWebPart extends BaseClientSideWebPart<IEventsWebPartP
           },
           groups: [
             {
-              groupName: "כללי",
+              groupName: 'פרויקטים - כללי',
               groupFields: [
-                PropertyPaneTextField('list', {
-                  label: "רשימה",
-                  description:"קישור יחסי לרשימת אירועים"
-                })
-              ]
-            },
-            {
-              groupName: "קישור לדף אירוע",
-              groupFields: [
-                PropertyPaneTextField('eventPage', {
-                  label: "כתובת הקישור"
+                PropertyPaneTextField('PRtitle', {
+                  label: 'כותרת',
+                }),
+                PropertyPaneTextField('PRlist', {
+                  label: 'רשימה',
+                  description: 'קישור יחסי לרשימת פרויקטים'
                 })
               ]
             }

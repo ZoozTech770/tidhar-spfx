@@ -27,10 +27,13 @@ export interface IFirstSectionWebPartProps {
   INtoAllLinkTitle: string;
   INtoAllLinkUrl: string;
   INtoAllLinkNewTab: boolean;
-  //my projects
-  PRtitle: string;
-  PRlist: string;
-  PRprojectPageTitle: string;
+  //jobs
+  JOBtitle: string;
+  JOBlist: string;
+  JOBtoAllLinkTitle: string;
+  JOBtoAllLinkUrl: string;
+  JOBtoAllLinkNewTab: boolean;
+  JOBjobPage: string;
   //events
   Elist: string
   EeventPage: string;
@@ -50,10 +53,13 @@ export default class FirstSectionWebPart extends BaseClientSideWebPart<IFirstSec
           eventPage: this.properties.EeventPage,
           context: this.context
         },
-        projectsProps: {
-          title: this.properties.PRtitle,
-          list: this.properties.PRlist,
-          projectPageTitle: this.properties.PRprojectPageTitle,
+        jobsProps: {
+          title: this.properties.JOBtitle,
+          list: this.properties.JOBlist,
+          toAllLinkTitle: this.properties.JOBtoAllLinkTitle,
+          toAllLinkUrl: this.properties.JOBtoAllLinkUrl,
+          toAllLinkNewTab: this.properties.JOBtoAllLinkNewTab,
+          jobPage: this.properties.JOBjobPage,
           context: this.context
         },
         pendingApprovalProps: {
@@ -122,22 +128,31 @@ export default class FirstSectionWebPart extends BaseClientSideWebPart<IFirstSec
               ]
             },
             {
-              groupName: 'פרויקטים - כללי',
+              groupName: 'משרות - כללי',
               groupFields: [
-                PropertyPaneTextField('PRtitle', {
+                PropertyPaneTextField('JOBtitle', {
                   label: 'כותרת',
                 }),
-                PropertyPaneTextField('PRlist', {
+                PropertyPaneTextField('JOBlist', {
                   label: 'רשימה',
-                  description: 'קישור יחסי לרשימת פרויקטים'
+                  description: 'קישור יחסי לרשימת משרות'
                 }),
+                PropertyPaneTextField('JOBjobPage', {
+                  label: 'קישור לדף משרה'
+                })
               ]
             },
             {
-              groupName: 'קישור לדף פרויקט',
+              groupName: 'משרות - קישור לכל המשרות',
               groupFields: [
-                PropertyPaneTextField('PRprojectPageTitle', {
+                PropertyPaneTextField('JOBtoAllLinkTitle', {
                   label: 'כותרת הקישור',
+                }),
+                PropertyPaneTextField('JOBtoAllLinkUrl', {
+                  label: 'כתובת הקישור'
+                }),
+                PropertyPaneCheckbox('JOBtoAllLinkNewTab', {
+                  text: 'פתיחה בטאב חדש'
                 })
               ]
             },
