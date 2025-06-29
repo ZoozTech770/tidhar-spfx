@@ -3,7 +3,7 @@
   "solution": {
     "name": "tidhar-portal-client-side-solution",
     "id": "96860edb-8967-40fa-a7d2-82cd6f80328b",
-    "version": "1.0.0.12",
+    "version": "1.0.0.13",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true,
     "isDomainIsolated": false,
