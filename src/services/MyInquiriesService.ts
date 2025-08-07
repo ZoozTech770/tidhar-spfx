@@ -22,6 +22,7 @@ export default class myInquiriesService {
       link: { Url: item.eldFormURL?.Url },
       formHandlingPeriod: 0,
       createdByMe: createdByMe,
+      receiverName: item.eldReceiverName,
     };
   }
   private createMyInquiryItem(item: any, formHandlingPeriod: number) {
@@ -101,13 +102,21 @@ export default class myInquiriesService {
     try {
       let items = [];
       try {
+        // נבנה את השאילתה בהתאם לסוג הטופס
+        let selectFields = "*,Author/UserName,Author/SipAddress,Author/EMail,Author/Name,Author/Title,Editor/Title";
+        let expandFields = "Author,Editor";
+        
+        if (item.formId == 222) {
+          // עבור טופס WOW - נוסיף את השדות המיוחדים
+          selectFields += ",eldEmpFullName/Title,eldReceiverName/Title";
+          expandFields += ",eldEmpFullName,eldReceiverName";
+        }
+        
         items = await web
           .getList(item.listUrl)
           .items.filter(filterMyInquiries)
-          .select(
-            "*,Author/UserName,Author/SipAddress,Author/EMail,Author/Name,Author/Title,Editor/Title"
-          )
-          .expand("Author,Editor")();
+          .select(selectFields)
+          .expand(expandFields)();
       } catch (error) {
         console.error(`Error fetching list at ${item.listUrl}:`, error);
         items = [];
@@ -116,12 +125,12 @@ export default class myInquiriesService {
       for (const inquiry of items) {
         try {
           if (inquiry.Author && inquiry.Author.EMail === userEmail) {
-            let inquiryItem = this.createMyInquiryItem(inquiry, item.formHandlingPeriod);
-            if (item.formId == 222) {
-              inquiryItem.receiverName = inquiry?.FieldValuesAsText?.eldReceiverName;
-            }
+          let inquiryItem = this.createMyInquiryItem(inquiry, item.formHandlingPeriod);
+          if (item.formId == 222) {
+            inquiryItem.receiverName = inquiry?.eldReceiverName?.Title;
+          }
 
-            res.push(inquiryItem);
+          res.push(inquiryItem);
           }
         } catch (innerError) {
           console.error('Error processing inquiry item:', innerError);
@@ -159,6 +168,16 @@ export default class myInquiriesService {
     let filterMyInquiries = `((eldStatus eq 'אושרה' or eldStatus eq 'נדחתה' or eldStatus eq 'בוטלה') and Author/Name eq '${userAccountName}'
   and Modified le datetime'${date}' and Modified ge datetime'${pastTwoYears}')`;
     try {
+      // נבנה את השאילתה בהתאם לסוג הטופס
+      let selectFields = "*,Author/UserName,Author/SipAddress,Author/EMail,Author/Name,Author/Title,Editor/Title";
+      let expandFields = "Author,Editor";
+      
+      if (item.formId == 222) {
+        // עבור טופס WOW - נוסיף את השדות המיוחדים
+        selectFields += ",eldEmpFullName/Title,eldReceiverName/Title";
+        expandFields += ",eldEmpFullName,eldReceiverName";
+      }
+      
       const [itemsTreatedByMe, itemsOpenedByMe] = await Promise.all([
         await web
           .getList(item.listUrl)
@@ -166,10 +185,8 @@ export default class myInquiriesService {
         await web
           .getList(item.listUrl)
           .items.filter(filterMyInquiries)
-          .select(
-            "*,Author/UserName,Author/SipAddress,Author/EMail,Author/Name,Author/Title,Editor/Title"
-          )
-          .expand("Author,Editor")(),
+          .select(selectFields)
+          .expand(expandFields)(),
       ]);
       itemsTreatedByMe.forEach((inquiry) =>
         res.push(this.createArchiveMyInquiryItem(inquiry, false))
