@@ -128,26 +128,76 @@ export default class congratulationService {
         .orderBy("eldDate", true)();
     } else if (type === 1) {
       //ימי הולדת
-      items = await sp.web
-        .getList(listUrl)
-        .items.select(
-          "*,eldGreetingType1/Title,eldGreetingType1/eldDaysBeforeEvent,eldGreetingType1/eldDaysAfterEvent,eldUser/Title,eldUser/EMail,eldUser/Department,eldUser/JobTitle,eldUser/LastName,eldUser/Department"
-        )
-        .expand("eldUser,eldGreetingType1")
-        .filter(
-          `eldDate ge '${firstDayFormatted}' and eldDate le '${lastDayFormatted}' and eldGreetingType1Id eq ${type}`
-        )
-        .orderBy("eldDate", true)();
+      let allItems = [];
+      let hasMore = true;
+      let skip = 0;
+      const pageSize = 5000;
+
+      while (hasMore) {
+        try {
+          const result = await sp.web
+            .getList(listUrl)
+            .items.select(
+              "*,eldGreetingType1/Title,eldGreetingType1/eldDaysBeforeEvent,eldGreetingType1/eldDaysAfterEvent,eldUser/Title,eldUser/EMail,eldUser/Department,eldUser/JobTitle,eldUser/LastName,eldUser/Department"
+            )
+            .expand("eldUser,eldGreetingType1")
+            .filter(
+              `eldDate ge '${firstDayFormatted}' and eldDate le '${lastDayFormatted}' and eldGreetingType1Id eq ${type}`
+            )
+            .orderBy("eldDate", true)
+            .top(pageSize)
+            .skip(skip)();
+          allItems = allItems.concat(result);
+          if (result.length < pageSize) {
+            hasMore = false;
+            console.log(`Reached end of date-filtered data. Total items fetched: ${allItems.length}`);
+          } else {
+            skip += pageSize;
+          }
+        } catch (error) {
+          console.error(`Error fetching page with skip ${skip}:`, error);
+          hasMore = false;
+        }
+      }
+
+      items = allItems;
     } else {
-      //2 - תדהרולדת
-      items = await sp.web
-        .getList(listUrl)
-        .items.select(
-          "*,eldGreetingType1/Title,eldGreetingType1/eldDaysBeforeEvent,eldGreetingType1/eldDaysAfterEvent,eldUser/Title,eldUser/EMail,eldUser/Department,eldUser/JobTitle,eldUser/LastName,eldUser/Department"
-        )
-        .expand("eldUser,eldGreetingType1")
-        .filter(`eldGreetingType1Id eq ${type}`)
-        .orderBy("eldDate", true)();
+      //2 - תדהרהולדת
+      let allItems = [];
+      let hasMore = true;
+      let skip = 0;
+      const pageSize = 5000; // SharePoint's maximum page size
+
+      console.log(`Starting to fetch tidhar birthdays with pagination...`);
+
+      while (hasMore) {
+        try {
+          const result = await sp.web
+            .getList(listUrl)
+            .items.select(
+              "*,eldGreetingType1/Title,eldGreetingType1/eldDaysBeforeEvent,eldGreetingType1/eldDaysAfterEvent,eldUser/Title,eldUser/EMail,eldUser/Department,eldUser/JobTitle,eldUser/LastName,eldUser/Department"
+            )
+            .expand("eldUser,eldGreetingType1")
+            .filter(`eldGreetingType1Id eq ${type}`)
+            .orderBy("eldDate", true)
+            .top(pageSize)
+            .skip(skip)();
+
+          allItems = allItems.concat(result);
+
+          // If we got less than pageSize, we've reached the end
+          if (result.length < pageSize) {
+            hasMore = false;
+            console.log(`Reached end of data. Total items fetched: ${allItems.length}`);
+          } else {
+            skip += pageSize;
+          }
+        } catch (error) {
+          console.error(`Error fetching page with skip ${skip}:`, error);
+          hasMore = false;
+        }
+      }
+      items = allItems;
       const today = new Date();
       const currentMonth = today.getMonth();
       const currentYear = today.getFullYear();
