@@ -13,15 +13,43 @@ export default class congratulationService {
   ): Promise<any[]> {
     const sp = spfi().using(SPFx(context));
 
-    // Helper to fetch all items of the specified type
-    const itemsFetched = await sp.web
-      .getList(listUrl)
-      .items.select(
-        "*,eldGreetingType1/Title,eldGreetingType1/eldDaysBeforeEvent,eldGreetingType1/eldDaysAfterEvent,eldUser/Title,eldUser/EMail,eldUser/Department,eldUser/JobTitle,eldUser/LastName,eldUser/Department"
-      )
-      .expand("eldUser,eldGreetingType1")
-      .filter(`eldGreetingType1Id eq ${type}`)
-      .orderBy("eldDate", false)();
+    // Helper to fetch all items of the specified type with pagination
+    let allItems = [];
+    let hasMore = true;
+    let skip = 0;
+    const pageSize = 5000;
+
+    console.log(`Starting to fetch events of type ${type} with pagination...`);
+
+    while (hasMore) {
+      try {
+        const result = await sp.web
+          .getList(listUrl)
+          .items.select(
+            "*,eldGreetingType1/Title,eldGreetingType1/eldDaysBeforeEvent,eldGreetingType1/eldDaysAfterEvent,eldUser/Title,eldUser/EMail,eldUser/Department,eldUser/JobTitle,eldUser/LastName,eldUser/Department"
+          )
+          .expand("eldUser,eldGreetingType1")
+          .filter(`eldGreetingType1Id eq ${type}`)
+          .orderBy("eldDate", false)
+          .top(pageSize)
+          .skip(skip)();
+
+        allItems = allItems.concat(result);
+
+        // If we got less than pageSize, we've reached the end
+        if (result.length < pageSize) {
+          hasMore = false;
+          console.log(`Reached end of data. Total items fetched: ${allItems.length}`);
+        } else {
+          skip += pageSize;
+        }
+      } catch (error) {
+        console.error(`Error fetching page with skip ${skip}:`, error);
+        hasMore = false;
+      }
+    }
+
+    const itemsFetched = allItems;
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
