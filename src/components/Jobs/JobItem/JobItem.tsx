@@ -8,7 +8,6 @@ const Jobsitem: React.FC<IJobsListItem> = (props) => {
     jobDescription,
     HiringManager,
     Unit,
-    PublishDate,
     Url
   } = props;
 
@@ -17,9 +16,9 @@ const Jobsitem: React.FC<IJobsListItem> = (props) => {
       <div className='job-title' title={Title}>{Title}</div>
       <div className='job-description' title={jobDescription}>{jobDescription}</div>
       <div className='job-info'>
-        {HiringManager ? <span>{HiringManager} | </span> : null}
-        {Unit ? <span>{Unit} | </span> : null}
-        {PublishDate ? <span>{PublishDate.getDate()}/{PublishDate.getMonth() + 1}/{PublishDate.getFullYear()}</span> : null}
+        {Unit ? <span>{Unit}</span> : null}
+        {HiringManager && Unit ? <span> | </span> : null}
+        {HiringManager ? <span>{HiringManager}</span> : null}
       </div>
     </a>
   );
