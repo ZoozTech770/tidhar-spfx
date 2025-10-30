@@ -1,0 +1,147 @@
+.jobs-filter-container {
+  width: 100%;
+  max-width: 1406px;
+  margin: 0 auto;
+  padding: 20px 10px;
+  box-sizing: border-box;
+  background-color: #F9F9F9;
+  border-radius: 8px;
+
+  .jobs-filter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding: 0 10px;
+
+    .filter-title {
+      font-family: 'almoni', sans-serif;
+      font-size: 18px;
+      font-weight: 500;
+      color: #666;
+      margin: 0;
+    }
+
+    .clear-filters-link {
+      background: none;
+      border: none;
+      color: #004438;
+      font-family: 'almoni', sans-serif;
+      font-size: 16px;
+      text-decoration: underline;
+      cursor: pointer;
+      padding: 0;
+
+      &:hover {
+        color: #023423;
+      }
+    }
+  }
+
+  .jobs-filter-wrapper {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: nowrap;
+
+    .search-input-wrapper {
+      flex: 1 1 auto;
+      min-width: 150px;
+
+      .search-input {
+        width: 100%;
+        height: 40px;
+        padding: 0 12px 0 36px;
+        border: 1px solid #D0D0D0;
+        border-radius: 8px;
+        font-family: 'almoni', sans-serif;
+        font-size: 14px;
+        color: #004438;
+        outline: none;
+        box-sizing: border-box;
+        background-color: white;
+        background-image: url('../../assets/SearchIcon.png');
+        background-position: 10px center;
+        background-repeat: no-repeat;
+        background-size: 16px;
+
+        &::placeholder {
+          color: #999;
+        }
+
+        &:focus {
+          border-color: #004438;
+          box-shadow: 0 0 0 1px #004438;
+        }
+      }
+    }
+
+    .filter-dropdown-wrapper {
+      flex: 1 1 auto;
+      min-width: 140px;
+    }
+  }
+
+  .filter-results-info {
+    margin-top: 16px;
+    padding: 8px 10px;
+    font-family: 'almoni', sans-serif;
+    font-size: 16px;
+    color: #004438;
+    text-align: right;
+  }
+
+  .jobs-results {
+    .loading-message,
+    .no-results-message {
+      text-align: center;
+      padding: 40px 20px;
+      font-family: 'almoni', sans-serif;
+      font-size: 18px;
+      color: #757575;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+
+      .no-results-icon {
+        width: 48px;
+        height: 48px;
+        opacity: 0.6;
+      }
+
+      span {
+        max-width: 500px;
+        line-height: 1.5;
+      }
+    }
+
+    .jobs-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .jobs-filter-container {
+    padding: 16px 10px;
+
+    .jobs-filter-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .jobs-filter-wrapper {
+      flex-direction: column;
+
+      .search-input-wrapper,
+      .filter-dropdown-wrapper {
+        max-width: 100%;
+        width: 100%;
+      }
+    }
+  }
+}

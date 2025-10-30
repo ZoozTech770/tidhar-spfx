@@ -1,0 +1,25 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
+  "id": "c9d3f2e4-5b8a-4f1c-b2d3-4e5f6a7b8c9d",
+  "alias": "JobsFilterWebPart",
+  "componentType": "WebPart",
+
+  "version": "*",
+  "manifestVersion": 2,
+
+  "requiresCustomScript": false,
+  "supportedHosts": ["SharePointWebPart", "SharePointFullPage"],
+  "supportsThemeVariants": true,
+
+  "preconfiguredEntries": [{
+    "groupId": "5c03119e-3074-46fd-976b-c60198311f70",
+    "group": { "default": "Advanced" },
+    "title": { "default": "פילטר משרות" },
+    "description": { "default": "רכיב סינון משרות" },
+    "iconImageUrl":"../../assets/eladIcon.png",
+    "officeFabricIconFontName": "Page",
+    "properties": {
+      "list": ""
+    }
+  }]
+}

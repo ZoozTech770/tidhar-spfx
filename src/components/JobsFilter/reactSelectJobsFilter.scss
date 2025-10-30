@@ -1,0 +1,123 @@
+.react-select-jobs-filter__control {
+  border: 1px solid #D0D0D0 !important;
+  border-radius: 8px !important;
+  min-height: 40px !important;
+  background-color: white !important;
+  cursor: pointer;
+
+  .react-select-jobs-filter__placeholder {
+    color: #999;
+    font-family: 'almoni', sans-serif;
+    font-size: 14px;
+  }
+
+  .react-select-jobs-filter__value-container {
+    padding: 0 10px;
+    font-family: 'almoni', sans-serif;
+    font-size: 14px;
+  }
+
+  .react-select-jobs-filter__single-value {
+    color: #004438;
+  }
+
+  .react-select-jobs-filter__indicator-separator {
+    display: none;
+  }
+
+  .react-select-jobs-filter__dropdown-indicator {
+    color: #004438;
+    padding: 0 12px;
+
+    &:hover {
+      color: #004438;
+    }
+  }
+
+  .react-select-jobs-filter__clear-indicator {
+    color: #ADADAD;
+    padding: 0 8px;
+    cursor: pointer;
+
+    &:hover {
+      color: #004438;
+    }
+  }
+
+  &.react-select-jobs-filter__control--is-focused {
+    border-color: #004438 !important;
+    box-shadow: 0 0 0 1px #004438;
+  }
+
+  &:hover {
+    border-color: #004438 !important;
+  }
+}
+
+.react-select-jobs-filter__menu {
+  margin-top: 8px !important;
+  border-radius: 16px !important;
+  border: 1px solid #ADADAD;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+  .react-select-jobs-filter__menu-list {
+    padding: 8px;
+    max-height: 300px;
+
+    &::-webkit-scrollbar {
+      width: 5px;
+      background-color: #E8E8E8;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #ADADAD;
+      border-radius: 2.5px;
+    }
+
+    .react-select-jobs-filter__option {
+      padding: 12px 16px;
+      text-align: right;
+      border-radius: 8px;
+      background: none;
+      color: #004438;
+      font-family: 'almoni', sans-serif;
+      font-size: 18px;
+      cursor: pointer;
+      margin-bottom: 4px;
+      transition: background-color 0.2s ease;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      &:hover,
+      &.react-select-jobs-filter__option--is-focused {
+        background: rgba(0, 68, 56, 0.08);
+      }
+
+      &.react-select-jobs-filter__option--is-selected {
+        background: rgba(0, 68, 56, 0.15);
+        font-weight: 700;
+      }
+    }
+  }
+
+  .react-select-jobs-filter__menu-notice {
+    padding: 12px 16px;
+    text-align: center;
+    color: #757575;
+    font-family: 'almoni', sans-serif;
+    font-size: 16px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .react-select-jobs-filter__menu {
+    width: 100% !important;
+  }
+}

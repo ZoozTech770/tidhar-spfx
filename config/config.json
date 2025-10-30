@@ -201,6 +201,14 @@
           "manifest": "./src/webparts/allCongratulations/AllCongratulationsWebPart.manifest.json"
         }
       ]
+    },
+    "jobs-filter-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/jobsFilter/JobsFilterWebPart.js",
+          "manifest": "./src/webparts/jobsFilter/JobsFilterWebPart.manifest.json"
+        }
+      ]
     }
   },
   "externals": {},
@@ -227,6 +235,7 @@
     "SendUserWebPartStrings": "lib/webparts/sendUser/loc/{locale}.js",
     "CongratulationsWebPartStrings": "lib/webparts/congratulations/loc/{locale}.js",
     "SystemsWebPartStrings": "lib/webparts/systems/loc/{locale}.js",
-    "AllCongratulationsWebPartStrings": "lib/webparts/allCongratulations/loc/{locale}.js"
+    "AllCongratulationsWebPartStrings": "lib/webparts/allCongratulations/loc/{locale}.js",
+    "JobsFilterWebPartStrings": "lib/webparts/jobsFilter/loc/{locale}.js"
   }
 }
