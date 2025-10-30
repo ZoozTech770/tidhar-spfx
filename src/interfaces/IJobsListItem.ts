@@ -5,6 +5,8 @@ export interface IJobsListItem {
     jobDescription:string,
     HiringManager:string,
     Unit?:string,
+    jobLocation?:string,
+    jobType?:string,
     PublishDate?:Date,
     Url:LinkType
 }
