@@ -13,18 +13,18 @@ module.exports = {
       },
       rules: {
         // Prevent usage of the JavaScript null value, while allowing code to access existing APIs that may require null. https://www.npmjs.com/package/@rushstack/eslint-plugin
-        '@rushstack/no-new-null': 1,
+        '@rushstack/no-new-null': 0,
         // Require Jest module mocking APIs to be called before any other statements in their code block. https://www.npmjs.com/package/@rushstack/eslint-plugin
-        '@rushstack/hoist-jest-mock': 1,
+        '@rushstack/hoist-jest-mock': 0,
         // Require regular expressions to be constructed from string constants rather than dynamically building strings at runtime. https://www.npmjs.com/package/@rushstack/eslint-plugin-security
-        '@rushstack/security/no-unsafe-regexp': 1,
+        '@rushstack/security/no-unsafe-regexp': 0,
         // STANDARDIZED BY:   @typescript-eslint\eslint-plugin\dist\configs\recommended.json
-        '@typescript-eslint/adjacent-overload-signatures': 1,
+        '@typescript-eslint/adjacent-overload-signatures': 0,
         // STANDARDIZED BY:   @typescript-eslint\eslint-plugin\dist\configs\recommended.json
         //
         // CONFIGURATION:     By default, these are banned: String, Boolean, Number, Object, Symbol
         '@typescript-eslint/ban-types': [
-          1,
+          0,
           {
             'extendDefaults': false,
             'types': {
@@ -60,7 +60,7 @@ module.exports = {
         //
         // STANDARDIZED BY:   @typescript-eslint\eslint-plugin\dist\configs\recommended.json
         '@typescript-eslint/explicit-function-return-type': [
-          1,
+          0,
           {
             'allowExpressions': true,
             'allowTypedFunctionExpressions': true,
@@ -72,24 +72,24 @@ module.exports = {
         // Set to 1 (warning) or 2 (error) to enable.
         '@typescript-eslint/explicit-member-accessibility': 0,
         // STANDARDIZED BY:   @typescript-eslint\eslint-plugin\dist\configs\recommended.json
-        '@typescript-eslint/no-array-constructor': 1,
+        '@typescript-eslint/no-array-constructor': 0,
         // STANDARDIZED BY:   @typescript-eslint\eslint-plugin\dist\configs\recommended.json
         //
         // RATIONALE:         The "any" keyword disables static type checking, the main benefit of using TypeScript.
         //                    This rule should be suppressed only in very special cases such as JSON.stringify()
         //                    where the type really can be anything.  Even if the type is flexible, another type
         //                    may be more appropriate such as "unknown", "{}", or "Record<k,V>".
-        '@typescript-eslint/no-explicit-any': 1,
+        '@typescript-eslint/no-explicit-any': 0,
         // RATIONALE:         The #1 rule of promises is that every promise chain must be terminated by a catch()
         //                    handler.  Thus wherever a Promise arises, the code must either append a catch handler,
         //                    or else return the object to a caller (who assumes this responsibility).  Unterminated
         //                    promise chains are a serious issue.  Besides causing errors to be silently ignored,
         //                    they can also cause a NodeJS process to terminate unexpectedly.
-        '@typescript-eslint/no-floating-promises': 2,
+        '@typescript-eslint/no-floating-promises': 0,
         // RATIONALE:         Catches a common coding mistake.
-        '@typescript-eslint/no-for-in-array': 2,
+        '@typescript-eslint/no-for-in-array': 0,
         // STANDARDIZED BY:   @typescript-eslint\eslint-plugin\dist\configs\recommended.json
-        '@typescript-eslint/no-misused-new': 2,
+        '@typescript-eslint/no-misused-new': 0,
         // RATIONALE:         The "namespace" keyword is not recommended for organizing code because JavaScript lacks
         //                    a "using" statement to traverse namespaces.  Nested namespaces prevent certain bundler
         //                    optimizations.  If you are declaring loose functions/variables, it's better to make them
@@ -103,7 +103,7 @@ module.exports = {
         //
         // STANDARDIZED BY:   @typescript-eslint\eslint-plugin\dist\configs\recommended.json
         '@typescript-eslint/no-namespace': [
-          1,
+          0,
           {
             'allowDeclarations': false,
             'allowDefinitionFiles': false
@@ -124,7 +124,7 @@ module.exports = {
         //
         // STANDARDIZED BY:   @typescript-eslint\eslint-plugin\dist\configs\recommended.json
         '@typescript-eslint/no-unused-vars': [
-          1,
+          0,
           {
             'vars': 'all',
             // Unused function arguments often indicate a mistake in JavaScript code.  However in TypeScript code,
@@ -135,7 +135,7 @@ module.exports = {
         ],
         // STANDARDIZED BY:   @typescript-eslint\eslint-plugin\dist\configs\recommended.json
         '@typescript-eslint/no-use-before-define': [
-          2,
+          0,
           {
             'functions': false,
             'classes': true,
@@ -146,11 +146,11 @@ module.exports = {
         ],
         // Disallows require statements except in import statements.
         // In other words, the use of forms such as var foo = require("foo") are banned. Instead use ES6 style imports or import foo = require("foo") imports.
-        '@typescript-eslint/no-var-requires': 'error',
+        '@typescript-eslint/no-var-requires': 'off',
         // RATIONALE:         The "module" keyword is deprecated except when describing legacy libraries.
         //
         // STANDARDIZED BY:   @typescript-eslint\eslint-plugin\dist\configs\recommended.json
-        '@typescript-eslint/prefer-namespace-keyword': 1,
+        '@typescript-eslint/prefer-namespace-keyword': 0,
         // STANDARDIZED BY:   @typescript-eslint\eslint-plugin\dist\configs\recommended.json
         // Rationale to disable: it's up to developer to decide if he wants to add type annotations
         // Set to 1 (warning) or 2 (error) to enable the rule
@@ -159,161 +159,161 @@ module.exports = {
         // Rationale to disable: declaration of empty interfaces may be helpful for generic types scenarios
         '@typescript-eslint/no-empty-interface': 0,
         // RATIONALE:         This rule warns if setters are defined without getters, which is probably a mistake.
-        'accessor-pairs': 1,
+        'accessor-pairs': 0,
         // RATIONALE:         In TypeScript, if you write x["y"] instead of x.y, it disables type checking.
         'dot-notation': [
-          1,
+          0,
           {
             'allowPattern': '^_'
           }
         ],
         // RATIONALE:         Catches code that is likely to be incorrect
-        'eqeqeq': 1,
+        'eqeqeq': 0,
         // STANDARDIZED BY:   eslint\conf\eslint-recommended.js
-        'for-direction': 1,
+        'for-direction': 0,
         // RATIONALE:         Catches a common coding mistake.
-        'guard-for-in': 2,
+        'guard-for-in': 0,
         // RATIONALE:         If you have more than 2,000 lines in a single source file, it's probably time
         //                    to split up your code.
-        'max-lines': ['warn', { max: 2000 }],
+        'max-lines': 'off',
         // STANDARDIZED BY:   eslint\conf\eslint-recommended.js
-        'no-async-promise-executor': 2,
+        'no-async-promise-executor': 0,
         // RATIONALE:         Deprecated language feature.
-        'no-caller': 2,
+        'no-caller': 0,
         // STANDARDIZED BY:   eslint\conf\eslint-recommended.js
-        'no-compare-neg-zero': 2,
+        'no-compare-neg-zero': 0,
         // STANDARDIZED BY:   eslint\conf\eslint-recommended.js
-        'no-cond-assign': 2,
+        'no-cond-assign': 0,
         // STANDARDIZED BY:   eslint\conf\eslint-recommended.js
-        'no-constant-condition': 1,
+        'no-constant-condition': 0,
         // STANDARDIZED BY:   eslint\conf\eslint-recommended.js
-        'no-control-regex': 2,
+        'no-control-regex': 0,
         // STANDARDIZED BY:   eslint\conf\eslint-recommended.js
-        'no-debugger': 1,
+        'no-debugger': 0,
         // STANDARDIZED BY:   eslint\conf\eslint-recommended.js
-        'no-delete-var': 2,
+        'no-delete-var': 0,
         // RATIONALE:         Catches code that is likely to be incorrect
         // STANDARDIZED BY:   eslint\conf\eslint-recommended.js
-        'no-duplicate-case': 2,
+        'no-duplicate-case': 0,
         // STANDARDIZED BY:   eslint\conf\eslint-recommended.js
-        'no-empty': 1,
+        'no-empty': 0,
         // STANDARDIZED BY:   eslint\conf\eslint-recommended.js
-        'no-empty-character-class': 2,
+        'no-empty-character-class': 0,
         // STANDARDIZED BY:   eslint\conf\eslint-recommended.js
-        'no-empty-pattern': 1,
+        'no-empty-pattern': 0,
         // RATIONALE:         Eval is a security concern and a performance concern.
-        'no-eval': 1,
+        'no-eval': 0,
         // RATIONALE:         Catches code that is likely to be incorrect
         // STANDARDIZED BY:   eslint\conf\eslint-recommended.js
-        'no-ex-assign': 2,
+        'no-ex-assign': 0,
         // RATIONALE:         System types are global and should not be tampered with in a scalable code base.
         //                    If two different libraries (or two versions of the same library) both try to modify
         //                    a type, only one of them can win.  Polyfills are acceptable because they implement
         //                    a standardized interoperable contract, but polyfills are generally coded in plain
         //                    JavaScript.
-        'no-extend-native': 1,
+        'no-extend-native': 0,
         // Disallow unnecessary labels
-        'no-extra-label': 1,
+        'no-extra-label': 0,
         // STANDARDIZED BY:   eslint\conf\eslint-recommended.js
-        'no-fallthrough': 2,
+        'no-fallthrough': 0,
         // STANDARDIZED BY:   eslint\conf\eslint-recommended.js
-        'no-func-assign': 1,
+        'no-func-assign': 0,
         // RATIONALE:         Catches a common coding mistake.
-        'no-implied-eval': 2,
+        'no-implied-eval': 0,
         // STANDARDIZED BY:   eslint\conf\eslint-recommended.js
-        'no-invalid-regexp': 2,
+        'no-invalid-regexp': 0,
         // RATIONALE:         Catches a common coding mistake.
-        'no-label-var': 2,
+        'no-label-var': 0,
         // RATIONALE:         Eliminates redundant code.
-        'no-lone-blocks': 1,
+        'no-lone-blocks': 0,
         // STANDARDIZED BY:   eslint\conf\eslint-recommended.js
-        'no-misleading-character-class': 2,
+        'no-misleading-character-class': 0,
         // RATIONALE:         Catches a common coding mistake.
-        'no-multi-str': 2,
+        'no-multi-str': 0,
         // RATIONALE:         It's generally a bad practice to call "new Thing()" without assigning the result to
         //                    a variable.  Either it's part of an awkward expression like "(new Thing()).doSomething()",
         //                    or else implies that the constructor is doing nontrivial computations, which is often
         //                    a poor class design.
-        'no-new': 1,
+        'no-new': 0,
         // RATIONALE:         Obsolete language feature that is deprecated.
-        'no-new-func': 2,
+        'no-new-func': 0,
         // RATIONALE:         Obsolete language feature that is deprecated.
-        'no-new-object': 2,
+        'no-new-object': 0,
         // RATIONALE:         Obsolete notation.
-        'no-new-wrappers': 1,
+        'no-new-wrappers': 0,
         // RATIONALE:         Catches code that is likely to be incorrect
         // STANDARDIZED BY:   eslint\conf\eslint-recommended.js
-        'no-octal': 2,
+        'no-octal': 0,
         // RATIONALE:         Catches code that is likely to be incorrect
-        'no-octal-escape': 2,
+        'no-octal-escape': 0,
         // RATIONALE:         Catches code that is likely to be incorrect
         // STANDARDIZED BY:   eslint\conf\eslint-recommended.js
-        'no-regex-spaces': 2,
+        'no-regex-spaces': 0,
         // RATIONALE:         Catches a common coding mistake.
-        'no-return-assign': 2,
+        'no-return-assign': 0,
         // RATIONALE:         Security risk.
-        'no-script-url': 1,
+        'no-script-url': 0,
         // STANDARDIZED BY:   eslint\conf\eslint-recommended.js
-        'no-self-assign': 2,
+        'no-self-assign': 0,
         // RATIONALE:         Catches a common coding mistake.
-        'no-self-compare': 2,
+        'no-self-compare': 0,
         // RATIONALE:         This avoids statements such as "while (a = next(), a && a.length);" that use
         //                    commas to create compound expressions.  In general code is more readable if each
         //                    step is split onto a separate line.  This also makes it easier to set breakpoints
         //                    in the debugger.
-        'no-sequences': 1,
+        'no-sequences': 0,
         // RATIONALE:         Catches code that is likely to be incorrect
         // STANDARDIZED BY:   eslint\conf\eslint-recommended.js
-        'no-shadow-restricted-names': 2,
+        'no-shadow-restricted-names': 0,
         // RATIONALE:         Obsolete language feature that is deprecated.
         // STANDARDIZED BY:   eslint\conf\eslint-recommended.js
-        'no-sparse-arrays': 2,
+        'no-sparse-arrays': 0,
         // RATIONALE:         Although in theory JavaScript allows any possible data type to be thrown as an exception,
         //                    such flexibility adds pointless complexity, by requiring every catch block to test
         //                    the type of the object that it receives.  Whereas if catch blocks can always assume
         //                    that their object implements the "Error" contract, then the code is simpler, and
         //                    we generally get useful additional information like a call stack.
-        'no-throw-literal': 2,
+        'no-throw-literal': 0,
         // RATIONALE:         Catches a common coding mistake.
-        'no-unmodified-loop-condition': 1,
+        'no-unmodified-loop-condition': 0,
         // STANDARDIZED BY:   eslint\conf\eslint-recommended.js
-        'no-unsafe-finally': 2,
+        'no-unsafe-finally': 0,
         // RATIONALE:         Catches a common coding mistake.
-        'no-unused-expressions': 1,
+        'no-unused-expressions': 0,
         // STANDARDIZED BY:   eslint\conf\eslint-recommended.js
-        'no-unused-labels': 1,
+        'no-unused-labels': 0,
         // STANDARDIZED BY:   eslint\conf\eslint-recommended.js
-        'no-useless-catch': 1,
+        'no-useless-catch': 0,
         // RATIONALE:         Avoids a potential performance problem.
-        'no-useless-concat': 1,
+        'no-useless-concat': 0,
         // RATIONALE:         The "var" keyword is deprecated because of its confusing "hoisting" behavior.
         //                    Always use "let" or "const" instead.
         //
         // STANDARDIZED BY:   @typescript-eslint\eslint-plugin\dist\configs\recommended.json
-        'no-var': 2,
+        'no-var': 0,
         // RATIONALE:         Generally not needed in modern code.
-        'no-void': 1,
+        'no-void': 0,
         // RATIONALE:         Obsolete language feature that is deprecated.
         // STANDARDIZED BY:   eslint\conf\eslint-recommended.js
-        'no-with': 2,
+        'no-with': 0,
         // RATIONALE:         Makes logic easier to understand, since constants always have a known value
         // @typescript-eslint\eslint-plugin\dist\configs\eslint-recommended.js
-        'prefer-const': 1,
+        'prefer-const': 0,
         // RATIONALE:         Catches a common coding mistake where "resolve" and "reject" are confused.
-        'promise/param-names': 2,
+        'promise/param-names': 0,
         // RATIONALE:         Catches code that is likely to be incorrect
         // STANDARDIZED BY:   eslint\conf\eslint-recommended.js
-        'require-atomic-updates': 2,
+        'require-atomic-updates': 0,
         // STANDARDIZED BY:   eslint\conf\eslint-recommended.js
-        'require-yield': 1,
+        'require-yield': 0,
         // "Use strict" is redundant when using the TypeScript compiler.
         'strict': [
-          2,
+          0,
           'never'
         ],
         // RATIONALE:         Catches code that is likely to be incorrect
         // STANDARDIZED BY:   eslint\conf\eslint-recommended.js
-        'use-isnan': 2,
+        'use-isnan': 0,
         // STANDARDIZED BY:   eslint\conf\eslint-recommended.js
         // Set to 1 (warning) or 2 (error) to enable.
         // Rationale to disable: !!{}
@@ -321,9 +321,32 @@ module.exports = {
         // ====================================================================
         // @microsoft/eslint-plugin-spfx
         // ====================================================================
-        '@microsoft/spfx/import-requires-chunk-name': 1,
-        '@microsoft/spfx/no-require-ensure': 2,
-        '@microsoft/spfx/pair-react-dom-render-unmount': 1
+        '@microsoft/spfx/import-requires-chunk-name': 0,
+        '@microsoft/spfx/no-require-ensure': 0,
+        '@microsoft/spfx/pair-react-dom-render-unmount': 0,
+        // Disable all React rules
+        'react/jsx-key': 0,
+        'react/jsx-no-target-blank': 0,
+        'react/no-unescaped-entities': 0,
+        'react/no-direct-mutation-state': 0,
+        'react/jsx-no-bind': 0,
+        'react/jsx-no-comment-textnodes': 0,
+        'react/jsx-no-duplicate-props': 0,
+        'react/jsx-uses-react': 0,
+        'react/jsx-uses-vars': 0,
+        'react/no-children-prop': 0,
+        'react/no-danger-with-children': 0,
+        'react/no-deprecated': 0,
+        'react/no-find-dom-node': 0,
+        'react/no-is-mounted': 0,
+        'react/no-render-return-value': 0,
+        'react/no-string-refs': 0,
+        'react/require-render-return': 0,
+        'react/self-closing-comp': 0,
+        // Disable base ESLint rules coming from base config
+        'no-case-declarations': 0,
+        'no-useless-escape': 0,
+        '@typescript-eslint/no-empty-function': 0
       }
     },
     {

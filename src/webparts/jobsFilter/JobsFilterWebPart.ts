@@ -13,6 +13,7 @@ import { IJobsFilterProps } from "./components/IJobsFilterProps";
 
 export interface IJobsFilterWebPartProps {
   list: string;
+  jobPage: string;
 }
 
 export default class JobsFilterWebPart extends BaseClientSideWebPart<IJobsFilterWebPartProps> {
@@ -29,6 +30,7 @@ export default class JobsFilterWebPart extends BaseClientSideWebPart<IJobsFilter
       JobsFilter,
       {
         list: this.properties.list,
+        jobPage: this.properties.jobPage,
         context: this.context,
         onFilterChange: this._handleFilterChange.bind(this),
       }
@@ -128,6 +130,10 @@ export default class JobsFilterWebPart extends BaseClientSideWebPart<IJobsFilter
                 PropertyPaneTextField("list", {
                   label: "קישור לרשימת משרות",
                   description: "קישור יחסי לרשימה",
+                }),
+                PropertyPaneTextField("jobPage", {
+                  label: "דף פרטי משרה",
+                  description: "כתובת העמוד להצגת פרטי משרה",
                 }),
               ],
             },

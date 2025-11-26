@@ -3,6 +3,10 @@
 const build = require('@microsoft/sp-build-web');
 
 build.addSuppression(`Warning - [sass] The local CSS class 'ms-Grid' is not camelCase and will not be type-safe.`);
+build.addSuppression(/filename should end with module\.sass or module\.scss/);
+build.addSuppression(/end value has mixed support, consider using flex-end instead/);
+build.addSuppression(/There are multiple modules with names that only differ in casing/);
+build.addSuppression(/caniuse-lite is outdated/);
 // const fontLoaderConfig = {
 //   test: /\.(woff(2)?|ttf|eot|otf)(\?v=\d+\.\d+\.\d+)?$/,
 //   use: [{

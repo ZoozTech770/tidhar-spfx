@@ -29,19 +29,34 @@ const JobsFilterUI: React.FC<IJobsFilterUIProps> = (props) => {
 
   // Extract unique units from all jobs
   const unitOptions: IOption[] = useMemo(() => {
-    const units = Array.from(new Set(allJobs.map(job => job.Unit).filter(Boolean)));
+    const units = allJobs
+      .map(job => job.Unit)
+      .filter(unit => unit && typeof unit === 'string') // Filter out null/undefined/non-strings
+      .map(unit => unit.trim()) // Trim whitespace
+      .filter((unit, index, self) => self.indexOf(unit) === index) // Remove duplicates
+      .sort();
     return units.map(unit => ({ value: unit, label: unit }));
   }, [allJobs]);
 
   // Extract unique locations from all jobs
   const locationOptions: IOption[] = useMemo(() => {
-    const locations = Array.from(new Set(allJobs.map(job => job.jobLocation).filter(Boolean)));
+    const locations = allJobs
+      .map(job => job.jobLocation)
+      .filter(location => location) // Filter out null/undefined
+      .map(location => String(location).trim()) // Convert to string and trim
+      .filter((location, index, self) => self.indexOf(location) === index) // Remove duplicates
+      .sort();
     return locations.map(location => ({ value: location, label: location }));
   }, [allJobs]);
 
   // Extract unique job types from all jobs
   const jobTypeOptions: IOption[] = useMemo(() => {
-    const types = Array.from(new Set(allJobs.map(job => job.jobType).filter(Boolean)));
+    const types = allJobs
+      .map(job => job.jobType)
+      .filter(type => type) // Filter out null/undefined
+      .map(type => String(type).trim()) // Convert to string and trim
+      .filter((type, index, self) => self.indexOf(type) === index) // Remove duplicates
+      .sort();
     return types.map(type => ({ value: type, label: type }));
   }, [allJobs]);
 

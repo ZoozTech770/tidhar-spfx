@@ -19,7 +19,8 @@
     "iconImageUrl":"../../assets/eladIcon.png",
     "officeFabricIconFontName": "Page",
     "properties": {
-      "list": ""
+      "list": "",
+      "jobPage": ""
     }
   }]
 }

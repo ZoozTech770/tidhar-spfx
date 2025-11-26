@@ -6,7 +6,7 @@ import { IJobsListItem } from '../../../interfaces/IJobsListItem';
 import { JobsService } from '../../../services/JobsService';
 
 const JobsFilter: React.FC<IJobsFilterProps> = (props) => {
-  const { list, context, onFilterChange } = props;
+  const { list, jobPage, context, onFilterChange } = props;
   const [allJobs, setAllJobs] = useState<IJobsListItem[]>([]);
   const [filteredJobs, setFilteredJobs] = useState<IJobsListItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -16,7 +16,7 @@ const JobsFilter: React.FC<IJobsFilterProps> = (props) => {
       try {
         setIsLoading(true);
         // Get all jobs without the top(5) limit
-        const jobs = await JobsService.getAllJobs(context, list);
+        const jobs = await JobsService.getAllJobs(context, list, jobPage);
         setAllJobs(jobs);
         setFilteredJobs(jobs);
       } catch (error) {
@@ -34,12 +34,12 @@ const JobsFilter: React.FC<IJobsFilterProps> = (props) => {
     if (filters.searchText) {
       const searchLower = filters.searchText.toLowerCase();
       filtered = filtered.filter(job =>
-        job.Title.toLowerCase().includes(searchLower) ||
+        job.Title?.toLowerCase().includes(searchLower) ||
         job.jobDescription?.toLowerCase().includes(searchLower) ||
         job.HiringManager?.toLowerCase().includes(searchLower) ||
         job.Unit?.toLowerCase().includes(searchLower) ||
-        job.jobLocation?.toLowerCase().includes(searchLower) ||
-        job.jobType?.toLowerCase().includes(searchLower)
+        (job.jobLocation && String(job.jobLocation).toLowerCase().includes(searchLower)) ||
+        (job.jobType && String(job.jobType).toLowerCase().includes(searchLower))
       );
     }
 
@@ -55,12 +55,12 @@ const JobsFilter: React.FC<IJobsFilterProps> = (props) => {
 
     // Location filter
     if (filters.location) {
-      filtered = filtered.filter(job => job.jobLocation === filters.location);
+      filtered = filtered.filter(job => job.jobLocation && String(job.jobLocation) === filters.location);
     }
 
     // Job Type filter
     if (filters.jobType) {
-      filtered = filtered.filter(job => job.jobType === filters.jobType);
+      filtered = filtered.filter(job => job.jobType && String(job.jobType) === filters.jobType);
     }
 
     setFilteredJobs(filtered);
