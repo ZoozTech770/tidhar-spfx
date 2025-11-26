@@ -37,6 +37,33 @@ export default class myInquiriesService {
     return inquiryItem;
   }
 
+  // Normalize raw SharePoint inquiry item so the rest of the service/UI
+  // can rely on the legacy field names (eldStatus, Title, etc.).
+  private normalizeInquiryItemForUi(listMeta: any, inquiry: any): any {
+    // Only apply normalization for the new list (ID === 2)
+    if (listMeta.id === 2) {
+      // Status -> eldStatus
+      if (inquiry.Status !== undefined && inquiry.eldStatus === undefined) {
+        inquiry.eldStatus = inquiry.Status;
+      }
+
+      // RequestType -> eldFormName (this is what the UI uses as the form title)
+      if (inquiry.RequestType !== undefined && inquiry.eldFormName === undefined) {
+        inquiry.eldFormName = inquiry.RequestType;
+      }
+
+      // Optionally also map to Title if it is used elsewhere
+      if (inquiry.RequestType !== undefined && inquiry.Title === undefined) {
+        inquiry.Title = inquiry.RequestType;
+      }
+
+      // Add any other field mappings here as needed to match the
+      // structure expected by the existing UI/service code.
+    }
+
+    return inquiry;
+  }
+
   public async getMyInquiriesItems(
     context: ISPFXContext,
     list: string,
@@ -96,41 +123,52 @@ export default class myInquiriesService {
     let res: IInquiriesItem[] = [];
     const web = Web(item.webUrl).using(SPFx(context));
 
-    let filterMyInquiries = `((eldStatus eq 'בטיפול' or eldStatus eq 'טיוטה') 
-                           and Modified ge datetime'${date}')`;
+    // Build filter per list: old lists use eldStatus, new list (ID === 2) uses Status
+    let filterMyInquiries: string;
+    if (item.id === 2) {
+      // New list schema: Status column and "in process" value
+      filterMyInquiries = `((Status eq 'in process') and Modified ge datetime'${date}')`;
+    } else {
+      // Existing lists schema: eldStatus column and Hebrew status values
+      filterMyInquiries = `((eldStatus eq 'בטיפול' or eldStatus eq 'טיוטה') and Modified ge datetime'${date}')`;
+    }
 
     try {
+      debugger
       let items = [];
       try {
         // נבנה את השאילתה בהתאם לסוג הטופס
         let selectFields = "*,Author/UserName,Author/SipAddress,Author/EMail,Author/Name,Author/Title,Editor/Title";
         let expandFields = "Author,Editor";
-        
+
         if (item.formId == 222) {
           // עבור טופס WOW - נוסיף את השדות המיוחדים
           selectFields += ",eldEmpFullName/Title,eldReceiverName/Title";
           expandFields += ",eldEmpFullName,eldReceiverName";
         }
-        
+
         items = await web
           .getList(item.listUrl)
           .items.filter(filterMyInquiries)
           .select(selectFields)
           .expand(expandFields)();
+
       } catch (error) {
         console.error(`Error fetching list at ${item.listUrl}:`, error);
         items = [];
       }
 
-      for (const inquiry of items) {
-        try {
-          if (inquiry.Author && inquiry.Author.EMail === userEmail) {
-          let inquiryItem = this.createMyInquiryItem(inquiry, item.formHandlingPeriod);
-          if (item.formId == 222) {
-            inquiryItem.receiverName = inquiry?.eldReceiverName?.Title;
-          }
 
-          res.push(inquiryItem);
+      for (const inquiryRaw of items) {
+        try {
+          if (inquiryRaw.Author && inquiryRaw.Author.EMail === userEmail) {
+            const inquiry = this.normalizeInquiryItemForUi(item, inquiryRaw);
+            let inquiryItem = this.createMyInquiryItem(inquiry, item.formHandlingPeriod);
+            if (item.formId == 222) {
+              inquiryItem.receiverName = inquiry?.eldReceiverName?.Title;
+            }
+
+            res.push(inquiryItem);
           }
         } catch (innerError) {
           console.error('Error processing inquiry item:', innerError);
@@ -171,13 +209,13 @@ export default class myInquiriesService {
       // נבנה את השאילתה בהתאם לסוג הטופס
       let selectFields = "*,Author/UserName,Author/SipAddress,Author/EMail,Author/Name,Author/Title,Editor/Title";
       let expandFields = "Author,Editor";
-      
+
       if (item.formId == 222) {
         // עבור טופס WOW - נוסיף את השדות המיוחדים
         selectFields += ",eldEmpFullName/Title,eldReceiverName/Title";
         expandFields += ",eldEmpFullName,eldReceiverName";
       }
-      
+
       const [itemsTreatedByMe, itemsOpenedByMe] = await Promise.all([
         await web
           .getList(item.listUrl)
@@ -188,12 +226,16 @@ export default class myInquiriesService {
           .select(selectFields)
           .expand(expandFields)(),
       ]);
-      itemsTreatedByMe.forEach((inquiry) =>
-        res.push(this.createArchiveMyInquiryItem(inquiry, false))
-      );
-      itemsOpenedByMe.forEach((inquiry) =>
-        res.push(this.createArchiveMyInquiryItem(inquiry, true))
-      );
+
+      itemsTreatedByMe.forEach((inquiryRaw) => {
+        const inquiry = this.normalizeInquiryItemForUi(item, inquiryRaw);
+        res.push(this.createArchiveMyInquiryItem(inquiry, false));
+      });
+
+      itemsOpenedByMe.forEach((inquiryRaw) => {
+        const inquiry = this.normalizeInquiryItemForUi(item, inquiryRaw);
+        res.push(this.createArchiveMyInquiryItem(inquiry, true));
+      });
     } catch (error) { }
     return res;
   }
@@ -202,32 +244,50 @@ export default class myInquiriesService {
     context: ISPFXContext,
     list: string
   ) {
-    let res = new Array();
+    const res: Array<any> = [];
     const sp = spfi().using(SPFx(context));
-    await sp.web
-      .getList(list)
-      .items()
-      .then((items) => {
-        items.forEach((item) => {
-          if (item.eldFormList) {
-            const web = item.eldFormList;
-            const webUrl = web.Url.slice(0, web.Url.indexOf("/Lists"));
-            const formId = item.eldFormID;
-            const listUrl = web.Url.replace(
-              window.location.protocol + "//" + window.location.host,
-              ""
-            );
-            res.push({
-              webUrl: webUrl,
-              listUrl: listUrl,
-              formHandlingPeriod: item.eldFormHandlingPeriod,
-              formId: formId
-            });
-          }
+
+    // הבאת כל הפריטים מהרשימה
+    const items = await sp.web.getList(list).items();
+
+    for (const item of items) {
+      if (item.eldFormList) {
+        const web = item.eldFormList;
+        let webUrl = web.Url.slice(0, web.Url.indexOf("/Lists"));
+        const formId = item.eldFormID;
+
+        // --- שינוי URL לפי הצורך ---
+        let listUrl: string;
+
+        console.log('webUrl ', webUrl);
+        console.log('web.Url ', web.Url);
+        if (item.ID === 2) {
+          webUrl = 'https://tidharconil.sharepoint.com/sites/SmartFormsHR'
+          listUrl = "/sites/SmartFormsHR/Lists/zooz_hr_allRequests/AllItems.aspx";
+        } else {
+          // שאר הפריטים נשארים כמו שהם, URL יחסי
+          listUrl = web.Url.replace(
+            window.location.protocol + "//" + window.location.host,
+            ""
+          );
+
+
+        }
+
+        console.log('listUrl ', listUrl);
+        res.push({
+          webUrl: webUrl,
+          listUrl: listUrl,
+          formHandlingPeriod: item.eldFormHandlingPeriod,
+          formId: formId,
+          id: item.ID,
         });
-      });
+      }
+    }
+
     return res;
   }
+
 
   private createFormItem(item: any): IFormItem {
     return {

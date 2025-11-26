@@ -15,8 +15,50 @@ const AllMyInquiriesUI = ({ inquiries, title }: AllMyInquiriesUIProps) => {
 
   const { formatDate } = useDateFormatter()
 
+  const translateStatusToHebrew = (status: string) => {
+    if (!status) return status;
+
+    const normalized = status.toLowerCase();
+    switch (normalized) {
+      case 'rejected':
+        return 'נדחתה';
+      case 'in process':
+        return 'בטיפול';
+      case 'approved':
+      case 'completed':
+        return 'אושרה';
+      case 'canceled':
+        return 'בוטלה';
+      default:
+        return status;
+    }
+  }
+
+  const translateTitleToHebrew = (title: string) => {
+    if (!title) return title;
+
+    const normalized = title.toLowerCase();
+    switch (normalized) {
+      case 'employment':
+        return 'אישור העסקה';
+      case 'embassy':
+        return 'מכתב לשגרירות';
+      case 'freefit':
+        return 'FreeFit';
+      case 'car':
+        return 'אישור החזקת רכב';
+      case 'cibus':
+        return 'בקשה להנפקת סיבוס';
+      case 'shoes':
+        return 'בקשה לנעלי עבודה';
+      default:
+        return title;
+    }
+  }
+
   const getMessage = (inquiry: IInquiriesItem) => {
-    switch (inquiry.status) {
+    const status = translateStatusToHebrew(inquiry.status);
+    switch (status) {
       case 'בטיפול':
         return { type: 'inProgress', message: inquiry.formHandlingPeriod }
       case 'אושרה':
@@ -31,7 +73,8 @@ const AllMyInquiriesUI = ({ inquiries, title }: AllMyInquiriesUIProps) => {
   }
 
   const getStatusClass = (status: string) => {
-    switch (status) {
+    const translated = translateStatusToHebrew(status);
+    switch (translated) {
       case 'בטיפול':
         return classes.inProgress
       case 'אושרה':
@@ -71,12 +114,12 @@ const AllMyInquiriesUI = ({ inquiries, title }: AllMyInquiriesUIProps) => {
                   <tr className={classes.mainTr} onClick={() => onRowClick(inquiry.link.Url)} aria-label={"יש ללחוץ על השורה על מנת לפתוח את הטופס"}>
                     <td className={(type === 'done' || type === 'inProgress') && classes.tdWithoutBorderBottom}>
                       <div>
-                        {inquiry.title}
+                        {translateTitleToHebrew(inquiry.title)}
                       </div>
                     </td>
                     <td className={(type === 'done' || type === 'inProgress') && classes.tdWithoutBorderBottom}>{formatDate(inquiry.date)}</td>
                     <td className={(type === 'done' || type === 'inProgress') && classes.tdWithoutBorderBottom}>{formatDate(inquiry.lastModified)}</td>
-                    <td className={(type === 'done' || type === 'inProgress') && classes.tdWithoutBorderBottom}><div className={classes.status + ' ' + getStatusClass(inquiry.status)}>{inquiry.status}</div></td>
+                    <td className={(type === 'done' || type === 'inProgress') && classes.tdWithoutBorderBottom}><div className={classes.status + ' ' + getStatusClass(inquiry.status)}>{translateStatusToHebrew(inquiry.status)}</div></td>
                   </tr>
                   {inquiry.receiverName && (
                     <tr>
@@ -112,7 +155,7 @@ const AllMyInquiriesUI = ({ inquiries, title }: AllMyInquiriesUIProps) => {
             {inquiries.map(inquiry => {
               const { message, type } = getMessage(inquiry);
               return <a className={classes.inquiryCardContainer} href={inquiry.link.Url} target={'_blank'}>
-                <div className={classes.inquiryTitle}>{inquiry.title}</div>
+                <div className={classes.inquiryTitle}>{translateTitleToHebrew(inquiry.title)}</div>
                 <table className={classes.mobileInquiryTable}>
                   <thead>
                     <th>מועד הבקשה</th>
@@ -122,7 +165,7 @@ const AllMyInquiriesUI = ({ inquiries, title }: AllMyInquiriesUIProps) => {
                   <tbody>
                     <td>{formatDate(inquiry.date)}</td>
                     <td>{formatDate(inquiry.lastModified)}</td>
-                    <td><div className={classes.status + ' ' + getStatusClass(inquiry.status)}>{inquiry.status}</div></td>
+                    <td><div className={classes.status + ' ' + getStatusClass(inquiry.status)}>{translateStatusToHebrew(inquiry.status)}</div></td>
                   </tbody>
                 </table>
                 {(type === "done" || type === "inProgress") &&
