@@ -48,7 +48,7 @@ const ArticleSliderUI = ({ listUrl, autoPlayDelay, context,articlePage, numOfIte
           effect='fade'
           autoplay={{ delay: autoPlayDelay ? autoPlayDelay * 1000 : 5000, pauseOnMouseEnter: true, disableOnInteraction: false }}
           breakpoints={{
-            431: {
+            1024: {
               navigation: { enabled: true, nextEl: '#nextArticleButton.navigationButton', prevEl: '#prevArticleButton.navigationButton' },
               pagination: { enabled: true, dynamicBullets: true, dynamicMainBullets: 3, clickable: true }
             }
