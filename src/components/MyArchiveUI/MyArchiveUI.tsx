@@ -63,7 +63,7 @@ const MyArchiveUI = ({ title, archiveItems }: MyArchiveUIProps) => {
                                             <div>{item.createrOrApprover}</div>
                                         </div>
                                         <div className={item.createdByMe ? classes.creator : classes.approver}>
-                                            {item.createdByMe ? 'מאשר' : 'יוצר'}
+                                            {item.createdByMe ? 'יוצר' : 'מאשר'}
                                         </div>
                                     </td>
                                 </tr>

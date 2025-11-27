@@ -9,15 +9,31 @@ import { Web } from "@pnp/sp/webs";
 import { IInquiriesItem } from "../interfaces/IInquiriesItem";
 import { IFormItem } from "../interfaces/IformItem";
 
+// TEMP: explicit HR Power Apps base URL for HR requests (zooz_hr_allRequests)
+// Do NOT include reqId here; it is appended in code.
+const HR_APP_BASE_URL = "https://apps.powerapps.com/play/e/85b73110-9842-e983-bdbb-d61c175c1c5d/a/28a2a67d-edc3-41c3-8924-97e1bb8b37ac?tenantId=47339e34-e7be-4166-9485-70ccbd784a21&hint=cefce19f-00c1-4cb6-8310-7f4268c6da4d";
+
 export default class myInquiriesService {
   private createArchiveMyInquiryItem(item: any, createdByMe: boolean) {
+    // For archive items we want to show the "other side" of the request:
+    // - If I opened the request (createdByMe === true) → show the approver's name
+    // - If I approved the request (createdByMe === false) → show the creator's name
+    //
+    // Legacy items (CAML) have FieldValuesAsText.Author, while HR items (OData)
+    // have Author/Title and Editor/Title only.
+    const hasFieldValuesAsText = !!item.FieldValuesAsText;
+
+    const creatorName = hasFieldValuesAsText
+      ? item.FieldValuesAsText.Author
+      : item.Author?.Title;
+
+    const approverName = item.Editor?.Title;
+
     return {
       title: item.eldFormName,
       date: new Date(item.Created),
       lastModified: new Date(item.Modified),
-      createrOrApprover: createdByMe
-        ? item.Editor.Title
-        : item.FieldValuesAsText.Author,
+      createrOrApprover: createdByMe ? approverName : creatorName,
       status: item.eldStatus,
       link: { Url: item.eldFormURL?.Url },
       formHandlingPeriod: 0,
@@ -55,6 +71,14 @@ export default class myInquiriesService {
       // Optionally also map to Title if it is used elsewhere
       if (inquiry.RequestType !== undefined && inquiry.Title === undefined) {
         inquiry.Title = inquiry.RequestType;
+      }
+
+      // Build HR Power Apps URL for this request if not already present
+      if (!inquiry.eldFormURL && (inquiry.ID !== undefined || inquiry.Id !== undefined)) {
+        const reqId = inquiry.ID !== undefined ? inquiry.ID : inquiry.Id;
+        const separator = HR_APP_BASE_URL.includes("?") ? "&" : "?";
+        const url = `${HR_APP_BASE_URL}${separator}reqId=${reqId}`;
+        inquiry.eldFormURL = { Url: url };
       }
 
       // Add any other field mappings here as needed to match the
@@ -189,11 +213,19 @@ export default class myInquiriesService {
   ) {
     let res: IInquiriesItem[] = [];
     let today = new Date();
-    // Restore original behavior: use a 2-year window up to the provided date
-    // date = new Date(today.setDate(today.getDate()+2)).toISOString();
-    let pastTwoYears = new Date(
-      today.setFullYear(today.getFullYear() - 2)
+
+    // TEMP for testing: restrict archive to the last 3 days (today and previous 2 days)
+    const endDate = today.toISOString();
+    const threeDaysAgo = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate() - 2
     ).toISOString();
+
+    // Previous behavior (kept for reference): 2-year window up to the provided date
+    // let pastTwoYears = new Date(
+    //   today.setFullYear(today.getFullYear() - 2)
+    // ).toISOString();
 
     const web = Web(item.webUrl).using(SPFx(context));
 
@@ -214,11 +246,11 @@ export default class myInquiriesService {
       // NOTE: for HR we fetch all items in this state and decide in code
       // whether the current user opened or approved them (Author/Editor).
       filterMyInquiries = `((Status eq 'approved' or Status eq 'rejected' or Status eq 'canceled' or Status eq 'completed')
-  and Modified le datetime'${date}' and Modified ge datetime'${pastTwoYears}')`;
+  and Modified le datetime'${endDate}' and Modified ge datetime'${threeDaysAgo}')`;
     } else {
       // Existing lists schema: eldStatus column and Hebrew status values
       filterMyInquiries = `((eldStatus eq 'אושרה' or eldStatus eq 'נדחתה' or eldStatus eq 'בוטלה') and Author/Name eq '${userAccountName}'
-  and Modified le datetime'${date}' and Modified ge datetime'${pastTwoYears}')`;
+  and Modified le datetime'${endDate}' and Modified ge datetime'${threeDaysAgo}')`;
     }
     try {
       // נבנה את השאילתה בהתאם לסוג הטופס
@@ -310,8 +342,6 @@ export default class myInquiriesService {
         // --- שינוי URL לפי הצורך ---
         let listUrl: string;
 
-        console.log('webUrl ', webUrl);
-        console.log('web.Url ', web.Url);
         if (item.ID === 2) {
           webUrl = 'https://tidharconil.sharepoint.com/sites/SmartFormsHR'
           listUrl = "/sites/SmartFormsHR/Lists/zooz_hr_allRequests/AllItems.aspx";
@@ -325,7 +355,6 @@ export default class myInquiriesService {
 
         }
 
-        console.log('listUrl ', listUrl);
         res.push({
           webUrl: webUrl,
           listUrl: listUrl,
