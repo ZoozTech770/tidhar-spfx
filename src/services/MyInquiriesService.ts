@@ -189,10 +189,12 @@ export default class myInquiriesService {
   ) {
     let res: IInquiriesItem[] = [];
     let today = new Date();
-    //date = new Date(today.setDate(today.getDate()+2)).toISOString();
+    // Restore original behavior: use a 2-year window up to the provided date
+    // date = new Date(today.setDate(today.getDate()+2)).toISOString();
     let pastTwoYears = new Date(
       today.setFullYear(today.getFullYear() - 2)
     ).toISOString();
+
     const web = Web(item.webUrl).using(SPFx(context));
 
     const queryTreatedByMe = {
@@ -203,8 +205,19 @@ export default class myInquiriesService {
        </Eq> 
   </Where></Query></View>`,
     };
-    let filterMyInquiries = `((eldStatus eq 'אושרה' or eldStatus eq 'נדחתה' or eldStatus eq 'בוטלה') and Author/Name eq '${userAccountName}'
+
+    // Build archive filter per list: old lists use eldStatus, new list (ID === 2) uses Status
+    let filterMyInquiries: string;
+    if (item.id === 2) {
+      // New list schema: Status column and English status values
+      // We treat approved, rejected, canceled, completed as archived states
+      filterMyInquiries = `((Status eq 'approved' or Status eq 'rejected' or Status eq 'canceled' or Status eq 'completed') and Author/Name eq '${userAccountName}'
   and Modified le datetime'${date}' and Modified ge datetime'${pastTwoYears}')`;
+    } else {
+      // Existing lists schema: eldStatus column and Hebrew status values
+      filterMyInquiries = `((eldStatus eq 'אושרה' or eldStatus eq 'נדחתה' or eldStatus eq 'בוטלה') and Author/Name eq '${userAccountName}'
+  and Modified le datetime'${date}' and Modified ge datetime'${pastTwoYears}')`;
+    }
     try {
       // נבנה את השאילתה בהתאם לסוג הטופס
       let selectFields = "*,Author/UserName,Author/SipAddress,Author/EMail,Author/Name,Author/Title,Editor/Title";
@@ -216,16 +229,28 @@ export default class myInquiriesService {
         expandFields += ",eldEmpFullName,eldReceiverName";
       }
 
-      const [itemsTreatedByMe, itemsOpenedByMe] = await Promise.all([
-        await web
-          .getList(item.listUrl)
-          .getItemsByCAMLQuery(queryTreatedByMe, "FieldValuesAsText"),
-        await web
+      let itemsTreatedByMe: any[] = [];
+      let itemsOpenedByMe: any[] = [];
+
+      if (item.id === 2) {
+        // New HR list: no eldApprovalHistory field, so skip the CAML query
+        itemsOpenedByMe = await web
           .getList(item.listUrl)
           .items.filter(filterMyInquiries)
           .select(selectFields)
-          .expand(expandFields)(),
-      ]);
+          .expand(expandFields)();
+      } else {
+        [itemsTreatedByMe, itemsOpenedByMe] = await Promise.all([
+          web
+            .getList(item.listUrl)
+            .getItemsByCAMLQuery(queryTreatedByMe, "FieldValuesAsText"),
+          web
+            .getList(item.listUrl)
+            .items.filter(filterMyInquiries)
+            .select(selectFields)
+            .expand(expandFields)(),
+        ]);
+      }
 
       itemsTreatedByMe.forEach((inquiryRaw) => {
         const inquiry = this.normalizeInquiryItemForUi(item, inquiryRaw);

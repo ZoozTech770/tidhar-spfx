@@ -11,8 +11,12 @@ import { IAllPendingApprovalProps } from './components/IAllPendingApprovalProps'
 
 export interface IAllPendingApprovalWebPartProps {
   title: string;
-  list:string;
-  list2:string;
+  list: string;
+  list2: string;
+  /** Optional: HR approvers list (relative URL to zooz_hr_approvers) */
+  hrApproversList?: string;
+  /** Optional: HR requests list (relative URL to zooz_hr_allRequests) */
+  hrRequestsList?: string;
 }
 
 export default class AllPendingApprovalWebPart extends BaseClientSideWebPart<IAllPendingApprovalWebPartProps> {
@@ -23,9 +27,11 @@ export default class AllPendingApprovalWebPart extends BaseClientSideWebPart<IAl
       AllPendingApproval,
       {
         title: this.properties.title,
-        list:this.properties.list,
-        list2:this.properties.list2,
-        context:this.context
+        list: this.properties.list,
+        list2: this.properties.list2,
+        hrApproversList: this.properties.hrApproversList,
+        hrRequestsList: this.properties.hrRequestsList,
+        context: this.context
       }
     );
 
@@ -62,6 +68,14 @@ export default class AllPendingApprovalWebPart extends BaseClientSideWebPart<IAl
                 PropertyPaneTextField('list2', {
                   label: "2 רשימה",
                   description:"קישור יחסי לרשימת טפסים"
+                }),
+                PropertyPaneTextField('hrApproversList', {
+                  label: "HR רשימת מאשרים",
+                  description: "קישור יחסי לרשימת zooz_hr_approvers"
+                }),
+                PropertyPaneTextField('hrRequestsList', {
+                  label: "HR רשימת בקשות",
+                  description: "קישור יחסי לרשימת zooz_hr_allRequests"
                 })
               ]
             }

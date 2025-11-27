@@ -2,7 +2,7 @@ import * as React from 'react';
 import classes from './MyArchiveUI.module.scss';
 import { IArchiveInquiriesItem } from '../../interfaces/IInquiriesItem';
 import useDateFormatter from '../../util/useDateFormatter';
-
+import { translateStatusToHebrew, translateTitleToHebrew } from '../../util/inquiriesMappings';
 type MyArchiveUIProps = {
     title: string;
     archiveItems: IArchiveInquiriesItem[];
@@ -13,7 +13,8 @@ const MyArchiveUI = ({ title, archiveItems }: MyArchiveUIProps) => {
     const { formatDate } = useDateFormatter();
 
     const getStatusClass = (status: string) => {
-        switch (status) {
+        const translated = translateStatusToHebrew(status);
+        switch (translated) {
             case 'בטיפול':
                 return classes.inProgress
             case 'אושרה':
@@ -51,12 +52,12 @@ const MyArchiveUI = ({ title, archiveItems }: MyArchiveUIProps) => {
                                 return <tr className={classes.mainTr} onClick={() => onRowClick(item.link.Url)} aria-label={"יש ללחוץ על השורה על מנת לפתוח את הטופס"}>
                                     <td>
                                         <div>
-                                            {item.title}
+                                            {translateTitleToHebrew(item.title)}
                                         </div>
                                     </td>
                                     <td>{formatDate(item.date)}</td>
                                     <td>{formatDate(item.lastModified)}</td>
-                                    <td><div className={classes.status + ' ' + getStatusClass(item.status)}>{item.status}</div></td>
+                                    <td><div className={classes.status + ' ' + getStatusClass(item.status)}>{translateStatusToHebrew(item.status)}</div></td>
                                     <td>
                                         <div>
                                             <div>{item.createrOrApprover}</div>
@@ -72,7 +73,7 @@ const MyArchiveUI = ({ title, archiveItems }: MyArchiveUIProps) => {
                     <div className={classes.archiveCards}>
                         {archiveItems.map(item => {
                             return <a className={classes.archiveCardContainer} href={item.link.Url} target={'_blank'}>
-                                <div className={classes.archiveTitle}>{item.title}</div>
+                                <div className={classes.archiveTitle}>{translateTitleToHebrew(item.title)}</div>
                                 <table className={classes.mobileArchiveTable}>
                                     <thead>
                                         <th>תאריך הגשת הטופס</th>
@@ -83,7 +84,7 @@ const MyArchiveUI = ({ title, archiveItems }: MyArchiveUIProps) => {
                                     <tbody>
                                         <td>{formatDate(item.date)}</td>
                                         <td>{formatDate(item.lastModified)}</td>
-                                        <td><div className={classes.status + ' ' + getStatusClass(item.status)}>{item.status}</div></td>
+                                        <td><div className={classes.status + ' ' + getStatusClass(item.status)}>{translateStatusToHebrew(item.status)}</div></td>
                                         <td>
                                             <div>
                                                 <div>{item.createrOrApprover}</div>

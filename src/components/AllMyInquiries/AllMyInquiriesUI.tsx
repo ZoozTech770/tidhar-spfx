@@ -2,7 +2,7 @@ import * as React from 'react';
 import { IInquiriesItem } from '../../interfaces/IInquiriesItem';
 import classes from './AllMyInquiriesUI.module.scss';
 import useDateFormatter from '../../util/useDateFormatter';
-
+import { translateStatusToHebrew, translateTitleToHebrew } from '../../util/inquiriesMappings';
 type AllMyInquiriesUIProps = {
   inquiries: IInquiriesItem[];
   title: string;
@@ -14,47 +14,6 @@ const InfoDarkIcon = require('../../assets/icons/info-dark.svg');
 const AllMyInquiriesUI = ({ inquiries, title }: AllMyInquiriesUIProps) => {
 
   const { formatDate } = useDateFormatter()
-
-  const translateStatusToHebrew = (status: string) => {
-    if (!status) return status;
-
-    const normalized = status.toLowerCase();
-    switch (normalized) {
-      case 'rejected':
-        return 'נדחתה';
-      case 'in process':
-        return 'בטיפול';
-      case 'approved':
-      case 'completed':
-        return 'אושרה';
-      case 'canceled':
-        return 'בוטלה';
-      default:
-        return status;
-    }
-  }
-
-  const translateTitleToHebrew = (title: string) => {
-    if (!title) return title;
-
-    const normalized = title.toLowerCase();
-    switch (normalized) {
-      case 'employment':
-        return 'אישור העסקה';
-      case 'embassy':
-        return 'מכתב לשגרירות';
-      case 'freefit':
-        return 'FreeFit';
-      case 'car':
-        return 'אישור החזקת רכב';
-      case 'cibus':
-        return 'בקשה להנפקת סיבוס';
-      case 'shoes':
-        return 'בקשה לנעלי עבודה';
-      default:
-        return title;
-    }
-  }
 
   const getMessage = (inquiry: IInquiriesItem) => {
     const status = translateStatusToHebrew(inquiry.status);

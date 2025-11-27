@@ -2,6 +2,7 @@ import { ISPFXContext, SPFx, spfi } from "@pnp/sp";
 import { PermissionKind } from "@pnp/sp/security";
 
 import "@pnp/sp/webs";
+import { Web } from "@pnp/sp/webs";
 import "@pnp/sp/lists";
 import "@pnp/sp/items";
 import "@pnp/sp/lists/web";
@@ -88,6 +89,161 @@ export default class pendingApprovalService {
     
     return res;
   }
+
+/**
+   * Get pending HR approvals (SmartFormsHR) for the current user.
+   * Uses:
+   * - zooz_hr_approvers: RequestType + ApproversMail (";"-separated emails)
+   * - zooz_hr_allRequests: RequestType + Status = 'in process'
+   * - lstFormsManagmentList (signaturePeriodsListUrl): item ID 2 for eldApproverSignaturePeriod + eldFormLink (base Power Apps URL)
+   */
+  public async getPendingApprovalItemsHr(
+    context: ISPFXContext,
+    hrApproversListUrl: string,
+    hrRequestsListUrl: string,
+    signaturePeriodsListUrl: string,
+  ): Promise<IPendingApprovalItem[]> {
+    const sp = spfi().using(SPFx(context));
+
+    // Resolve SmartFormsHR web (same tenant, different site collection)
+    const hrWeb = this.getHrWeb(context, hrApproversListUrl, hrRequestsListUrl);
+
+    // 1. Current user's email (normalized to lowercase)
+    const currentUser = await sp.web.currentUser();
+    const userEmail: string = (currentUser.Email || '').toLowerCase();
+    if (!userEmail) {
+      return [];
+    }
+
+    // 2. HR approver rows where ApproversMail contains the current user's email
+    let approverRows: any[] = [];
+    try {
+      approverRows = await hrWeb
+        .getList(hrApproversListUrl)
+        .items.select('RequestType', 'ApproversMail')();
+    } catch (error) {
+      console.error('Error fetching HR approvers list:', error);
+      return [];
+    }
+
+    const requestTypes = this.getHrRequestTypesForUser(approverRows, userEmail);
+    if (!requestTypes.length) {
+      return [];
+    }
+
+    // 3. Fetch HR signature period & base URL from lstFormsManagmentList item ID 2
+    const { signaturePeriodDays, baseFormUrl } = await this.getHrSignatureConfig(sp, signaturePeriodsListUrl);
+
+    // 4. Build OData filter for HR requests: Status == 'in process' AND RequestType in my types
+    const typeFilter = requestTypes
+      .map(t => `RequestType eq '${t.replace(/'/g, "''")}'`)
+      .join(' or ');
+
+    const filter = `(Status eq 'in process') and (${typeFilter})`;
+
+    let hrItems: any[] = [];
+    try {
+      hrItems = await hrWeb
+        .getList(hrRequestsListUrl)
+        .items.filter(filter)
+        .select('ID', 'RequestType', 'Status', 'Created', 'Modified', 'Author/EMail', 'Author/Title')
+        .expand('Author')();
+    } catch (error) {
+      console.error('Error fetching HR requests list:', error);
+      return [];
+    }
+
+    const today = new Date();
+
+    // 5. Shape into IPendingApprovalItem[]
+    return hrItems.map(item => {
+      const modified = new Date(item.Modified);
+      modified.setDate(modified.getDate() + signaturePeriodDays);
+      const timeLeft = this.getDateDiff(today, modified);
+
+      let url = hrRequestsListUrl as string;
+      if (baseFormUrl) {
+        const separator = baseFormUrl.includes('?') ? '&' : '?';
+        url = `${baseFormUrl}${separator}reqId=${item.ID}`;
+      }
+
+      const sender = item.Author?.Title || item.Author?.EMail || '';
+
+      return {
+        Title: item.RequestType,
+        Sender: sender,
+        OpenDate: new Date(item.Created),
+        Url: url,
+        timeLeft,
+      } as IPendingApprovalItem;
+    });
+  }
+
+  /** Resolve the SmartFormsHR web from one of the HR list URLs. */
+  private getHrWeb(
+    context: ISPFXContext,
+    primaryListUrl?: string,
+    secondaryListUrl?: string,
+  ) {
+    const anyHrListUrl = primaryListUrl || secondaryListUrl;
+    if (!anyHrListUrl) {
+      throw new Error('HR list URL is required to resolve SmartFormsHR web');
+    }
+
+    // Expect "/sites/SmartFormsHR/Lists/..."; take the part before "/Lists"
+    const listsIndex = anyHrListUrl.toLowerCase().indexOf('/lists/');
+    let hrSiteRelative = listsIndex > -1 ? anyHrListUrl.substring(0, listsIndex) : anyHrListUrl;
+
+    // Normalize to start with '/' so we don't end up with '...comsites/...'
+    if (!hrSiteRelative.startsWith('/')) {
+      hrSiteRelative = '/' + hrSiteRelative;
+    }
+
+    const hrSiteAbsolute = `${window.location.protocol}//${window.location.host}${hrSiteRelative}`;
+    return Web(hrSiteAbsolute).using(SPFx(context));
+  }
+
+  /** Extract distinct RequestType values for which the given user is an approver. */
+  private getHrRequestTypesForUser(approverRows: any[], userEmail: string): string[] {
+    const lowerUser = userEmail.toLowerCase();
+
+    const types = approverRows
+      .filter(row => !!row.RequestType && !!row.ApproversMail)
+      .filter(row => {
+        const emails = (row.ApproversMail as string)
+          .split(';')
+          .map((e: string) => e.trim().toLowerCase())
+          .filter((e: string) => !!e);
+        return emails.includes(lowerUser);
+      })
+      .map(row => String(row.RequestType));
+
+    return Array.from(new Set(types));
+  }
+
+  /** Read HR signature period + base form URL from lstFormsManagmentList (item ID 2). */
+  private async getHrSignatureConfig(sp: any, signaturePeriodsListUrl: string): Promise<{ signaturePeriodDays: number; baseFormUrl?: string }> {
+    let signaturePeriodDays = 0;
+    let baseFormUrl: string | undefined;
+
+    try {
+      const hrConfig = await sp.web
+        .getList(signaturePeriodsListUrl)
+        .items.getById(2)
+        .select('eldApproverSignaturePeriod', 'eldFormLink')();
+
+      signaturePeriodDays = hrConfig.eldApproverSignaturePeriod || 0;
+      // eldFormLink can be a SPFieldUrlValue or plain string
+      baseFormUrl = hrConfig.eldFormLink?.Url || hrConfig.eldFormLink;
+    } catch (error) {
+      console.error('Error fetching HR signature period configuration from lstFormsManagmentList (ID=2):', error);
+      // If we cannot read config, still show items with a large default period
+      signaturePeriodDays = 300;
+    }
+
+    return { signaturePeriodDays, baseFormUrl };
+  }
+
   public async getPendingApprovalHome(context: ISPFXContext, listUrl: string, signaturePeriodsListUrl: string): Promise<pendingApproval> {
     const sp = spfi().using(SPFx(context));
     const items: any[] = await sp.web.getList(listUrl).getItemsByCAMLQuery(query, 'FieldValuesAsText');
