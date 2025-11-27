@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { IMyInquiries } from '../../interfaces/IMyInquiries';
 import InquirieLine from './InquirieLine/inquirieLine';
+import { translateTitleToHebrew } from '../../util/inquiriesMappings';
 import classes from './myInquiriesUI.module.scss';
 
 const MyInquiriesUI: React.FC<IMyInquiries> = (props) => {
@@ -24,8 +25,8 @@ const MyInquiriesUI: React.FC<IMyInquiries> = (props) => {
         <p>אין לך פניות פעילות. אפשר לפתוח פניות מסוגים שונים בקלות ובמהירות ולייעל את תהליך העבודה. </p>
         <span className={classes.formSelection}>בחירת טופס למילוי</span>
         <div className={classes.allForms}>
-          {allFormList?.map(form=>
-             <a className={classes.form} href={form.link.Url}>{form.title}</a>
+          {allFormList?.map(form =>
+             <a className={classes.form} href={form.link.Url}>{translateTitleToHebrew(form.title)}</a>
             )}
         </div>
       </div>}

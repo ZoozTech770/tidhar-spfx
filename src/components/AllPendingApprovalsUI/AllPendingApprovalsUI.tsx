@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { IPendingApprovalItem } from '../../interfaces/IPendingApproval';
 import useDateFormatter from '../../util/useDateFormatter';
+import { translateTitleToHebrew } from '../../util/inquiriesMappings';
 import classes from './AllPendingApprovalsUI.module.scss';
 
 type AllPendingApprovalsUIProps = {
@@ -39,7 +40,7 @@ const AllPendingApprovalsUI = ({ pendingApprovals, title }: AllPendingApprovalsU
                 {pendingApprovals.map((pendingApproval: IPendingApprovalItem) => {
                   return (
                     <tr className={classes.mainTr} onClick={() => onRowClick(pendingApproval.Url)} aria-label={"יש ללחוץ על השורה על מנת לפתוח את הטופס"}>
-                      <td>{pendingApproval.Title}</td>
+                      <td>{translateTitleToHebrew(pendingApproval.Title)}</td>
                       <td>{pendingApproval.Sender}</td>
                       <td>{formatDate(new Date(pendingApproval.OpenDate))}</td>
                       <td>{getDaysPassedText(pendingApproval.daysSinceOpen)}</td>
@@ -50,7 +51,7 @@ const AllPendingApprovalsUI = ({ pendingApprovals, title }: AllPendingApprovalsU
             <div className={classes.pendingApprovalsCards}>
               {pendingApprovals.map(pendingApproval => {
                 return <a className={classes.pendingApprovalCardContainer} href={pendingApproval.Url} target={"_blank"}>
-                  <div className={classes.pendingApprovalTitle}>{pendingApproval.Title}</div>
+                  <div className={classes.pendingApprovalTitle}>{translateTitleToHebrew(pendingApproval.Title)}</div>
                   <table className={classes.mobilePendingApprovalTable}>
                     <thead>
                       <th>מגיש הטופס</th>

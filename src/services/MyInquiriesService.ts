@@ -209,9 +209,11 @@ export default class myInquiriesService {
     // Build archive filter per list: old lists use eldStatus, new list (ID === 2) uses Status
     let filterMyInquiries: string;
     if (item.id === 2) {
-      // New list schema: Status column and English status values
-      // We treat approved, rejected, canceled, completed as archived states
-      filterMyInquiries = `((Status eq 'approved' or Status eq 'rejected' or Status eq 'canceled' or Status eq 'completed') and Author/Name eq '${userAccountName}'
+      // New HR list: Status column and English status values
+      // Archived states: approved, rejected, canceled, completed
+      // NOTE: for HR we fetch all items in this state and decide in code
+      // whether the current user opened or approved them (Author/Editor).
+      filterMyInquiries = `((Status eq 'approved' or Status eq 'rejected' or Status eq 'canceled' or Status eq 'completed')
   and Modified le datetime'${date}' and Modified ge datetime'${pastTwoYears}')`;
     } else {
       // Existing lists schema: eldStatus column and Hebrew status values
@@ -220,7 +222,7 @@ export default class myInquiriesService {
     }
     try {
       // נבנה את השאילתה בהתאם לסוג הטופס
-      let selectFields = "*,Author/UserName,Author/SipAddress,Author/EMail,Author/Name,Author/Title,Editor/Title";
+      let selectFields = "*,Author/UserName,Author/SipAddress,Author/EMail,Author/Name,Author/Title,Editor/EMail,Editor/Title";
       let expandFields = "Author,Editor";
 
       if (item.formId == 222) {
@@ -233,7 +235,8 @@ export default class myInquiriesService {
       let itemsOpenedByMe: any[] = [];
 
       if (item.id === 2) {
-        // New HR list: no eldApprovalHistory field, so skip the CAML query
+        // New HR list: fetch all final-state items within the date range.
+        // We'll determine in code whether the current user opened or approved them.
         itemsOpenedByMe = await web
           .getList(item.listUrl)
           .items.filter(filterMyInquiries)
@@ -252,15 +255,38 @@ export default class myInquiriesService {
         ]);
       }
 
+      // Legacy lists: behavior unchanged
       itemsTreatedByMe.forEach((inquiryRaw) => {
         const inquiry = this.normalizeInquiryItemForUi(item, inquiryRaw);
         res.push(this.createArchiveMyInquiryItem(inquiry, false));
       });
 
-      itemsOpenedByMe.forEach((inquiryRaw) => {
-        const inquiry = this.normalizeInquiryItemForUi(item, inquiryRaw);
-        res.push(this.createArchiveMyInquiryItem(inquiry, true));
-      });
+      if (item.id === 2) {
+        // HR list: partition items by role based on Author/Editor email
+        const sp = spfi().using(SPFx(context));
+        const currentUser = await sp.web.currentUser();
+        const currentEmail = (currentUser.Email || "").toLowerCase();
+
+        itemsOpenedByMe.forEach((inquiryRaw) => {
+          const normalized = this.normalizeInquiryItemForUi(item, inquiryRaw);
+          const authorEmail = (normalized.Author?.EMail || "").toLowerCase();
+          const editorEmail = (normalized.Editor?.EMail || "").toLowerCase();
+
+          if (authorEmail === currentEmail) {
+            // Opened by me
+            res.push(this.createArchiveMyInquiryItem(normalized, true));
+          } else if (editorEmail === currentEmail) {
+            // Approved by me (last modifier)
+            res.push(this.createArchiveMyInquiryItem(normalized, false));
+          }
+        });
+      } else {
+        // Legacy lists: items opened by me (Author == userAccountName)
+        itemsOpenedByMe.forEach((inquiryRaw) => {
+          const inquiry = this.normalizeInquiryItemForUi(item, inquiryRaw);
+          res.push(this.createArchiveMyInquiryItem(inquiry, true));
+        });
+      }
     } catch (error) { }
     return res;
   }

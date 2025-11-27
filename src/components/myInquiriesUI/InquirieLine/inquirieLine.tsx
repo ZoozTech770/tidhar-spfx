@@ -1,6 +1,7 @@
 import * as React from 'react';
 import classes from './inquirieLine.module.scss';
 import { IInquiriesItem } from '../../../interfaces/IInquiriesItem';
+import { translateTitleToHebrew } from '../../../util/inquiriesMappings';
 
 type InquirieLineProps = {
     inquirie: IInquiriesItem;
@@ -26,7 +27,7 @@ const InquirieLine: React.FC<InquirieLineProps> = (props) => {
     };
     return (
         <a href={inquirie.link.Url} className={`${classes.inquirieLine} ${showPendingApproval ? classes.limited : classes.spacious}`}>
-            <p className={classes.title} title={inquirie.title}>{inquirie.title}</p>
+            <p className={classes.title} title={translateTitleToHebrew(inquirie.title)}>{translateTitleToHebrew(inquirie.title)}</p>
             <span className={`${classes.tag} ${getTagClass()}`}>{inquirie.status}</span>
 
         </a>
