@@ -12,6 +12,11 @@ import { pendingApproval } from '../types/TPendingApproval';
 import { IPendingApprovalItem } from "../interfaces/IPendingApproval";
 import { forEach } from "lodash";
 var Set = require("es6-set");
+
+// TEMP: explicit HR Power Apps base URL until lstFormsManagmentList (ID=2).eldFormLink is updated
+// Do NOT include reqId here; it is appended in code.
+const HR_APP_BASE_URL = "https://apps.powerapps.com/play/e/85b73110-9842-e983-bdbb-d61c175c1c5d/a/28a2a67d-edc3-41c3-8924-97e1bb8b37ac?tenantId=47339e34-e7be-4166-9485-70ccbd784a21&hint=cefce19f-00c1-4cb6-8310-7f4268c6da4d";
+
 const open = "בטיפול";
 const query = {
   ViewXml: `<View><Query>
@@ -40,12 +45,17 @@ const query = {
 // </ViewFields>
 export default class pendingApprovalService {
   private createPendingItem(item: any, timeLeft: number) {
+    const created = new Date(item.Created);
+    const today = new Date();
+    const daysSinceOpen = this.getDateDiff(created, today);
+
     return {
       Title: item.eldFormName,
       Sender: item.FieldValuesAsText.Author,
       OpenDate: item.Created,
       Url: item.eldFormLink?.Url,
-      timeLeft: timeLeft
+      timeLeft: timeLeft,
+      daysSinceOpen,
     }
   }
 
@@ -161,6 +171,9 @@ export default class pendingApprovalService {
       modified.setDate(modified.getDate() + signaturePeriodDays);
       const timeLeft = this.getDateDiff(today, modified);
 
+      const created = new Date(item.Created);
+      const daysSinceOpen = this.getDateDiff(created, today);
+
       let url = hrRequestsListUrl as string;
       if (baseFormUrl) {
         const separator = baseFormUrl.includes('?') ? '&' : '?';
@@ -175,6 +188,7 @@ export default class pendingApprovalService {
         OpenDate: new Date(item.Created),
         Url: url,
         timeLeft,
+        daysSinceOpen,
       } as IPendingApprovalItem;
     });
   }
@@ -233,8 +247,11 @@ export default class pendingApprovalService {
         .select('eldApproverSignaturePeriod', 'eldFormLink')();
 
       signaturePeriodDays = hrConfig.eldApproverSignaturePeriod || 0;
-      // eldFormLink can be a SPFieldUrlValue or plain string
-      baseFormUrl = hrConfig.eldFormLink?.Url || hrConfig.eldFormLink;
+
+      // TEMP override: use hard-coded HR Power Apps URL until FormLink is updated in lstFormsManagmentList (ID=2)
+      baseFormUrl = HR_APP_BASE_URL;
+      // When FormLink is correct, switch back to:
+      // baseFormUrl = hrConfig.eldFormLink?.Url || hrConfig.eldFormLink;
     } catch (error) {
       console.error('Error fetching HR signature period configuration from lstFormsManagmentList (ID=2):', error);
       // If we cannot read config, still show items with a large default period
@@ -242,6 +259,42 @@ export default class pendingApprovalService {
     }
 
     return { signaturePeriodDays, baseFormUrl };
+  }
+
+  /**
+   * Summary for PendingApproval tiles: legacy + optional HR totals.
+   */
+  public async getPendingApprovalHomeWithHr(
+    context: ISPFXContext,
+    listUrl: string,
+    signaturePeriodsListUrl: string,
+    hrApproversListUrl?: string,
+    hrRequestsListUrl?: string,
+  ): Promise<pendingApproval> {
+    const legacy = await this.getPendingApprovalHome(context, listUrl, signaturePeriodsListUrl);
+
+    let hrPending = 0;
+    let hrExceeded = 0;
+
+    if (hrApproversListUrl && hrRequestsListUrl) {
+      try {
+        const hrItems = await this.getPendingApprovalItemsHr(
+          context,
+          hrApproversListUrl,
+          hrRequestsListUrl,
+          signaturePeriodsListUrl,
+        );
+        hrPending = hrItems.length;
+        hrExceeded = hrItems.filter(i => i.timeLeft < 0).length;
+      } catch (error) {
+        console.error('Error fetching HR pending approval summary:', error);
+      }
+    }
+
+    return {
+      exceededCount: legacy.exceededCount + hrExceeded,
+      pendingCount: legacy.pendingCount + hrPending,
+    };
   }
 
   public async getPendingApprovalHome(context: ISPFXContext, listUrl: string, signaturePeriodsListUrl: string): Promise<pendingApproval> {

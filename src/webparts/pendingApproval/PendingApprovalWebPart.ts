@@ -13,11 +13,15 @@ import { PendingApprovalService } from '../../services/PendingApprovalService';
 
 export interface IPendingApprovalWebPartProps {
   title: string;
-  list:string;
-  list2:string;
-  toAllLinkTitle:string;
-  toAllLinkUrl:string;
-  toAllLinkNewTab:boolean;
+  list: string;
+  list2: string;
+  /** Optional: HR approvers list (relative URL to zooz_hr_approvers) */
+  hrApproversList?: string;
+  /** Optional: HR requests list (relative URL to zooz_hr_allRequests) */
+  hrRequestsList?: string;
+  toAllLinkTitle: string;
+  toAllLinkUrl: string;
+  toAllLinkNewTab: boolean;
 }
 
 export default class PendingApprovalWebPart extends BaseClientSideWebPart<IPendingApprovalWebPartProps> {
@@ -28,12 +32,14 @@ export default class PendingApprovalWebPart extends BaseClientSideWebPart<IPendi
       PendingApproval,
       {
         title: this.properties.title,
-        list:this.properties.list,
-        list2:this.properties.list2,
-        toAllLinkTitle:this.properties.toAllLinkTitle,
-        toAllLinkUrl:this.properties.toAllLinkUrl,
-        toAllLinkNewTab:this.properties.toAllLinkNewTab,
-        context:this.context
+        list: this.properties.list,
+        list2: this.properties.list2,
+        hrApproversList: this.properties.hrApproversList,
+        hrRequestsList: this.properties.hrRequestsList,
+        toAllLinkTitle: this.properties.toAllLinkTitle,
+        toAllLinkUrl: this.properties.toAllLinkUrl,
+        toAllLinkNewTab: this.properties.toAllLinkNewTab,
+        context: this.context
       }
     );
 
@@ -72,6 +78,14 @@ export default class PendingApprovalWebPart extends BaseClientSideWebPart<IPendi
                 PropertyPaneTextField('list2', {
                   label: "2 רשימה",
                   description:"קישור יחסי לרשימת טפסים"
+                }),
+                PropertyPaneTextField('hrApproversList', {
+                  label: "HR רשימת מאשרים",
+                  description: "קישור יחסי לרשימת zooz_hr_approvers"
+                }),
+                PropertyPaneTextField('hrRequestsList', {
+                  label: "HR רשימת בקשות",
+                  description: "קישור יחסי לרשימת zooz_hr_allRequests"
                 })
               ]
             },

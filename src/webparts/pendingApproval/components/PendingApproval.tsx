@@ -10,6 +10,8 @@ const  PendingApproval:  React.FC<IPendingApprovalProps> =  (props) => {
     title,
     list,
     list2,
+    hrApproversList,
+    hrRequestsList,
     toAllLinkNewTab,
     toAllLinkTitle,
     toAllLinkUrl,
@@ -27,12 +29,18 @@ const  PendingApproval:  React.FC<IPendingApprovalProps> =  (props) => {
      }, []);
      useEffect(() => {
       (async () => {
-        if(hasPermissions){
-          const rawResponse = await PendingApprovalService.getPendingApprovalHome(context,list,list2);
-          setPendingApproval(rawResponse);
+        if (hasPermissions) {
+          const summary = await PendingApprovalService.getPendingApprovalHomeWithHr(
+            context,
+            list,
+            list2,
+            hrApproversList,
+            hrRequestsList,
+          );
+          setPendingApproval(summary);
         }
       })();
-    }, [hasPermissions]);
+    }, [hasPermissions, list, list2, hrApproversList, hrRequestsList, context]);
   
   return (
     hasPermissions?

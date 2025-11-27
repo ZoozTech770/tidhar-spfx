@@ -15,6 +15,8 @@ export interface IFirstSectionWebPartProps {
   PAtitle: string;
   PAlist: string;
   PAlist2: string;
+  PAhrApproversList?: string;
+  PAhrRequestsList?: string;
   PAtoAllLinkTitle: string;
   PAtoAllLinkUrl: string;
   PAtoAllLinkNewTab: boolean;
@@ -66,6 +68,8 @@ export default class FirstSectionWebPart extends BaseClientSideWebPart<IFirstSec
           title: this.properties.PAtitle,
           list: this.properties.PAlist,
           list2: this.properties.PAlist2,
+          hrApproversList: this.properties.PAhrApproversList,
+          hrRequestsList: this.properties.PAhrRequestsList,
           toAllLinkTitle: this.properties.PAtoAllLinkTitle,
           toAllLinkUrl: this.properties.PAtoAllLinkUrl,
           toAllLinkNewTab: this.properties.PAtoAllLinkNewTab,
@@ -170,6 +174,14 @@ export default class FirstSectionWebPart extends BaseClientSideWebPart<IFirstSec
                 PropertyPaneTextField('PAlist2', {
                   label: "2 רשימה",
                   description: "קישור יחסי לרשימת טפסים"
+                }),
+                PropertyPaneTextField('PAhrApproversList', {
+                  label: "HR רשימת מאשרים",
+                  description: "קישור יחסי לרשימת zooz_hr_approvers"
+                }),
+                PropertyPaneTextField('PAhrRequestsList', {
+                  label: "HR רשימת בקשות",
+                  description: "קישור יחסי לרשימת zooz_hr_allRequests"
                 })
               ]
             },

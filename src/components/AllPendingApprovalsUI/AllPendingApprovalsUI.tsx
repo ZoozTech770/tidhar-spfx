@@ -12,10 +12,11 @@ const AllPendingApprovalsUI = ({ pendingApprovals, title }: AllPendingApprovalsU
 
   const { formatDate } = useDateFormatter();
 
-  const getTimeLeftText = (number: number) => {
-    if (number < 0)
-      return `עברו ${Math.abs(number)} ימים`
-    return `נותרו ${number} ימים`
+  const getDaysPassedText = (days: number) => {
+    if (days === 0) {
+      return 'היום';
+    }
+    return `עברו ${days} ימים`;
   }
 
   const onRowClick = (href: string) => {
@@ -32,7 +33,7 @@ const AllPendingApprovalsUI = ({ pendingApprovals, title }: AllPendingApprovalsU
                 <th>שם הטופס</th>
                 <th>מגיש הטופס</th>
                 <th>תאריך פתיחת הטופס</th>
-                <th>זמן נותר לטיפול בטופס</th>
+                <th>זמן שעבר מהגשת הטופס</th>
               </thead>
               <tbody className={classes.pendingApprovalsTbody}>
                 {pendingApprovals.map((pendingApproval: IPendingApprovalItem) => {
@@ -41,7 +42,7 @@ const AllPendingApprovalsUI = ({ pendingApprovals, title }: AllPendingApprovalsU
                       <td>{pendingApproval.Title}</td>
                       <td>{pendingApproval.Sender}</td>
                       <td>{formatDate(new Date(pendingApproval.OpenDate))}</td>
-                      <td className={pendingApproval.timeLeft < 0 ? classes.timeOver : ''}>{getTimeLeftText(pendingApproval.timeLeft)}</td>
+                      <td>{getDaysPassedText(pendingApproval.daysSinceOpen)}</td>
                     </tr>)
                 })}
               </tbody>
@@ -54,12 +55,12 @@ const AllPendingApprovalsUI = ({ pendingApprovals, title }: AllPendingApprovalsU
                     <thead>
                       <th>מגיש הטופס</th>
                       <th>תאריך פתיחת הטופס</th>
-                      <th>זמן נותר לטיפול בטופס</th>
+                      <th>זמן שעבר מהגשת הטופס</th>
                     </thead>
                     <tbody>
                       <td>{pendingApproval.Sender}</td>
                       <td>{formatDate(new Date(pendingApproval.OpenDate))}</td>
-                      <td>{getTimeLeftText(pendingApproval.timeLeft)}</td>
+                      <td>{getDaysPassedText(pendingApproval.daysSinceOpen)}</td>
                     </tbody>
                   </table>
                 </a>

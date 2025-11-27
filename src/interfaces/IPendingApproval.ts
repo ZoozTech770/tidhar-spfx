@@ -12,6 +12,7 @@ export interface IPendingApproval {
     Sender:string;
     OpenDate:Date;
     Url: string;
-    timeLeft:number;
+    timeLeft:number;        // kept for SLA/exceeded logic
+    daysSinceOpen:number;   // used by AllPendingApproval UI for display
   }
   
