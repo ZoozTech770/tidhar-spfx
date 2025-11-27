@@ -47,7 +47,7 @@ export default class pendingApprovalService {
   private createPendingItem(item: any, timeLeft: number) {
     const created = new Date(item.Created);
     const today = new Date();
-    const daysSinceOpen = this.getDateDiff(created, today);
+    const daysSinceOpen = this.getWholeDaysBetween(created, today);
 
     return {
       Title: item.eldFormName,
@@ -69,6 +69,18 @@ export default class pendingApprovalService {
   private getDateDiff(date1: Date, date2: Date) {
     const difference: number = date2.getTime() - date1.getTime();
     return Math.ceil(difference / (1000 * 60 * 60 * 24))
+  }
+
+  /**
+   * Whole days between two dates, based on calendar days (ignores time-of-day).
+   * Used for "days since open" so that same-day items show 0, next day shows 1, etc.
+   */
+  private getWholeDaysBetween(date1: Date, date2: Date) {
+    const d1 = new Date(date1.getFullYear(), date1.getMonth(), date1.getDate());
+    const d2 = new Date(date2.getFullYear(), date2.getMonth(), date2.getDate());
+    const difference: number = d2.getTime() - d1.getTime();
+    const dayMs = 1000 * 60 * 60 * 24;
+    return Math.max(0, Math.floor(difference / dayMs));
   }
   public async getPendingApprovalItems(context: ISPFXContext, listUrl: string, signaturePeriodsListUrl: string): Promise<IPendingApprovalItem[]> {
     let res = [];
@@ -172,7 +184,7 @@ export default class pendingApprovalService {
       const timeLeft = this.getDateDiff(today, modified);
 
       const created = new Date(item.Created);
-      const daysSinceOpen = this.getDateDiff(created, today);
+      const daysSinceOpen = this.getWholeDaysBetween(created, today);
 
       let url = hrRequestsListUrl as string;
       if (baseFormUrl) {
