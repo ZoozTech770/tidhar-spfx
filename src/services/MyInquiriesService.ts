@@ -9,10 +9,6 @@ import { Web } from "@pnp/sp/webs";
 import { IInquiriesItem } from "../interfaces/IInquiriesItem";
 import { IFormItem } from "../interfaces/IformItem";
 
-// TEMP: explicit HR Power Apps base URL for HR requests (zooz_hr_allRequests)
-// Do NOT include reqId here; it is appended in code.
-const HR_APP_BASE_URL = "https://apps.powerapps.com/play/e/85b73110-9842-e983-bdbb-d61c175c1c5d/a/28a2a67d-edc3-41c3-8924-97e1bb8b37ac?tenantId=47339e34-e7be-4166-9485-70ccbd784a21&hint=cefce19f-00c1-4cb6-8310-7f4268c6da4d";
-
 export default class myInquiriesService {
   private createArchiveMyInquiryItem(item: any, createdByMe: boolean) {
     // For archive items we want to show the "other side" of the request:
@@ -73,11 +69,13 @@ export default class myInquiriesService {
         inquiry.Title = inquiry.RequestType;
       }
 
-      // Build HR Power Apps URL for this request if not already present
-      if (!inquiry.eldFormURL && (inquiry.ID !== undefined || inquiry.Id !== undefined)) {
+      // Build HR Power Apps URL for this request if not already present.
+      // Base URL now comes from lstFormsManagmentList.eldFormLink for this form (ID === 2).
+      if (!inquiry.eldFormURL && (inquiry.ID !== undefined || inquiry.Id !== undefined) && listMeta.formLinkUrl) {
         const reqId = inquiry.ID !== undefined ? inquiry.ID : inquiry.Id;
-        const separator = HR_APP_BASE_URL.includes("?") ? "&" : "?";
-        const url = `${HR_APP_BASE_URL}${separator}reqId=${reqId}`;
+        const baseUrl: string = listMeta.formLinkUrl;
+        const separator = baseUrl.includes("?") ? "&" : "?";
+        const url = `${baseUrl}${separator}reqId=${reqId}`;
         inquiry.eldFormURL = { Url: url };
       }
 
@@ -158,7 +156,7 @@ export default class myInquiriesService {
     }
 
     try {
-      debugger
+      //debugger
       let items = [];
       try {
         // נבנה את השאילתה בהתאם לסוג הטופס
@@ -336,24 +334,15 @@ export default class myInquiriesService {
     for (const item of items) {
       if (item.eldFormList) {
         const web = item.eldFormList;
+        // Base web URL: everything before "/Lists" (handles HR and legacy forms uniformly)
         let webUrl = web.Url.slice(0, web.Url.indexOf("/Lists"));
         const formId = item.eldFormID;
 
-        // --- שינוי URL לפי הצורך ---
-        let listUrl: string;
-
-        if (item.ID === 2) {
-          webUrl = 'https://tidharconil.sharepoint.com/sites/SmartFormsHR'
-          listUrl = "/sites/SmartFormsHR/Lists/zooz_hr_allRequests/AllItems.aspx";
-        } else {
-          // שאר הפריטים נשארים כמו שהם, URL יחסי
-          listUrl = web.Url.replace(
-            window.location.protocol + "//" + window.location.host,
-            ""
-          );
-
-
-        }
+        // Relative list URL (remove protocol + host), works for both HR and legacy lists
+        const listUrl: string = web.Url.replace(
+          window.location.protocol + "//" + window.location.host,
+          ""
+        );
 
         res.push({
           webUrl: webUrl,
@@ -361,6 +350,8 @@ export default class myInquiriesService {
           formHandlingPeriod: item.eldFormHandlingPeriod,
           formId: formId,
           id: item.ID,
+          // Base form URL (Power Apps) from lstFormsManagmentList.eldFormLink
+          formLinkUrl: item.eldFormLink?.Url || item.eldFormLink,
         });
       }
     }

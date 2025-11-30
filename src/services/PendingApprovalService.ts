@@ -13,10 +13,6 @@ import { IPendingApprovalItem } from "../interfaces/IPendingApproval";
 import { forEach } from "lodash";
 var Set = require("es6-set");
 
-// TEMP: explicit HR Power Apps base URL until lstFormsManagmentList (ID=2).eldFormLink is updated
-// Do NOT include reqId here; it is appended in code.
-const HR_APP_BASE_URL = "https://apps.powerapps.com/play/e/85b73110-9842-e983-bdbb-d61c175c1c5d/a/28a2a67d-edc3-41c3-8924-97e1bb8b37ac?tenantId=47339e34-e7be-4166-9485-70ccbd784a21&hint=cefce19f-00c1-4cb6-8310-7f4268c6da4d";
-
 const open = "בטיפול";
 const query = {
   ViewXml: `<View><Query>
@@ -142,21 +138,24 @@ export default class pendingApprovalService {
     try {
       approverRows = await hrWeb
         .getList(hrApproversListUrl)
-        .items.select('RequestType', 'ApproversMail')();
+        .items.select('RequestType', 'ApproverStep', 'ApproversMail')();
     } catch (error) {
       console.error('Error fetching HR approvers list:', error);
       return [];
     }
 
-    const requestTypes = this.getHrRequestTypesForUser(approverRows, userEmail);
-    if (!requestTypes.length) {
+    // Build the list of (RequestType, Step) combinations where the current user is an approver
+    const approverKeys = this.getHrApproverKeysForUser(approverRows, userEmail);
+    if (!approverKeys.length) {
       return [];
     }
 
     // 3. Fetch HR signature period & base URL from lstFormsManagmentList item ID 2
     const { signaturePeriodDays, baseFormUrl } = await this.getHrSignatureConfig(sp, signaturePeriodsListUrl);
 
-    // 4. Build OData filter for HR requests: Status == 'in process' AND RequestType in my types
+    // 4. Build OData filter for HR requests: Status == 'in process' AND RequestType in my types.
+    // We still filter by RequestType in OData for efficiency and then enforce Step in code.
+    const requestTypes = this.getDistinctRequestTypesFromHrKeys(approverKeys);
     const typeFilter = requestTypes
       .map(t => `RequestType eq '${t.replace(/'/g, "''")}'`)
       .join(' or ');
@@ -168,7 +167,7 @@ export default class pendingApprovalService {
       hrItems = await hrWeb
         .getList(hrRequestsListUrl)
         .items.filter(filter)
-        .select('ID', 'RequestType', 'Status', 'Created', 'Modified', 'Author/EMail', 'Author/Title')
+        .select('ID', 'RequestType', 'CurrentStep', 'Status', 'Created', 'Modified', 'Author/EMail', 'Author/Title')
         .expand('Author')();
     } catch (error) {
       console.error('Error fetching HR requests list:', error);
@@ -177,32 +176,37 @@ export default class pendingApprovalService {
 
     const today = new Date();
 
-    // 5. Shape into IPendingApprovalItem[]
-    return hrItems.map(item => {
-      const modified = new Date(item.Modified);
-      modified.setDate(modified.getDate() + signaturePeriodDays);
-      const timeLeft = this.getDateDiff(today, modified);
+    // 5. Shape into IPendingApprovalItem[], keeping only items where the user is approver for (RequestType, Step)
+    return hrItems
+      .filter(item => {
+        const key = this.buildHrKey(item.RequestType, item.CurrentStep);
+        return approverKeys.indexOf(key) !== -1;
+      })
+      .map(item => {
+        const modified = new Date(item.Modified);
+        modified.setDate(modified.getDate() + signaturePeriodDays);
+        const timeLeft = this.getDateDiff(today, modified);
 
-      const created = new Date(item.Created);
-      const daysSinceOpen = this.getWholeDaysBetween(created, today);
+        const created = new Date(item.Created);
+        const daysSinceOpen = this.getWholeDaysBetween(created, today);
 
-      let url = hrRequestsListUrl as string;
-      if (baseFormUrl) {
-        const separator = baseFormUrl.includes('?') ? '&' : '?';
-        url = `${baseFormUrl}${separator}reqId=${item.ID}`;
-      }
+        let url = hrRequestsListUrl as string;
+        if (baseFormUrl) {
+          const separator = baseFormUrl.includes('?') ? '&' : '?';
+          url = `${baseFormUrl}${separator}reqId=${item.ID}`;
+        }
 
-      const sender = item.Author?.Title || item.Author?.EMail || '';
+        const sender = item.Author?.Title || item.Author?.EMail || '';
 
-      return {
-        Title: item.RequestType,
-        Sender: sender,
-        OpenDate: new Date(item.Created),
-        Url: url,
-        timeLeft,
-        daysSinceOpen,
-      } as IPendingApprovalItem;
-    });
+        return {
+          Title: item.RequestType,
+          Sender: sender,
+          OpenDate: new Date(item.Created),
+          Url: url,
+          timeLeft,
+          daysSinceOpen,
+        } as IPendingApprovalItem;
+      });
   }
 
   /** Resolve the SmartFormsHR web from one of the HR list URLs. */
@@ -229,22 +233,48 @@ export default class pendingApprovalService {
     return Web(hrSiteAbsolute).using(SPFx(context));
   }
 
-  /** Extract distinct RequestType values for which the given user is an approver. */
-  private getHrRequestTypesForUser(approverRows: any[], userEmail: string): string[] {
+/**
+   * Build a list of (RequestType, Step) keys for which the given user is an approver.
+   * Each key is encoded as `${RequestType}::${Step}`.
+   */
+  private getHrApproverKeysForUser(approverRows: any[], userEmail: string): string[] {
     const lowerUser = userEmail.toLowerCase();
+    const keys: string[] = [];
 
-    const types = approverRows
-      .filter(row => !!row.RequestType && !!row.ApproversMail)
-      .filter(row => {
+    approverRows
+      .filter(row => !!row.RequestType && row.ApproverStep !== undefined && row.ApproverStep !== null && !!row.ApproversMail)
+      .forEach(row => {
         const emails = (row.ApproversMail as string)
           .split(';')
           .map((e: string) => e.trim().toLowerCase())
           .filter((e: string) => !!e);
-        return emails.includes(lowerUser);
-      })
-      .map(row => String(row.RequestType));
 
-    return Array.from(new Set(types));
+        if (emails.includes(lowerUser)) {
+          const key = this.buildHrKey(row.RequestType, row.ApproverStep);
+          if (keys.indexOf(key) === -1) {
+            keys.push(key);
+          }
+        }
+      });
+
+    return keys;
+  }
+
+  /** Helper to build a stable key for HR RequestType + Step. */
+  private buildHrKey(requestType: any, step: any): string {
+    return `${String(requestType)}::${String(step)}`;
+  }
+
+  /** Extract distinct RequestType values from a list of HR approver keys. */
+  private getDistinctRequestTypesFromHrKeys(keys: string[]): string[] {
+    const types: string[] = [];
+    keys.forEach(k => {
+      const [requestType] = k.split('::');
+      if (requestType && types.indexOf(requestType) === -1) {
+        types.push(requestType);
+      }
+    });
+    return types;
   }
 
   /** Read HR signature period + base form URL from lstFormsManagmentList (item ID 2). */
@@ -260,10 +290,8 @@ export default class pendingApprovalService {
 
       signaturePeriodDays = hrConfig.eldApproverSignaturePeriod || 0;
 
-      // TEMP override: use hard-coded HR Power Apps URL until FormLink is updated in lstFormsManagmentList (ID=2)
-      baseFormUrl = HR_APP_BASE_URL;
-      // When FormLink is correct, switch back to:
-      // baseFormUrl = hrConfig.eldFormLink?.Url || hrConfig.eldFormLink;
+      // Use the configured Power Apps URL from lstFormsManagmentList (ID=2)
+      baseFormUrl = hrConfig.eldFormLink?.Url || hrConfig.eldFormLink;
     } catch (error) {
       console.error('Error fetching HR signature period configuration from lstFormsManagmentList (ID=2):', error);
       // If we cannot read config, still show items with a large default period
