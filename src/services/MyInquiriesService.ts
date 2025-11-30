@@ -210,20 +210,16 @@ export default class myInquiriesService {
     userAccountName: string
   ) {
     let res: IInquiriesItem[] = [];
-    let today = new Date();
+    const today = new Date();
 
-    // TEMP for testing: restrict archive to the last 3 days (today and previous 2 days)
-    const endDate = today.toISOString();
-    const threeDaysAgo = new Date(
-      today.getFullYear(),
+    // Archive window: last 2 years up to the provided "date" (typically lastWeek)
+    // "date" comes from getMyInquiriesItems and is computed as today - 7 days.
+    const endDate = date; // upper bound (e.g. lastWeek)
+    const pastTwoYears = new Date(
+      today.getFullYear() - 2,
       today.getMonth(),
-      today.getDate() - 2
+      today.getDate()
     ).toISOString();
-
-    // Previous behavior (kept for reference): 2-year window up to the provided date
-    // let pastTwoYears = new Date(
-    //   today.setFullYear(today.getFullYear() - 2)
-    // ).toISOString();
 
     const web = Web(item.webUrl).using(SPFx(context));
 
@@ -244,11 +240,11 @@ export default class myInquiriesService {
       // NOTE: for HR we fetch all items in this state and decide in code
       // whether the current user opened or approved them (Author/Editor).
       filterMyInquiries = `((Status eq 'approved' or Status eq 'rejected' or Status eq 'canceled' or Status eq 'completed')
-  and Modified le datetime'${endDate}' and Modified ge datetime'${threeDaysAgo}')`;
+  and Modified le datetime'${endDate}' and Modified ge datetime'${pastTwoYears}')`;
     } else {
       // Existing lists schema: eldStatus column and Hebrew status values
       filterMyInquiries = `((eldStatus eq 'אושרה' or eldStatus eq 'נדחתה' or eldStatus eq 'בוטלה') and Author/Name eq '${userAccountName}'
-  and Modified le datetime'${endDate}' and Modified ge datetime'${threeDaysAgo}')`;
+  and Modified le datetime'${endDate}' and Modified ge datetime'${pastTwoYears}')`;
     }
     try {
       // נבנה את השאילתה בהתאם לסוג הטופס
