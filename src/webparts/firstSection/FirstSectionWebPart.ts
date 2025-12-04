@@ -49,7 +49,7 @@ export default class FirstSectionWebPart extends BaseClientSideWebPart<IFirstSec
     const element: React.ReactElement<IFirstSectionProps> = React.createElement(
       FirstSection,
       {
-        eventsProps: {
+        calendarProps: {
           list: this.properties.Elist,
           userEmail: this.context.pageContext.user.email,
           eventPage: this.properties.EeventPage,

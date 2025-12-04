@@ -1,0 +1,25 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
+  "id": "a1b2c3d4-1234-5678-9abc-def012345678",
+  "alias": "CalendarWebPart",
+  "componentType": "WebPart",
+
+  "version": "*",
+  "manifestVersion": 2,
+
+  "requiresCustomScript": false,
+  "supportedHosts": ["SharePointWebPart", "TeamsPersonalApp", "TeamsTab", "SharePointFullPage"],
+  "supportsThemeVariants": true,
+
+  "preconfiguredEntries": [{
+    "groupId": "5c03119e-3074-46fd-976b-c60198311f70",
+    "group": { "default": "Advanced" },
+    "title": { "default": "לוח אירועים" },
+    "description": { "default": "Calendar events description" },
+    "iconImageUrl":"../../assets/eladIcon.png",
+    "officeFabricIconFontName": "Calendar",
+    "properties": {
+      "description": "Calendar"
+    }
+  }]
+}

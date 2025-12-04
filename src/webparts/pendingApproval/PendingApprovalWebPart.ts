@@ -7,9 +7,8 @@ import {
   PropertyPaneCheckbox
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
-import PendingApproval from './components/PendingApproval';
-import { IPendingApprovalProps } from './components/IPendingApprovalProps';
-import { PendingApprovalService } from '../../services/PendingApprovalService';
+import PendingApprovalPanel from './components/PendingApprovalPanel';
+import { IPendingApprovalPanelProps } from './components/IPendingApprovalPanelProps';
 
 export interface IPendingApprovalWebPartProps {
   title: string;
@@ -26,10 +25,9 @@ export interface IPendingApprovalWebPartProps {
 
 export default class PendingApprovalWebPart extends BaseClientSideWebPart<IPendingApprovalWebPartProps> {
 
-  public render():void{
-   
-    const element: React.ReactElement<IPendingApprovalProps> = React.createElement(
-      PendingApproval,
+  public render(): void {
+    const element: React.ReactElement<IPendingApprovalPanelProps> = React.createElement(
+      PendingApprovalPanel,
       {
         title: this.properties.title,
         list: this.properties.list,

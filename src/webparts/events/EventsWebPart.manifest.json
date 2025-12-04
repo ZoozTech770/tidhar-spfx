@@ -18,12 +18,12 @@
   "preconfiguredEntries": [{
     "groupId": "5c03119e-3074-46fd-976b-c60198311f70", // Advanced
     "group": { "default": "Advanced" },
-    "title": { "default": "לוח אירועים" },
-    "description": { "default": "לוח אירועים" },
+    "title": { "default": "פרויקטים" },
+    "description": { "default": "רכיב פרויקטים" },
     "iconImageUrl":"../../assets/eladIcon.png",
-    "officeFabricIconFontName": "Page",
+    "officeFabricIconFontName": "ProjectCollection",
     "properties": {
-      "description": "Events"
+      "description": "Projects"
     }
   }]
 }

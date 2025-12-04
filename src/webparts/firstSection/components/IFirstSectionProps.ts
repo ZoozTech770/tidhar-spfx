@@ -1,11 +1,11 @@
-import { IEventsProps } from "../../events/components/IEventsProps";
-import { IMyInquiriesProps } from "../../myInquiries/components/IMyInquiriesProps";
-import { IPendingApprovalProps } from "../../pendingApproval/components/IPendingApprovalProps";
-import { IJobsProps } from "../../jobs/components/IJobsProps";
+import { ICalendarPanelProps } from "../../calendar/components/ICalendarPanelProps";
+import { IMyInquiriesPanelProps } from "../../myInquiries/components/IMyInquiriesPanelProps";
+import { IPendingApprovalPanelProps } from "../../pendingApproval/components/IPendingApprovalPanelProps";
+import { IJobsPanelProps } from "../../jobs/components/IJobsPanelProps";
 
 export interface IFirstSectionProps {
-  eventsProps:IEventsProps;
-  jobsProps:IJobsProps;
-  pendingApprovalProps:IPendingApprovalProps;
-  myInquiriesProps:IMyInquiriesProps;
+  calendarProps: ICalendarPanelProps;
+  jobsProps: IJobsPanelProps;
+  pendingApprovalProps: IPendingApprovalPanelProps;
+  myInquiriesProps: IMyInquiriesPanelProps;
 }

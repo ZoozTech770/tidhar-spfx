@@ -209,6 +209,14 @@
           "manifest": "./src/webparts/jobsFilter/JobsFilterWebPart.manifest.json"
         }
       ]
+    },
+    "calendar-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/calendar/CalendarWebPart.js",
+          "manifest": "./src/webparts/calendar/CalendarWebPart.manifest.json"
+        }
+      ]
     }
   },
   "externals": {},
@@ -236,6 +244,7 @@
     "CongratulationsWebPartStrings": "lib/webparts/congratulations/loc/{locale}.js",
     "SystemsWebPartStrings": "lib/webparts/systems/loc/{locale}.js",
     "AllCongratulationsWebPartStrings": "lib/webparts/allCongratulations/loc/{locale}.js",
-    "JobsFilterWebPartStrings": "lib/webparts/jobsFilter/loc/{locale}.js"
+    "JobsFilterWebPartStrings": "lib/webparts/jobsFilter/loc/{locale}.js",
+    "CalendarWebPartStrings": "lib/webparts/calendar/loc/{locale}.js"
   }
 }

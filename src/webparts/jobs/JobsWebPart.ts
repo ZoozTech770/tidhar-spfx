@@ -7,8 +7,8 @@ import {
   PropertyPaneCheckbox
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
-import Jobs from './components/Jobs';
-import { IJobsProps } from './components/IJobsProps';
+import JobsPanel from './components/JobsPanel';
+import { IJobsPanelProps } from './components/IJobsPanelProps';
 
 export interface IJobsWebPartProps {
   title: string;
@@ -22,16 +22,16 @@ export interface IJobsWebPartProps {
 export default class JobsWebPart extends BaseClientSideWebPart<IJobsWebPartProps> {
 
   public render(): void {
-    const element: React.ReactElement<IJobsProps> = React.createElement(
-      Jobs,
+    const element: React.ReactElement<IJobsPanelProps> = React.createElement(
+      JobsPanel,
       {
         title: this.properties.title,
-        list:this.properties.list,
-        toAllLinkTitle:this.properties.toAllLinkTitle,
-        toAllLinkUrl:this.properties.toAllLinkUrl,
-        toAllLinkNewTab:this.properties.toAllLinkNewTab,
-        jobPage:this.properties.jobPage,
-        context:this.context
+        list: this.properties.list,
+        toAllLinkTitle: this.properties.toAllLinkTitle,
+        toAllLinkUrl: this.properties.toAllLinkUrl,
+        toAllLinkNewTab: this.properties.toAllLinkNewTab,
+        jobPage: this.properties.jobPage,
+        context: this.context
       }
     );
 

@@ -7,8 +7,8 @@ import {
   PropertyPaneCheckbox
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
-import MyInquiries from './components/MyInquiries';
-import { IMyInquiriesProps } from './components/IMyInquiriesProps';
+import MyInquiriesPanel from './components/MyInquiriesPanel';
+import { IMyInquiriesPanelProps } from './components/IMyInquiriesPanelProps';
 
 export interface IMyInquiriesWebPartProps {
   title: string;
@@ -24,18 +24,19 @@ export interface IMyInquiriesWebPartProps {
 export default class MyInquiriesWebPart extends BaseClientSideWebPart<IMyInquiriesWebPartProps> {
 
   public render(): void {
-    const element: React.ReactElement<IMyInquiriesProps> = React.createElement(
-      MyInquiries,
+    const element: React.ReactElement<IMyInquiriesPanelProps> = React.createElement(
+      MyInquiriesPanel,
       {
+        context: this.context,
         title: this.properties.title,
-        list:this.properties.list,
-        newInqTitle:this.properties.newInqTitle,
-        newInqLinkUrl:this.properties.newInqLinkUrl,
-        newInqLinkNewTab:this.properties.newInqLinkNewTab,
-        toAllLinkTitle:this.properties.toAllLinkTitle,
-        toAllLinkUrl:this.properties.toAllLinkUrl,
-        toAllLinkNewTab:this.properties.toAllLinkNewTab,
-        context:this.context
+        list: this.properties.list,
+        newInqTitle: this.properties.newInqTitle,
+        newInqLinkUrl: this.properties.newInqLinkUrl,
+        newInqLinkNewTab: this.properties.newInqLinkNewTab,
+        toAllLinkTitle: this.properties.toAllLinkTitle,
+        toAllLinkUrl: this.properties.toAllLinkUrl,
+        toAllLinkNewTab: this.properties.toAllLinkNewTab,
+        showPendingApproval: true
       }
     );
 
