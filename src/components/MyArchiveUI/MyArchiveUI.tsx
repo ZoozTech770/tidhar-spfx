@@ -67,6 +67,7 @@ const MyArchiveUI = ({ title, archiveItems }: MyArchiveUIProps) => {
                                         </div>
                                     </td>
                                 </tr>
+                                
                             })}
                         </tbody>
                     </table>

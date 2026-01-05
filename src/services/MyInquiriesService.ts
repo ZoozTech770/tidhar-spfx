@@ -52,8 +52,8 @@ export default class myInquiriesService {
   // Normalize raw SharePoint inquiry item so the rest of the service/UI
   // can rely on the legacy field names (eldStatus, Title, etc.).
   private normalizeInquiryItemForUi(listMeta: any, inquiry: any): any {
-    // Only apply normalization for the new list (ID === 2)
-    if (listMeta.id === 2) {
+    // Apply normalization for new HR list (ID === 2) and Internal Mobility (ID === 4)
+    if (listMeta.id === 2 || listMeta.id === 4) {
       // Status -> eldStatus
       if (inquiry.Status !== undefined && inquiry.eldStatus === undefined) {
         inquiry.eldStatus = inquiry.Status;
@@ -150,6 +150,9 @@ export default class myInquiriesService {
     if (item.id === 2) {
       // New list schema: Status column and "in process" value
       filterMyInquiries = `((Status eq 'in process') and Modified ge datetime'${date}')`;
+    } else if (item.id === 4) {
+      // Internal Mobility: check BOTH Status (new app) and eldStatus (old app)
+      filterMyInquiries = `(((Status eq 'in process') or (eldStatus eq 'בטיפול') or (eldStatus eq 'טיוטה')) and Modified ge datetime'${date}')`;
     } else {
       // Existing lists schema: eldStatus column and Hebrew status values
       filterMyInquiries = `((eldStatus eq 'בטיפול' or eldStatus eq 'טיוטה') and Modified ge datetime'${date}')`;
@@ -241,6 +244,10 @@ export default class myInquiriesService {
       // whether the current user opened or approved them (Author/Editor).
       filterMyInquiries = `((Status eq 'approved' or Status eq 'rejected' or Status eq 'canceled' or Status eq 'completed')
   and Modified le datetime'${endDate}' and Modified ge datetime'${pastTwoYears}')`;
+    } else if (item.id === 4) {
+      // Internal Mobility: check BOTH Status (new app) and eldStatus (old app)
+      filterMyInquiries = `(((Status eq 'approved' or Status eq 'rejected' or Status eq 'canceled' or Status eq 'completed') or (eldStatus eq 'אושרה' or eldStatus eq 'נדחתה' or eldStatus eq 'בוטלה')) and Author/Name eq '${userAccountName}'
+  and Modified le datetime'${endDate}' and Modified ge datetime'${pastTwoYears}')`;
     } else {
       // Existing lists schema: eldStatus column and Hebrew status values
       filterMyInquiries = `((eldStatus eq 'אושרה' or eldStatus eq 'נדחתה' or eldStatus eq 'בוטלה') and Author/Name eq '${userAccountName}'
@@ -260,8 +267,8 @@ export default class myInquiriesService {
       let itemsTreatedByMe: any[] = [];
       let itemsOpenedByMe: any[] = [];
 
-      if (item.id === 2) {
-        // New HR list: fetch all final-state items within the date range.
+      if (item.id === 2 || item.id === 4) {
+        // New HR list or Internal Mobility: fetch all final-state items within the date range.
         // We'll determine in code whether the current user opened or approved them.
         itemsOpenedByMe = await web
           .getList(item.listUrl)
@@ -287,8 +294,8 @@ export default class myInquiriesService {
         res.push(this.createArchiveMyInquiryItem(inquiry, false));
       });
 
-      if (item.id === 2) {
-        // HR list: partition items by role based on Author/Editor email
+      if (item.id === 2 || item.id === 4) {
+        // HR list or Internal Mobility: partition items by role based on Author/Editor email
         const sp = spfi().using(SPFx(context));
         const currentUser = await sp.web.currentUser();
         const currentEmail = (currentUser.Email || "").toLowerCase();

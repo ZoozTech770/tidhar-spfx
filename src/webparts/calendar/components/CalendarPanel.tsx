@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import { EventsService } from '../../../services/EventsService';
 import CalenderOfEvents from '../../../components/CalenderOfEvents/calenderOfEvents';
 import { ICalendarPanelProps } from './ICalendarPanelProps';
-import styles from './CalendarPanel.module.scss';
 
 export type csvItem = {
   title: string;
@@ -77,7 +76,7 @@ const CalendarPanel: React.FC<ICalendarPanelProps> = (props) => {
   };
 
   return (
-    <div className={styles.calendarPanelWrapper}>
+    <div>
       <CalenderOfEvents
         titleList={'לוח אירועים'}
         titleCalender={'לוח שנה'}
