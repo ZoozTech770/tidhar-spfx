@@ -6,5 +6,9 @@ export interface IAllPendingApprovalProps {
   hrApproversList?: string;
   /** Optional: HR requests list (zooz_hr_allRequests) */
   hrRequestsList?: string;
+  /** Optional: Internal Mobility approvers list (zooz_mobility_approvers) */
+  mobilityApproversList?: string;
+  /** Optional: Internal Mobility requests list (lstEmployeeMobilityForm) */
+  mobilityRequestsList?: string;
   context: any;
 }

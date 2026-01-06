@@ -11,6 +11,8 @@ const AllPendingApproval: React.FC<IAllPendingApprovalProps> = (props) => {
     list2,
     hrApproversList,
     hrRequestsList,
+    mobilityApproversList,
+    mobilityRequestsList,
     context,
   } = props;
 
@@ -51,11 +53,26 @@ const AllPendingApproval: React.FC<IAllPendingApprovalProps> = (props) => {
           }
         }
 
-        setPendingApprovalItems([...legacyItems, ...hrItems]);
+        // Optional: Internal Mobility pending approvals
+        let mobilityItems: IPendingApprovalItem[] = [];
+        if (mobilityApproversList && mobilityRequestsList) {
+          try {
+            mobilityItems = await PendingApprovalService.getPendingApprovalItemsMobility(
+              context,
+              mobilityApproversList,
+              mobilityRequestsList,
+              list2
+            );
+          } catch (error) {
+            console.error('Error fetching Internal Mobility pending approval items', error);
+          }
+        }
+
+        setPendingApprovalItems([...legacyItems, ...hrItems, ...mobilityItems]);
         setisLoading(false);
       }
     })();
-  }, [hasPermissions, list, list2, hrApproversList, hrRequestsList, context]);
+  }, [hasPermissions, list, list2, hrApproversList, hrRequestsList, mobilityApproversList, mobilityRequestsList, context]);
   if (!isLoading) {
 
     return (

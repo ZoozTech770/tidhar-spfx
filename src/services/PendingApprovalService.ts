@@ -302,6 +302,122 @@ export default class pendingApprovalService {
   }
 
   /**
+   * Get pending Internal Mobility approvals for the current user.
+   * Uses:
+   * - zooz_mobility_approvers: RequestType='mobility' + ApproversMail (";"-separated emails)
+   * - lstEmployeeMobilityForm: Status='in process'
+   * - lstFormsManagmentList (signaturePeriodsListUrl): item ID 4 for eldApproverSignaturePeriod + eldFormLink (base URL)
+   */
+  public async getPendingApprovalItemsMobility(
+    context: ISPFXContext,
+    mobilityApproversListUrl: string,
+    mobilityRequestsListUrl: string,
+    signaturePeriodsListUrl: string,
+  ): Promise<IPendingApprovalItem[]> {
+    const sp = spfi().using(SPFx(context));
+
+    // Resolve Internal Mobility web
+    const mobilityWeb = this.getHrWeb(context, mobilityApproversListUrl, mobilityRequestsListUrl);
+
+    // 1. Current user's email (normalized to lowercase)
+    const currentUser = await sp.web.currentUser();
+    const userEmail: string = (currentUser.Email || '').toLowerCase();
+    if (!userEmail) {
+      return [];
+    }
+
+    // 2. Mobility approver rows where RequestType='mobility' and ApproversMail contains the current user's email
+    let approverRows: any[] = [];
+    try {
+      approverRows = await mobilityWeb
+        .getList(mobilityApproversListUrl)
+        .items.filter("RequestType eq 'mobility'")
+        .select('RequestType', 'ApproversMail')();
+    } catch (error) {
+      console.error('Error fetching Internal Mobility approvers list:', error);
+      return [];
+    }
+
+    // Check if current user is an approver
+    const isApprover = approverRows.some(row => {
+      if (!row.ApproversMail) return false;
+      const emails = (row.ApproversMail as string)
+        .split(';')
+        .map((e: string) => e.trim().toLowerCase())
+        .filter((e: string) => !!e);
+      return emails.includes(userEmail);
+    });
+
+    if (!isApprover) {
+      return [];
+    }
+
+    // 3. Fetch Mobility signature period from lstFormsManagmentList item ID 4
+    const { signaturePeriodDays } = await this.getMobilitySignatureConfig(sp, signaturePeriodsListUrl);
+
+    // 4. Fetch all Internal Mobility requests with Status='in process'
+    let mobilityItems: any[] = [];
+    try {
+      mobilityItems = await mobilityWeb
+        .getList(mobilityRequestsListUrl)
+        .items.filter("Status eq 'in process'")
+        .select('ID', 'RequestType', 'Status', 'Created', 'Modified', 'Author/EMail', 'Author/Title')
+        .expand('Author')();
+    } catch (error) {
+      console.error('Error fetching Internal Mobility requests list:', error);
+      return [];
+    }
+
+    const today = new Date();
+
+    // 5. Shape into IPendingApprovalItem[]
+    return mobilityItems.map(item => {
+      const modified = new Date(item.Modified);
+      modified.setDate(modified.getDate() + signaturePeriodDays);
+      const timeLeft = this.getDateDiff(today, modified);
+
+      const created = new Date(item.Created);
+      const daysSinceOpen = this.getWholeDaysBetween(created, today);
+
+      // Hardcoded Power Apps URL for new Internal Mobility app (not yet published to lstFormsManagmentList)
+      const url = `https://apps.powerapps.com/play/e/85b73110-9842-e983-bdbb-d61c175c1c5d/a/cbbbb978-aeb0-42fd-b90f-7b917f7c0afd?tenantId=47339e34-e7be-4166-9485-70ccbd784a21&hint=c84da289-29d1-48d5-9ecb-e8da186e68cc&sourcetime=1767160636074&JobID=${item.ID}`;
+
+      const sender = item.Author?.Title || item.Author?.EMail || '';
+
+      return {
+        Title: item.RequestType || 'Internal Mobility',
+        Sender: sender,
+        OpenDate: new Date(item.Created),
+        Url: url,
+        timeLeft,
+        daysSinceOpen,
+      } as IPendingApprovalItem;
+    });
+  }
+
+  /** Read Internal Mobility signature period + base form URL from lstFormsManagmentList (item ID 4). */
+  private async getMobilitySignatureConfig(sp: any, signaturePeriodsListUrl: string): Promise<{ signaturePeriodDays: number; baseFormUrl?: string }> {
+    let signaturePeriodDays = 0;
+    let baseFormUrl: string | undefined;
+
+    try {
+      const mobilityConfig = await sp.web
+        .getList(signaturePeriodsListUrl)
+        .items.getById(4)
+        .select('eldApproverSignaturePeriod', 'eldFormLink')();
+
+      signaturePeriodDays = mobilityConfig.eldApproverSignaturePeriod || 0;
+      baseFormUrl = mobilityConfig.eldFormLink?.Url || mobilityConfig.eldFormLink;
+    } catch (error) {
+      console.error('Error fetching Internal Mobility signature period configuration from lstFormsManagmentList (ID=4):', error);
+      // If we cannot read config, still show items with a large default period
+      signaturePeriodDays = 300;
+    }
+
+    return { signaturePeriodDays, baseFormUrl };
+  }
+
+  /**
    * Summary for PendingApproval tiles: legacy + optional HR totals.
    */
   public async getPendingApprovalHomeWithHr(

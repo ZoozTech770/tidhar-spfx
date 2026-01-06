@@ -17,6 +17,10 @@ export interface IAllPendingApprovalWebPartProps {
   hrApproversList?: string;
   /** Optional: HR requests list (relative URL to zooz_hr_allRequests) */
   hrRequestsList?: string;
+  /** Optional: Internal Mobility approvers list (relative URL to zooz_mobility_approvers) */
+  mobilityApproversList?: string;
+  /** Optional: Internal Mobility requests list (relative URL to lstEmployeeMobilityForm) */
+  mobilityRequestsList?: string;
 }
 
 export default class AllPendingApprovalWebPart extends BaseClientSideWebPart<IAllPendingApprovalWebPartProps> {
@@ -31,6 +35,8 @@ export default class AllPendingApprovalWebPart extends BaseClientSideWebPart<IAl
         list2: this.properties.list2,
         hrApproversList: this.properties.hrApproversList,
         hrRequestsList: this.properties.hrRequestsList,
+        mobilityApproversList: this.properties.mobilityApproversList,
+        mobilityRequestsList: this.properties.mobilityRequestsList,
         context: this.context
       }
     );
@@ -76,6 +82,14 @@ export default class AllPendingApprovalWebPart extends BaseClientSideWebPart<IAl
                 PropertyPaneTextField('hrRequestsList', {
                   label: "HR רשימת בקשות",
                   description: "קישור יחסי לרשימת zooz_hr_allRequests"
+                }),
+                PropertyPaneTextField('mobilityApproversList', {
+                  label: "ניוד פנימי - רשימת מאשרים",
+                  description: "קישור יחסי לרשימת zooz_mobility_approvers"
+                }),
+                PropertyPaneTextField('mobilityRequestsList', {
+                  label: "ניוד פנימי - רשימת בקשות",
+                  description: "קישור יחסי לרשימת lstEmployeeMobilityForm"
                 })
               ]
             }
