@@ -8,6 +8,7 @@ import "@pnp/sp/site-users";
 import { Web } from "@pnp/sp/webs";
 import { IInquiriesItem } from "../interfaces/IInquiriesItem";
 import { IFormItem } from "../interfaces/IformItem";
+import { translateStatusToHebrew, translateTitleToHebrew } from "../util/inquiriesMappings";
 
 export default class myInquiriesService {
   private createArchiveMyInquiryItem(item: any, createdByMe: boolean) {
@@ -54,9 +55,9 @@ export default class myInquiriesService {
   private normalizeInquiryItemForUi(listMeta: any, inquiry: any): any {
     // Apply normalization for new HR list (ID === 2) and Internal Mobility (ID === 4)
     if (listMeta.id === 2 || listMeta.id === 4) {
-      // Status -> eldStatus
+      // Status -> eldStatus (with translation to Hebrew for new apps)
       if (inquiry.Status !== undefined && inquiry.eldStatus === undefined) {
-        inquiry.eldStatus = inquiry.Status;
+        inquiry.eldStatus = translateStatusToHebrew(inquiry.Status);
       }
 
       // RequestType -> eldFormName (this is what the UI uses as the form title)
