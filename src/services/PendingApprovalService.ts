@@ -361,7 +361,7 @@ export default class pendingApprovalService {
       mobilityItems = await mobilityWeb
         .getList(mobilityRequestsListUrl)
         .items.filter("Status eq 'in process'")
-        .select('ID', 'RequestType', 'Status', 'Created', 'Modified', 'Author/EMail', 'Author/Title')
+        .select('ID', 'Status', 'Created', 'Modified', 'Author/EMail', 'Author/Title')
         .expand('Author')();
     } catch (error) {
       console.error('Error fetching Internal Mobility requests list:', error);
@@ -385,7 +385,7 @@ export default class pendingApprovalService {
       const sender = item.Author?.Title || item.Author?.EMail || '';
 
       return {
-        Title: item.RequestType || 'Internal Mobility',
+        Title: 'Internal Mobility',
         Sender: sender,
         OpenDate: new Date(item.Created),
         Url: url,
