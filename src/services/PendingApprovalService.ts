@@ -361,7 +361,7 @@ export default class pendingApprovalService {
       mobilityItems = await mobilityWeb
         .getList(mobilityRequestsListUrl)
         .items.filter("Status eq 'in process'")
-        .select('ID', 'Status', 'Created', 'Modified', 'Author/EMail', 'Author/Title')
+        .select('ID', 'eldJobID', 'Status', 'Created', 'Modified', 'Author/EMail', 'Author/Title')
         .expand('Author')();
     } catch (error) {
       console.error('Error fetching Internal Mobility requests list:', error);
@@ -379,8 +379,10 @@ export default class pendingApprovalService {
       const created = new Date(item.Created);
       const daysSinceOpen = this.getWholeDaysBetween(created, today);
 
-      // Hardcoded Power Apps URL for new Internal Mobility app (not yet published to lstFormsManagmentList)
-      const url = `https://apps.powerapps.com/play/e/85b73110-9842-e983-bdbb-d61c175c1c5d/a/cbbbb978-aeb0-42fd-b90f-7b917f7c0afd?tenantId=47339e34-e7be-4166-9485-70ccbd784a21&hint=c84da289-29d1-48d5-9ecb-e8da186e68cc&sourcetime=1767160636074&JobID=${item.ID}`;
+      // Hardcoded Power Apps URL for new Internal Mobility app with JobId (from eldJobID) and reqId (from ID)
+      const reqId = item.ID;
+      const jobId = item.eldJobID;
+      const url = `https://apps.powerapps.com/play/e/85b73110-9842-e983-bdbb-d61c175c1c5d/a/cbbbb978-aeb0-42fd-b90f-7b917f7c0afd?tenantId=47339e34-e7be-4166-9485-70ccbd784a21&hint=c84da289-29d1-48d5-9ecb-e8da186e68cc&sourcetime=1767160636074&JobId=${jobId}&reqId=${reqId}`;
 
       const sender = item.Author?.Title || item.Author?.EMail || '';
 
