@@ -61,13 +61,14 @@ export default class myInquiriesService {
       }
 
       // RequestType -> eldFormName (this is what the UI uses as the form title)
+      // Apply Hebrew translation for form names
       if (inquiry.RequestType !== undefined && inquiry.eldFormName === undefined) {
-        inquiry.eldFormName = inquiry.RequestType;
+        inquiry.eldFormName = translateTitleToHebrew(inquiry.RequestType);
       }
 
       // Optionally also map to Title if it is used elsewhere
       if (inquiry.RequestType !== undefined && inquiry.Title === undefined) {
-        inquiry.Title = inquiry.RequestType;
+        inquiry.Title = translateTitleToHebrew(inquiry.RequestType);
       }
 
       // Build Power Apps URL for this request if not already present.

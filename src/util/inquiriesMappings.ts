@@ -34,6 +34,8 @@ export const translateTitleToHebrew = (title: string): string => {
       return 'בקשה להנפקת סיבוס';
     case 'shoes':
       return 'בקשה לנעלי עבודה';
+    case 'mobility form':
+      return 'טופס ניוד פנימי';
     default:
       return title;
   }
