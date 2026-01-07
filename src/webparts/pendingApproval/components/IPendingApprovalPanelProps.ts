@@ -4,6 +4,8 @@ export interface IPendingApprovalPanelProps {
   list2: string;
   hrApproversList?: string;
   hrRequestsList?: string;
+  mobilityApproversList?: string;
+  mobilityRequestsList?: string;
   toAllLinkTitle: string;
   toAllLinkUrl: string;
   toAllLinkNewTab: boolean;

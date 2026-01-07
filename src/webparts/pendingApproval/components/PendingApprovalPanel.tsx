@@ -12,6 +12,8 @@ const PendingApprovalPanel: React.FC<IPendingApprovalPanelProps> = (props) => {
     list2,
     hrApproversList,
     hrRequestsList,
+    mobilityApproversList,
+    mobilityRequestsList,
     toAllLinkNewTab,
     toAllLinkTitle,
     toAllLinkUrl,
@@ -39,12 +41,14 @@ const PendingApprovalPanel: React.FC<IPendingApprovalPanelProps> = (props) => {
           list,
           list2,
           hrApproversList,
-          hrRequestsList
+          hrRequestsList,
+          mobilityApproversList,
+          mobilityRequestsList
         );
         setPendingApprovalData(summary);
       }
     })();
-  }, [hasPermissions, list, list2, hrApproversList, hrRequestsList, context]);
+  }, [hasPermissions, list, list2, hrApproversList, hrRequestsList, mobilityApproversList, mobilityRequestsList, context]);
 
   return hasPermissions ? (
     <PendingApprovalUI

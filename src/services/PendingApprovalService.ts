@@ -418,7 +418,7 @@ export default class pendingApprovalService {
   }
 
   /**
-   * Summary for PendingApproval tiles: legacy + optional HR totals.
+   * Summary for PendingApproval tiles: legacy + optional HR + optional Internal Mobility totals.
    */
   public async getPendingApprovalHomeWithHr(
     context: ISPFXContext,
@@ -426,6 +426,8 @@ export default class pendingApprovalService {
     signaturePeriodsListUrl: string,
     hrApproversListUrl?: string,
     hrRequestsListUrl?: string,
+    mobilityApproversListUrl?: string,
+    mobilityRequestsListUrl?: string,
   ): Promise<pendingApproval> {
     const legacy = await this.getPendingApprovalHome(context, listUrl, signaturePeriodsListUrl);
 
@@ -447,9 +449,27 @@ export default class pendingApprovalService {
       }
     }
 
+    let mobilityPending = 0;
+    let mobilityExceeded = 0;
+
+    if (mobilityApproversListUrl && mobilityRequestsListUrl) {
+      try {
+        const mobilityItems = await this.getPendingApprovalItemsMobility(
+          context,
+          mobilityApproversListUrl,
+          mobilityRequestsListUrl,
+          signaturePeriodsListUrl,
+        );
+        mobilityPending = mobilityItems.length;
+        mobilityExceeded = mobilityItems.filter(i => i.timeLeft < 0).length;
+      } catch (error) {
+        console.error('Error fetching Internal Mobility pending approval summary:', error);
+      }
+    }
+
     return {
-      exceededCount: legacy.exceededCount + hrExceeded,
-      pendingCount: legacy.pendingCount + hrPending,
+      exceededCount: legacy.exceededCount + hrExceeded + mobilityExceeded,
+      pendingCount: legacy.pendingCount + hrPending + mobilityPending,
     };
   }
 
