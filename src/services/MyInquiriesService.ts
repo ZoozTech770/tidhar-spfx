@@ -55,9 +55,18 @@ export default class myInquiriesService {
   private normalizeInquiryItemForUi(listMeta: any, inquiry: any): any {
     // Apply normalization for new HR list (ID === 2) and Internal Mobility (ID === 4)
     if (listMeta.id === 2 || listMeta.id === 4) {
+      // Debug logging for Internal Mobility
+      if (listMeta.id === 4) {
+        console.log('[Internal Mobility Debug] Raw inquiry item:', inquiry);
+        console.log('[Internal Mobility Debug] Status field value:', inquiry.Status);
+        console.log('[Internal Mobility Debug] eldStatus field value:', inquiry.eldStatus);
+      }
+      
       // Status -> eldStatus (with translation to Hebrew for new apps)
       if (inquiry.Status !== undefined && inquiry.eldStatus === undefined) {
-        inquiry.eldStatus = translateStatusToHebrew(inquiry.Status);
+        const translatedStatus = translateStatusToHebrew(inquiry.Status);
+        console.log(`[Status Translation] Original: "${inquiry.Status}" -> Translated: "${translatedStatus}"`);
+        inquiry.eldStatus = translatedStatus;
       }
 
       // RequestType -> eldFormName (this is what the UI uses as the form title)
@@ -199,7 +208,21 @@ export default class myInquiriesService {
         try {
           if (inquiryRaw.Author && inquiryRaw.Author.EMail === userEmail) {
             const inquiry = this.normalizeInquiryItemForUi(item, inquiryRaw);
+            
+            // Debug logging for Internal Mobility after normalization
+            if (item.id === 4) {
+              console.log('[Internal Mobility Debug] After normalization:', inquiry);
+              console.log('[Internal Mobility Debug] eldStatus after normalization:', inquiry.eldStatus);
+            }
+            
             let inquiryItem = this.createMyInquiryItem(inquiry, item.formHandlingPeriod);
+            
+            // Debug logging for Internal Mobility final inquiry item
+            if (item.id === 4) {
+              console.log('[Internal Mobility Debug] Final inquiry item:', inquiryItem);
+              console.log('[Internal Mobility Debug] Final status:', inquiryItem.status);
+            }
+            
             if (item.formId == 222) {
               inquiryItem.receiverName = inquiry?.eldReceiverName?.Title;
             }
