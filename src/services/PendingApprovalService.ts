@@ -381,8 +381,8 @@ export default class pendingApprovalService {
 
       // Hardcoded Power Apps URL for new Internal Mobility app with JobId (from eldJobID) and reqId (from ID)
       const reqId = item.ID;
-      const jobId = item.eldJobID;
-      const url = `https://apps.powerapps.com/play/e/85b73110-9842-e983-bdbb-d61c175c1c5d/a/cbbbb978-aeb0-42fd-b90f-7b917f7c0afd?tenantId=47339e34-e7be-4166-9485-70ccbd784a21&hint=c84da289-29d1-48d5-9ecb-e8da186e68cc&sourcetime=1767160636074&JobId=${jobId}&reqId=${reqId}`;
+      // const jobId = item.eldJobID;
+      const url = `https://apps.powerapps.com/play/e/85b73110-9842-e983-bdbb-d61c175c1c5d/a/cbbbb978-aeb0-42fd-b90f-7b917f7c0afd?tenantId=47339e34-e7be-4166-9485-70ccbd784a21&hint=c84da289-29d1-48d5-9ecb-e8da186e68cc&sourcetime=1767160636074&reqId=${reqId}`;
 
       const sender = item.Author?.Title || item.Author?.EMail || '';
 
