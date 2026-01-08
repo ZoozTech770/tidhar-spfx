@@ -63,7 +63,8 @@ export default class myInquiriesService {
       }
       
       // Status -> eldStatus (with translation to Hebrew for new apps)
-      if (inquiry.Status !== undefined && inquiry.eldStatus === undefined) {
+      // Check for both undefined and null because SharePoint can return null
+      if (inquiry.Status !== undefined && (inquiry.eldStatus === undefined || inquiry.eldStatus === null)) {
         const translatedStatus = translateStatusToHebrew(inquiry.Status);
         console.log(`[Status Translation] Original: "${inquiry.Status}" -> Translated: "${translatedStatus}"`);
         inquiry.eldStatus = translatedStatus;
