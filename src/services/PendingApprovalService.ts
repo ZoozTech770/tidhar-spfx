@@ -387,7 +387,7 @@ export default class pendingApprovalService {
       const sender = item.Author?.Title || item.Author?.EMail || '';
 
       return {
-        Title: 'Internal Mobility',
+        Title: 'mobility form', // Will be translated to 'טופס ניוד פנימי' in UI
         Sender: sender,
         OpenDate: new Date(item.Created),
         Url: url,
