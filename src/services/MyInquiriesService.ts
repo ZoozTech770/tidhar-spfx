@@ -83,11 +83,16 @@ export default class myInquiriesService {
 
       // Build Power Apps URL for this request if not already present.
       if (listMeta.id === 4) {
-        // Internal Mobility: use hardcoded Power Apps URL with JobId (from eldJobID) and reqId (from ID)
-        if (!inquiry.eldFormURL && (inquiry.ID !== undefined || inquiry.Id !== undefined)) {
+        // Internal Mobility: use Power Apps URL from lstFormsManagmentList with JobId (from eldJobID) and reqId (from ID)
+        if (!inquiry.eldFormURL && (inquiry.ID !== undefined || inquiry.Id !== undefined) && listMeta.formLinkUrl) {
           const reqId = inquiry.ID !== undefined ? inquiry.ID : inquiry.Id;
           const jobId = inquiry.eldJobID; // JobId comes from eldJobID column
-          const url = `https://apps.powerapps.com/play/e/85b73110-9842-e983-bdbb-d61c175c1c5d/a/cbbbb978-aeb0-42fd-b90f-7b917f7c0afd?tenantId=47339e34-e7be-4166-9485-70ccbd784a21&hint=c84da289-29d1-48d5-9ecb-e8da186e68cc&sourcetime=1767160636074&JobId=${jobId}&reqId=${reqId}`;
+          const baseUrl: string = listMeta.formLinkUrl;
+          const separator = baseUrl.includes("?") ? "&" : "?";
+          let url = `${baseUrl}${separator}reqId=${reqId}`;
+          if (jobId) {
+            url += `&JobId=${jobId}`;
+          }
           inquiry.eldFormURL = { Url: url };
         }
       } else if (listMeta.id === 2) {

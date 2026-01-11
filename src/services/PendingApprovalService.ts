@@ -352,8 +352,8 @@ export default class pendingApprovalService {
       return [];
     }
 
-    // 3. Fetch Mobility signature period from lstFormsManagmentList item ID 4
-    const { signaturePeriodDays } = await this.getMobilitySignatureConfig(sp, signaturePeriodsListUrl);
+    // 3. Fetch Mobility signature period & base URL from lstFormsManagmentList item ID 4
+    const { signaturePeriodDays, baseFormUrl } = await this.getMobilitySignatureConfig(sp, signaturePeriodsListUrl);
 
     // 4. Fetch all Internal Mobility requests with Status='in process'
     let mobilityItems: any[] = [];
@@ -379,10 +379,18 @@ export default class pendingApprovalService {
       const created = new Date(item.Created);
       const daysSinceOpen = this.getWholeDaysBetween(created, today);
 
-      // Hardcoded Power Apps URL for new Internal Mobility app with JobId (from eldJobID) and reqId (from ID)
+      // Build Power Apps URL from config with reqId and JobId parameters
       const reqId = item.ID;
-      // const jobId = item.eldJobID;
-      const url = `https://apps.powerapps.com/play/e/85b73110-9842-e983-bdbb-d61c175c1c5d/a/cbbbb978-aeb0-42fd-b90f-7b917f7c0afd?tenantId=47339e34-e7be-4166-9485-70ccbd784a21&hint=c84da289-29d1-48d5-9ecb-e8da186e68cc&sourcetime=1767160636074&reqId=${reqId}`;
+      const jobId = item.eldJobID;
+      
+      let url = mobilityRequestsListUrl as string;
+      if (baseFormUrl) {
+        const separator = baseFormUrl.includes('?') ? '&' : '?';
+        url = `${baseFormUrl}${separator}reqId=${reqId}`;
+        if (jobId) {
+          url += `&JobId=${jobId}`;
+        }
+      }
 
       const sender = item.Author?.Title || item.Author?.EMail || '';
 
