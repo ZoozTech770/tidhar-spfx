@@ -272,6 +272,15 @@ export default class myInquiriesService {
 
     // Build archive filter per list: old lists use eldStatus, new list (ID === 2) uses Status
     let filterMyInquiries: string;
+    
+    // Debug logging for Internal Mobility archive
+    if (item.id === 4) {
+      console.log('[Archive Debug] Processing Internal Mobility archive');
+      console.log('[Archive Debug] userAccountName:', userAccountName);
+      console.log('[Archive Debug] endDate:', endDate);
+      console.log('[Archive Debug] pastTwoWeeks:', pastTwoWeeks);
+    }
+    
     if (item.id === 2) {
       // New HR list: Status column and English status values
       // Archived states: approved, rejected, canceled, completed
