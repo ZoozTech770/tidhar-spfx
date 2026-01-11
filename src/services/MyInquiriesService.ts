@@ -250,13 +250,13 @@ export default class myInquiriesService {
     let res: IInquiriesItem[] = [];
     const today = new Date();
 
-    // Archive window: TEMPORARILY CHANGED TO 2 WEEKS FOR TESTING (was 2 years)
-    // Show all archived items from the last 2 weeks (no upper date bound)
-    const endDate = today.toISOString(); // Changed to today to include recent items
-    const pastTwoWeeks = new Date(
-      today.getFullYear(),
+    // Archive window: items modified between 2 years ago and last week
+    // "date" comes from getMyInquiriesItems and is computed as today - 7 days.
+    const endDate = date; // upper bound (e.g. lastWeek)
+    const pastTwoYears = new Date(
+      today.getFullYear() - 2,
       today.getMonth(),
-      today.getDate() - 14  // 2 weeks ago instead of 2 years
+      today.getDate()
     ).toISOString();
 
     const web = Web(item.webUrl).using(SPFx(context));
@@ -278,7 +278,7 @@ export default class myInquiriesService {
       console.log('[Archive Debug] Processing Internal Mobility archive');
       console.log('[Archive Debug] userAccountName:', userAccountName);
       console.log('[Archive Debug] endDate:', endDate);
-      console.log('[Archive Debug] pastTwoWeeks:', pastTwoWeeks);
+      console.log('[Archive Debug] pastTwoYears:', pastTwoYears);
     }
     
     if (item.id === 2) {
@@ -287,15 +287,15 @@ export default class myInquiriesService {
       // NOTE: for HR we fetch all items in this state and decide in code
       // whether the current user opened or approved them (Author/Editor).
       filterMyInquiries = `((Status eq 'approved' or Status eq 'rejected' or Status eq 'canceled' or Status eq 'completed')
-  and Modified le datetime'${endDate}' and Modified ge datetime'${pastTwoWeeks}')`;
+  and Modified le datetime'${endDate}' and Modified ge datetime'${pastTwoYears}')`;
     } else if (item.id === 4) {
       // Internal Mobility: check BOTH Status (new app) and eldStatus (old app)
       filterMyInquiries = `(((Status eq 'approved' or Status eq 'rejected' or Status eq 'canceled' or Status eq 'completed') or (eldStatus eq 'אושרה' or eldStatus eq 'נדחתה' or eldStatus eq 'בוטלה')) and Author/Name eq '${userAccountName}'
-  and Modified le datetime'${endDate}' and Modified ge datetime'${pastTwoWeeks}')`;
+  and Modified le datetime'${endDate}' and Modified ge datetime'${pastTwoYears}')`;
     } else {
       // Existing lists schema: eldStatus column and Hebrew status values
       filterMyInquiries = `((eldStatus eq 'אושרה' or eldStatus eq 'נדחתה' or eldStatus eq 'בוטלה') and Author/Name eq '${userAccountName}'
-  and Modified le datetime'${endDate}' and Modified ge datetime'${pastTwoWeeks}')`
+  and Modified le datetime'${endDate}' and Modified ge datetime'${pastTwoYears}')`
     }
     try {
       // נבנה את השאילתה בהתאם לסוג הטופס
