@@ -251,8 +251,8 @@ export default class myInquiriesService {
     const today = new Date();
 
     // Archive window: TEMPORARILY CHANGED TO 2 WEEKS FOR TESTING (was 2 years)
-    // "date" comes from getMyInquiriesItems and is computed as today - 7 days.
-    const endDate = date; // upper bound (e.g. lastWeek)
+    // Show all archived items from the last 2 weeks (no upper date bound)
+    const endDate = today.toISOString(); // Changed to today to include recent items
     const pastTwoWeeks = new Date(
       today.getFullYear(),
       today.getMonth(),
